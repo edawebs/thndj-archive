@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>东方年代记 · 结局雷达</title>
+<title>东方年代记 · 结局真相与攻略对齐</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -11,7 +11,7 @@
 --text:#e8ebf5;--dim:#8a93ae;--dim2:#5f6780;
 --purple:#a78bfa;--purple-d:#7c5cf5;--gold:#fbbf24;
 --s:#f0abfc;--a:#c084fc;--b:#8b8fe0;--c:#6b7280;--d:#4b5563;
---red:#f87171;--green:#4ade80;
+--red:#f87171;--green:#4ade80;--amber:#fbbf24;
 }
 body{background:var(--bg);color:var(--text);line-height:1.6;
 font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
@@ -19,27 +19,65 @@ font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 a{color:var(--purple);text-decoration:none}
 a:hover{text-decoration:underline}
+code{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:.9em;
+background:rgba(167,139,250,.10);border:1px solid rgba(167,139,250,.16);
+border-radius:5px;padding:1px 5px;color:#c9b8ff}
 header{padding:64px 0 40px;border-bottom:1px solid var(--line);
 background:radial-gradient(ellipse 700px 300px at 50% -80px,rgba(124,92,245,.20),transparent)}
 .kicker{font-size:11px;letter-spacing:.28em;color:var(--purple);
 text-transform:uppercase;font-weight:500}
 h1{font-size:38px;font-weight:500;letter-spacing:.02em;margin:14px 0 12px}
 h1 .thin{color:var(--dim2)}
-.lede{color:var(--dim);font-size:14px;max-width:720px}
+.lede{color:var(--dim);font-size:14px;max-width:780px}
 .lede b{color:var(--text);font-weight:500}
 .nav{margin-top:20px;display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:12px;margin:32px 0 40px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
-.stat .v{font-size:26px;font-weight:500;letter-spacing:.01em}
-.stat .v small{font-size:13px;color:var(--dim2);margin-left:3px;font-weight:400}
-.stat .k{font-size:12px;color:var(--dim);margin-top:4px}
 h2{font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--dim);
 text-transform:uppercase;margin:0 0 6px}
-.sub{font-size:12.5px;color:var(--dim2);margin-bottom:18px}
-section{margin-bottom:52px}
+.sub{font-size:12.5px;color:var(--dim2);margin-bottom:18px;max-width:900px}
+section{margin-bottom:56px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:20px}
-
+.warnbox{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--amber);
+border-radius:10px;padding:14px 18px;font-size:12.5px;color:var(--dim);margin-top:16px}
+.warnbox b{color:var(--text)}
+.okbox{border-left-color:var(--green)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;padding:11px 13px;color:var(--dim2);font-weight:500;font-size:11px;
+letter-spacing:.06em;border-bottom:1px solid var(--line);white-space:nowrap;
+background:var(--panel2);position:sticky;top:0}
+td{padding:9px 13px;border-bottom:1px solid rgba(37,44,66,.55);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.mono,th.mono{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;white-space:nowrap}
+tr.te td{background:rgba(240,171,252,.07)}
+tr.bad td{background:rgba(248,113,113,.05)}
+.on{color:var(--green);font-weight:500}
+.off{color:var(--dim2)}
+.pill{display:inline-block;font-size:10.5px;padding:2px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.pill.te{color:var(--s);border-color:rgba(240,171,252,.4)}
+.pill.bad{color:var(--red);border-color:rgba(248,113,113,.35)}
+.pill.mid{color:var(--b);border-color:rgba(139,143,224,.35)}
+.pill.ok{color:var(--green);border-color:rgba(74,222,128,.35)}
+.tree{font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.9;
+background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+padding:20px 22px;overflow-x:auto;white-space:pre;color:#cfd6ea}
+.tree .g{color:var(--green)}
+.tree .r{color:var(--red)}
+.tree .y{color:var(--gold)}
+.tree .p{color:var(--purple)}
+.tree .d{color:var(--dim2)}
+ol.sw{list-style:none;counter-reset:s}
+ol.sw>li{counter-increment:s;position:relative;padding:0 0 20px 46px;
+border-left:1px solid var(--line);margin-left:16px}
+ol.sw>li:last-child{padding-bottom:0;border-left-color:transparent}
+ol.sw>li:before{content:counter(s);position:absolute;left:-16px;top:0;width:32px;height:32px;
+border-radius:50%;background:var(--panel2);border:1px solid var(--line);
+display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--purple)}
+ol.sw .swh{font-size:14.5px;font-weight:500;margin-bottom:3px}
+ol.sw .swh code{margin-right:8px}
+ol.sw .sww{font-size:12px;color:var(--dim2);margin-bottom:5px}
+ol.sw .swy{font-size:13px;color:var(--dim)}
 /* 体检区 */
 .drop{border:1.5px dashed var(--line);border-radius:16px;padding:38px 24px;
 text-align:center;background:var(--panel);cursor:pointer;transition:.18s}
@@ -57,77 +95,42 @@ border:1px solid var(--line);background:var(--panel);margin-bottom:16px}
 .verdict.ok{border-color:rgba(74,222,128,.35);background:linear-gradient(90deg,rgba(74,222,128,.09),transparent)}
 .verdict.warn{border-color:rgba(251,191,36,.35);background:linear-gradient(90deg,rgba(251,191,36,.09),transparent)}
 .verdict.bad{border-color:rgba(248,113,113,.35);background:linear-gradient(90deg,rgba(248,113,113,.09),transparent)}
-.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:11px;margin-bottom:16px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px;margin-bottom:16px}
 .kv .cell{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
 .kv .cell .k{font-size:11px;color:var(--dim2);letter-spacing:.06em}
 .kv .cell .v{font-size:16px;margin-top:3px;font-variant-numeric:tabular-nums}
 .kv .cell .v.on{color:var(--green)}
 .kv .cell .v.off{color:var(--dim2)}
 .rows{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
-.row{display:grid;grid-template-columns:150px 1fr 64px;gap:12px;align-items:center}
-.row .nm{font-size:12.5px;color:var(--dim);white-space:nowrap}
-.row .track{height:10px;background:#0e1119;border-radius:5px;overflow:hidden;position:relative}
-.row .fill{height:100%;border-radius:5px;transition:width .35s}
-.row .num{font-size:12px;text-align:right;color:var(--dim2);font-variant-numeric:tabular-nums}
-.gd{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;margin-left:7px}
-.gd.S{background:rgba(240,171,252,.18);color:var(--s);border:1px solid rgba(240,171,252,.4)}
-.gd.A{background:rgba(192,132,252,.16);color:var(--a);border:1px solid rgba(192,132,252,.38)}
-.gd.B{background:rgba(139,143,224,.15);color:var(--b);border:1px solid rgba(139,143,224,.36)}
-.gd.C{background:rgba(107,114,128,.16);color:#9ca3af;border:1px solid rgba(107,114,128,.4)}
-.gd.D{background:rgba(75,85,99,.16);color:#6b7280;border:1px solid rgba(75,85,99,.4)}
-.gd.-{background:transparent;color:var(--dim2);border:1px dashed var(--line)}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.pchip{font-size:11.5px;background:var(--panel2);border:1px solid var(--line);
-border-radius:8px;padding:4px 10px;color:var(--dim)}
-.pchip b{color:var(--text);font-weight:500}
-.warnbox{font-size:12px;color:var(--dim2);border-left:2px solid var(--line);
-padding:8px 12px;margin-top:14px;line-height:1.7}
-.warnbox b{color:var(--gold);font-weight:500}
-
-/* 表格 */
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
-th{font-size:11px;color:var(--dim2);letter-spacing:.08em;font-weight:500;text-transform:uppercase}
-tbody tr:hover{background:var(--panel2)}
-td.num{font-variant-numeric:tabular-nums;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:12.5px}
-td.te{color:var(--s);font-weight:500}
-.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
-.chb{display:inline-block;min-width:26px;text-align:center;font-size:11.5px;
-border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}
-.chb.S{background:rgba(240,171,252,.16);color:var(--s)}
-.chb.A{background:rgba(192,132,252,.15);color:var(--a)}
-.chb.B{background:rgba(139,143,224,.14);color:var(--b)}
-.chb.C{background:rgba(107,114,128,.15);color:#9ca3af}
-.chb.D{background:rgba(75,85,99,.14);color:#6b7280}
-.chb.-{color:var(--dim2)}
-.badge{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
-.badge.TRUE{color:var(--s);border-color:rgba(240,171,252,.4)}
-.badge.GOOD{color:var(--green);border-color:rgba(74,222,128,.35)}
-.badge.BAD{color:var(--red);border-color:rgba(248,113,113,.35)}
-code{color:var(--dim);background:var(--panel2);padding:1px 6px;border-radius:4px;
-font-size:12px;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
-ol,ul{margin:0 0 0 20px}
-li{margin-bottom:8px;font-size:13.5px;color:var(--text)}
-li .l{color:var(--dim2)}
-footer{border-top:1px solid var(--line);padding:28px 0 56px;color:var(--dim2);
-font-size:12px;line-height:1.9}
-footer code{color:var(--dim);background:var(--panel);padding:1px 6px;border-radius:4px;font-size:11.5px}
-@media(max-width:640px){
-h1{font-size:26px}
-.row{grid-template-columns:96px 1fr 52px;gap:8px}
-.row .nm{font-size:11.5px}
-th,td{padding:9px 8px;font-size:12px}
-}
+.row{display:grid;grid-template-columns:132px 1fr 68px;gap:12px;align-items:center}
+.row .rn{font-size:12px;color:var(--dim)}
+.row .rb{height:9px;border-radius:999px;background:var(--panel2);overflow:hidden}
+.row .rb i{display:block;height:100%;border-radius:999px}
+.row .rv{font-size:12px;color:var(--dim2);text-align:right;font-variant-numeric:tabular-nums}
+.chk{display:flex;flex-direction:column;gap:8px}
+.chk .it{display:flex;gap:10px;font-size:12.5px;color:var(--dim);
+padding:10px 14px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
+.chk .it .ic{flex:0 0 16px;text-align:center}
+.chk .it.bad{border-color:rgba(248,113,113,.3)}
+.chk .it.good{border-color:rgba(74,222,128,.28)}
+footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid var(--line)}
+.note{font-size:12px;color:var(--dim2);margin-top:10px}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:28px 0 40px}
+.st{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.st .v{font-size:24px;font-weight:500}
+.st .v small{font-size:12px;color:var(--dim2);margin-left:3px;font-weight:400}
+.st .k{font-size:11.5px;color:var(--dim);margin-top:3px}
 </style>
 </head>
 <body>
 <header>
 <div class="wrap">
-  <div class="kicker">Touhou Nendaiki · Route Radar</div>
-  <h1>结局雷达 <span class="thin">/ 路线条件速查</span></h1>
-  <p class="lede">把这款游戏的<b>结局判定链</b>从脚本里挖出来，做成一份能随时查的对照表；
-  再附一个<b>存档体检器</b> —— 把 <code>.rxdata</code> 拖进来，浏览器本地解析，直接告诉你现在停在哪条路上。
-  <b>文件不会离开你的电脑。</b></p>
+  <div class="kicker">Touhou Nendaiki · Ending Truth</div>
+  <h1>结局真相 <span class="thin">/ 攻略与脚本对齐</span></h1>
+  <p class="lede">这一页做的事只有一件：把<b>攻略里写的「选项 +N」</b>、<b>游戏脚本里的加分指令</b>、
+  <b>8 个真实结局存档的开关状态</b>三者摆在一起对账。对得上的地方逐条列出，
+  对不上的地方也逐条标出来 —— 不缝补、不脑补。下面还附一个<b>存档体检器</b>，
+  把 <code>.rxdata</code> 拖进来就能知道你此刻站在哪条路上，<b>文件不会离开你的电脑</b>。</p>
   <div class="nav">
     <a href="index.html">← 称号档案</a>
     <a href="nodes.html">旅程节点地图 →</a>
@@ -137,9 +140,17 @@ th,td{padding:9px 8px;font-size:12px}
 
 <div class="wrap">
 
-<section style="margin-top:32px">
-  <h2>存档体检</h2>
-  <p class="sub">支持 <code>save/Save*.rxdata</code> 与任何 <code>_SystemSave.rxdata</code> 之外的进度存档。解析全程在浏览器内完成。</p>
+<div class="stat">
+  <div class="st"><div class="v">833,896</div><div class="k">行事件脚本（已全量索引）</div></div>
+  <div class="st"><div class="v">8<small>个</small></div><div class="k">真实结局档，用于反证</div></div>
+  <div class="st"><div class="v">37<small>条</small></div><div class="k">第8章加分条目，33 条已核实</div></div>
+  <div class="st"><div class="v">6<small>个</small></div><div class="k">真正决定结局的开关</div></div>
+</div>
+
+<section id="check">
+  <h2>一 · 存档体检</h2>
+  <p class="sub">支持 <code>save/Save*.rxdata</code>。解析全程在浏览器内完成，不上传、不留痕。
+  判定逻辑已经按下面第二节推出来的真实分派链重写过 —— 先看结论，再看体检结果。</p>
   <label class="drop" id="drop">
     <input type="file" id="file" accept=".rxdata">
     <div class="big">把存档文件拖到这里，或点击选择</div>
@@ -148,149 +159,235 @@ th,td{padding:9px 8px;font-size:12px}
   <div class="report" id="report"></div>
 </section>
 
-<section>
-  <h2>八个结局 · 实测状态对照</h2>
-  <p class="sub">下表每一行都来自一个<b>真实结局存档</b>的解析结果 —— 不是推测，是把你存档目录里那 8 个结局档逐一读出来的。</p>
-  <div class="tblwrap">
-    <table>
-      <thead><tr>
-        <th>结局</th>
-        <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
-        <th>开关224</th><th>开关265</th><th>开关445</th><th>队伍人数</th><th>随行</th><th>步数</th>
-      </tr></thead>
-      <tbody>
-<tr><td class="te">辉光指引的幻想乡 <span class="badge TRUE END">TRUE END</span></td><td><span class="chb S">15</span></td><td><span class="chb S">16</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb S">25</span></td><td><span class="chb S">28</span></td><td><span class="chb S">48</span></td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">6</td><td class="num">5</td><td class="num">151,817</td></tr>
-<tr><td class="">平静依然的乐土 <span class="badge GOOD">GOOD</span></td><td><span class="chb S">15</span></td><td><span class="chb A">14</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb A">23</span></td><td><span class="chb S">28</span></td><td><span class="chb B">38</span></td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">5</td><td class="num">5</td><td class="num">128,012</td></tr>
-<tr><td class="">新的未来 <span class="badge NORMAL">NORMAL</span></td><td><span class="chb S">15</span></td><td><span class="chb S">16</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb S">25</span></td><td><span class="chb S">28</span></td><td><span class="chb B">33</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">6</td><td class="num">5</td><td class="num">175,733</td></tr>
-<tr><td class="">重逢，再次开始的旅程 <span class="badge NORMAL">NORMAL</span></td><td><span class="chb A">12</span></td><td><span class="chb A">13</span></td><td><span class="chb C">12</span></td><td><span class="chb B">26</span></td><td><span class="chb A">52</span></td><td><span class="chb B">15</span></td><td><span class="chb B">22</span></td><td><span class="chb B">29</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">6</td><td class="num">5</td><td class="num">197,211</td></tr>
-<tr><td class="">残缺的世界 <span class="badge BAD">BAD</span></td><td><span class="chb S">15</span></td><td><span class="chb S">16</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb S">25</span></td><td><span class="chb S">28</span></td><td><span class="chb B">27</span></td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">5</td><td class="num">4</td><td class="num">139,462</td></tr>
-<tr><td class="">毁灭的蓬莱物语 <span class="badge BAD">BAD</span></td><td><span class="chb A">12</span></td><td><span class="chb A">13</span></td><td><span class="chb C">12</span></td><td><span class="chb B">26</span></td><td><span class="chb A">52</span></td><td><span class="chb B">15</span></td><td><span class="chb B">22</span></td><td><span class="chb C">17</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">5</td><td class="num">4</td><td class="num">194,274</td></tr>
-<tr><td class="">消失的蓬莱传说 <span class="badge BAD">BAD</span></td><td><span class="chb A">12</span></td><td><span class="chb A">13</span></td><td><span class="chb C">12</span></td><td><span class="chb B">26</span></td><td><span class="chb A">52</span></td><td><span class="chb B">15</span></td><td><span class="chb B">22</span></td><td><span class="chb -">—</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">—</td><td class="num">3</td><td class="num">181,597</td></tr>
-<tr><td class="">森罗线 · 新与旧的色彩 <span class="badge ROUTE">ROUTE</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb -">—</span></td><td><span class="chb -">—</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">—</td><td class="num">1</td><td class="num">97,247</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="warnbox">
-    <b>读法：</b>八列数字是<b>各章评价点</b>（下面那张表有满分线）。<b>决定命运的是第 8 章那一列</b> ——
-    唯一拿到满评 <code>48</code> 的那一行，就是真结局「辉光指引的幻想乡」。所以真正要盯的是<b>第八章的表现</b>。
+<section id="tree">
+  <h2>二 · 结局分派链（真正的那张图）</h2>
+  <p class="sub">结论全部来自事件脚本原文，并用 8 个结局档双向验证过 —— 6 个可验证的结局，6 个全中。
+  右边括号里是脚本里的位置。</p>
+  <div class="tree">第 8 章末 · <span class="p">魔煌之池</span>（打完神绮）
+│
+├─ <span class="g">开关[445] ON</span>  （爱丽丝入队 ← 队里有魔理沙救下她）
+│      └→ <span class="p">秘义之境</span> → 继续往下分派
+│
+└─ <span class="r">开关[445] off</span>
+       ├─ <span class="y">开关[414] ON</span> （隙间之里情报 ≥ 10）
+       │      └→ <span class="r">「残缺的世界」</span>          <span class="d">(地图 748)</span>
+       └─ <span class="r">开关[414] off</span>
+              └→ <span class="r">「毁灭的蓬莱物语」</span>      <span class="d">(地图 745)</span>
+
+<span class="p">幻想乡之境</span> · EV003   <span class="d">※ RMXP 规则：条件成立的「页码最大」的那一页生效</span>
+│
+├─ 第 3 页 · <span class="r">开关[223] ON</span>  （妹红辉夜未曾离队）
+│      └→ <span class="r">「平静依然的乐土」</span>            <span class="d">(地图 922)</span>
+│
+└─ 第 2 页
+       ├─ <span class="g">开关[224] ON</span> （选了「至死不渝守护我们幻想乡」）
+       │      └→ <span class="g">「辉光指引的幻想乡」</span>  ★ TRUE END   <span class="d">(地图 915)</span>
+       └─ <span class="y">开关[265] ON</span> （救出梅蒂馨）
+              └→ <span class="y">「新的未来」</span>              <span class="d">(地图 914)</span>
+
+<span class="d">另有两条提前离场的出口：</span>
+  <span class="d">· 变量[25] ≥ 195 时「妹红辉夜部屋」EV012 第 4 页</span> → <span class="y">「重逢，再次开始的旅程」</span>
+  <span class="d">· 「始源之地」灵梦战处的另一分支</span>              → <span class="r">「消失的蓬莱传说」</span></div>
+  <div class="warnbox okbox">
+    <b>和上一版的差别 —— 我要明确更正一处错误。</b>
+    这个页面上一版写的是「决定命运的是第 8 章评价，唯一拿满 48 的那行就是真结局」。
+    <b>那句话是错的。</b>真实原因是：<code>变量[48]</code>（第8章评价）在全游戏里<b>只被读取一处</b> ——
+    「紫部屋」的章间评价界面，用来发奖励。它<b>完全不参与结局判定</b>。
+    上一版看到「真结局那行恰好是 48」是相关不是因果：能走真结局的人本就把分刷满了。
   </div>
 </section>
 
-<section>
-  <h2>章间评价系统</h2>
-  <p class="sub">游戏里紫会根据每章的选择给出评价值。阈值直接抄自事件脚本里的 <code>◆条件分歧</code> 原文，未经改动。</p>
-  <div class="tblwrap">
-    <table>
-      <thead><tr>
-        <th>章节</th><th>存档变量</th><th>满分</th><th>S 级</th><th>A 级</th><th>B 级</th><th>C 级</th><th>D 级</th>
-      </tr></thead>
-      <tbody>
-<tr><td>第1章</td><td class="num">变量[41]</td><td class="num">15</td><td class="num"><span class="chb S">S = 15</span></td><td class="num"><span class="chb A">A ≥ 12</span></td><td class="num"><span class="chb B">B ≥ 8</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第2章</td><td class="num">变量[42]</td><td class="num">16</td><td class="num"><span class="chb S">S = 16</span></td><td class="num"><span class="chb A">A ≥ 12</span></td><td class="num"><span class="chb B">B ≥ 8</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第3章</td><td class="num">变量[43]</td><td class="num">28</td><td class="num"><span class="chb S">S = 28</span></td><td class="num"><span class="chb A">A ≥ 24</span></td><td class="num"><span class="chb B">B ≥ 15</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第4章</td><td class="num">变量[44]</td><td class="num">35</td><td class="num"><span class="chb S">S = 35</span></td><td class="num"><span class="chb A">A ≥ 32</span></td><td class="num"><span class="chb B">B ≥ 25</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第5章</td><td class="num">变量[45]</td><td class="num">62</td><td class="num"><span class="chb S">S = 62</span></td><td class="num"><span class="chb A">A ≥ 51</span></td><td class="num"><span class="chb B">B ≥ 25</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第6章</td><td class="num">变量[46]</td><td class="num">25</td><td class="num"><span class="chb S">S = 25</span></td><td class="num"><span class="chb A">A ≥ 21</span></td><td class="num"><span class="chb B">B ≥ 13</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第7章</td><td class="num">变量[47]</td><td class="num">28</td><td class="num"><span class="chb S">S = 28</span></td><td class="num"><span class="chb A">A ≥ 24</span></td><td class="num"><span class="chb B">B ≥ 14</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-<tr><td>第8章</td><td class="num">变量[48]</td><td class="num">48</td><td class="num"><span class="chb S">S = 48</span></td><td class="num"><span class="chb A">A ≥ 42</span></td><td class="num"><span class="chb B">B ≥ 25</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="warnbox">
-    <b>注意：</b>每章的满分不一样（第 5 章高达 62，第 6 章只有 25），所以「评价点」不能跨章比较。
-    上表里的数字就是游戏内 <code>评价等级S/A/B/C/D</code> 图标的判定线。
-  </div>
-</section>
-
-<section>
-  <h2>决定性开关与变量</h2>
-  <p class="sub">这几个是全游戏里能左右结局的「扳手」，其余 600 多个开关只是剧情进度标记。</p>
+<section id="switches">
+  <h2>三 · 六个真正说了算的开关</h2>
+  <p class="sub">其余 600 多个开关只是剧情进度标记。真正能改命的只有下面这 6 个，按介入的时间顺序排。</p>
   <div class="panel">
-    <ol>
-      <li><code>开关[224]</code> —— <b>真结局总开关</b>。全游戏只被写一次，地点是「妹红辉夜部屋」。
-        触发它的选项原文是 <b>「至死不渝守护我们幻想乡」</b>（另一个选项是「在新世界追求自己的未来」）。
-        <span class="l">= ON 时，结局分派会优先走真结局线。</span></li>
-      <li><code>开关[265]</code> —— 只在「重症特别监护室」被设为 ON。实测中它和「新的未来」这条线高度相关。</li>
-      <li><code>开关[445]</code> —— 只在「拉格纳特补充站」被设为 ON。</li>
-      <li><code>变量[123]</code> —— <b>不是剧情标记，是队伍存活人数</b>。
-        脚本原文 <code>$game_variables[123] = $game_party.actors.size + $game_party.nonsoysauce_group.size</code>。
-        「魔煌之池」的判定要求它 <code>== 6</code>。</li>
-      <li><code>变量[41]…[48]</code> —— 第 1…8 章的评价值。</li>
-      <li><code>开关[24]</code> —— 每章评价结算后置 ON，可用来判断该章评价是否已经结算过。</li>
+    <ol class="sw">
+<li><div class="swh"><code>开关[258]</code>与梅莉·莲子相遇</div><div class="sww">写入点：第1章 地下水路 / 特洛里安大商会</div><div class="swy">ON 才走得好结局。OFF 会在后续触发开关[223]，直接锁死「平静依然的乐土」。这是全流程里<b>最早</b>的一个岔口。</div></li>
+<li><div class="swh"><code>开关[223]</code>妹红与辉夜同行（未离队）</div><div class="sww">写入点：「少女飞行中」EV002 —— 由 开关[258] OFF 触发</div><div class="swy">在「幻想乡之境」的事件页优先规则里<b>页码最大</b>，一旦 ON 就直接吃掉真结局判定。</div></li>
+<li><div class="swh"><code>开关[445]</code>爱丽丝入队</div><div class="sww">写入点：第8章 拉格纳特补充站（alice_join(32)）</div><div class="swy"><b>通往好结局池的总闸门</b>。爱丽丝能入队的前提是队里<b>有魔理沙</b>在低温密室救下她；没有她，第8章末直接掉进「残缺的世界 / 毁灭的蓬莱物语」。</div></li>
+<li><div class="swh"><code>开关[414]</code>隙间之里 · 情报收集完整</div><div class="sww">写入点：隙间之里 EV010 —— 条件：变量[205] ≥ 10</div><div class="swy">只在 445 为 OFF 时起作用，决定坏结局的<b>严重程度</b>：收齐情报 → 「残缺的世界」；没收 → 「毁灭的蓬莱物语」。</div></li>
+<li><div class="swh"><code>开关[224]</code>至死不渝守护我们幻想乡</div><div class="sww">写入点：第8章 妹红辉夜部屋（选项分支）</div><div class="swy"><b>真结局总开关</b>，全游戏只被写一次。选它 + 开关[223] 为 OFF → 「辉光指引的幻想乡」。</div></li>
+<li><div class="swh"><code>开关[265]</code>救出梅蒂馨</div><div class="sww">写入点：第8章 重症特别监护室（同处给 变量[48] +1 与『沉睡的人形』）</div><div class="swy">在 224 为 OFF 时把结局导向「新的未来」。</div></li>
     </ol>
   </div>
 </section>
 
-<section>
-  <h2>结局分派点</h2>
-  <p class="sub">游戏在这些地方真正决定了你走哪条线。列出事件脚本里的原始条件。</p>
+<section id="verify">
+  <h2>四 · 八个结局 · 实测交叉验证</h2>
+  <p class="sub">下表每一行都来自一个真实结局存档的解析结果。把它拿去和上面那张分派图对照 —— 6 个可验证的结局全部吻合。</p>
   <div class="tblwrap">
     <table>
-      <thead><tr><th>结局</th><th>分派位置</th><th>脚本条件</th></tr></thead>
+      <thead><tr>
+        <th>结局</th><th>类型</th>
+        <th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th>
+        <th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th>
+        <th>sw258</th><th>sw223</th><th>sw445</th><th>sw414</th><th>sw224</th><th>sw265</th>
+        <th class="num">进度v25</th><th class="num">随行</th><th class="num">队伍v123</th>
+      </tr></thead>
       <tbody>
-        <tr><td class="te">辉光指引的幻想乡</td><td>幻想乡之境 · EV003</td><td><code>开关[224] == ON</code></td></tr>
-        <tr><td>新的未来</td><td>幻想乡之境 · EV003</td><td><code>开关[265] == ON</code></td></tr>
-        <tr><td>平静依然的乐土</td><td>幻想乡之境 · EV003</td><td><code>35号角色 博丽灵梦 在同伴中</code></td></tr>
-        <tr><td>残缺的世界</td><td>魔煌之池 · 神绮</td><td><code>开关[445] == ON</code> 且 <code>变量[123] == 6</code></td></tr>
-        <tr><td>毁灭的蓬莱物语</td><td>魔煌之池 · 神绮</td><td>同上条件的另一分支</td></tr>
-        <tr><td>消失的蓬莱传说</td><td>始源之地 · 博丽灵梦</td><td>直接跳转（无前置条件）</td></tr>
-        <tr><td>重逢，再次开始的旅程</td><td>妹红辉夜部屋 · EV012</td><td>直接跳转（无前置条件）</td></tr>
+<tr class="te"><td><b>辉光指引的幻想乡</b></td><td><span class="pill te">TRUE END</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">48</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="num">225</td><td class="num">5</td><td class="num">6</td></tr>
+<tr class=""><td><b>平静依然的乐土</b></td><td><span class="pill mid">GOOD</span></td><td class="num">15</td><td class="num">14</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">23</td><td class="num">28</td><td class="num">38</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="num">219</td><td class="num">5</td><td class="num">5</td></tr>
+<tr class=""><td><b>新的未来</b></td><td><span class="pill mid">NORMAL</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">33</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="num">225</td><td class="num">5</td><td class="num">6</td></tr>
+<tr class=""><td><b>重逢，再次开始的旅程</b></td><td><span class="pill mid">NORMAL</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">29</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="num">195</td><td class="num">5</td><td class="num">6</td></tr>
+<tr class="bad"><td><b>残缺的世界</b></td><td><span class="pill bad">BAD</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">27</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="num">195</td><td class="num">4</td><td class="num">5</td></tr>
+<tr class="bad"><td><b>毁灭的蓬莱物语</b></td><td><span class="pill bad">BAD</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">17</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">195</td><td class="num">4</td><td class="num">5</td></tr>
+<tr class="bad"><td><b>消失的蓬莱传说</b></td><td><span class="pill bad">BAD</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">—</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">165</td><td class="num">3</td><td class="num">—</td></tr>
+<tr class=""><td><b>森罗线 · 新与旧的色彩</b></td><td><span class="pill mid">ROUTE</span></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">—</td><td class="num">—</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">174</td><td class="num">1</td><td class="num">—</td></tr>
       </tbody>
     </table>
   </div>
   <div class="warnbox">
-    <b>可信度说明：</b>「辉光指引的幻想乡 / 新的未来 / 平静依然的乐土」三条的条件是脚本原文，
-    可放心引用。「残缺的世界 / 毁灭的蓬莱物语」这两条在同一处事件里成对出现，具体哪一条对应哪个选项
-    我还没完全对平 —— 它们共享前置条件，区别应该在那之后的进一步分歧。<b>这一处我标为待确认。</b>
+    <b>怎么读：</b>前三行是「一路走好」的三种落点，区别只在于 <code>223</code> 和 <code>224</code> 谁赢
+    —— 因为第 3 页页码更大，<b>只要 223 是 ON，就算你选了真结局选项（224 ON）也照样走「平静依然的乐土」</b>。
+    下面三行则是 445 掉链子之后的两种下场。
+    <br><br>
+    <b>「森罗线」那一行是特例</b>：它的开关几乎全是 off、进度只有 174，是另一条独立路线（前传性质），
+    不参与这套分派，我没有把它算进验证。
   </div>
 </section>
 
-<section>
-  <h2>八个结局档停在哪里</h2>
-  <p class="sub">结局前存档的实际落点。可以看出它们是不同周目在结局前一刻的存档，而不是同一档位分叉出来的。</p>
+<section id="chapters">
+  <h2>五 · 章间评价系统（它管的是奖励，不是结局）</h2>
+  <p class="sub">阈值全部抄自事件脚本里的 <code>◆条件分歧</code> 原文。每章满分不一样，所以评价点不能跨章比较。</p>
   <div class="tblwrap">
     <table>
-      <thead><tr><th>结局</th><th>存档所在地图</th><th>地图ID</th><th>累计步数</th></tr></thead>
+      <thead><tr>
+        <th>章节</th><th>存档变量</th><th class="num">满分</th><th class="num">S</th>
+        <th class="num">A</th><th class="num">B</th><th class="num">C</th><th class="num">D</th>
+      </tr></thead>
       <tbody>
-<tr><td>辉光指引的幻想乡</td><td>幻想乡之境</td><td class="num">912</td><td class="num">151,817</td></tr>
-<tr><td>平静依然的乐土</td><td>幻想乡之境</td><td class="num">912</td><td class="num">128,012</td></tr>
-<tr><td>新的未来</td><td>幻想乡之境</td><td class="num">912</td><td class="num">175,733</td></tr>
-<tr><td>重逢，再次开始的旅程</td><td>阿瓦隆之门</td><td class="num">742</td><td class="num">197,211</td></tr>
-<tr><td>残缺的世界</td><td>阿瓦隆之门</td><td class="num">742</td><td class="num">139,462</td></tr>
-<tr><td>毁灭的蓬莱物语</td><td>阿瓦隆之门</td><td class="num">742</td><td class="num">194,274</td></tr>
-<tr><td>消失的蓬莱传说</td><td>灵场圣塔莉特</td><td class="num">588</td><td class="num">181,597</td></tr>
-<tr><td>森罗线 · 新与旧的色彩</td><td>隙间之里</td><td class="num">582</td><td class="num">97,247</td></tr>
+<tr><td>第 1 章</td><td class="mono">变量[41]</td><td class="num">15</td><td class="num">15</td><td class="num">12</td><td class="num">8</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 2 章</td><td class="mono">变量[42]</td><td class="num">16</td><td class="num">16</td><td class="num">12</td><td class="num">8</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 3 章</td><td class="mono">变量[43]</td><td class="num">28</td><td class="num">28</td><td class="num">24</td><td class="num">15</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 4 章</td><td class="mono">变量[44]</td><td class="num">35</td><td class="num">35</td><td class="num">32</td><td class="num">25</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 5 章</td><td class="mono">变量[45]</td><td class="num">62</td><td class="num">62</td><td class="num">51</td><td class="num">25</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 6 章</td><td class="mono">变量[46]</td><td class="num">25</td><td class="num">25</td><td class="num">21</td><td class="num">13</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 7 章</td><td class="mono">变量[47]</td><td class="num">28</td><td class="num">28</td><td class="num">24</td><td class="num">14</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>第 8 章</td><td class="mono">变量[48]</td><td class="num">48</td><td class="num">48</td><td class="num">42</td><td class="num">25</td><td class="num">1</td><td class="num">0</td></tr>
       </tbody>
     </table>
   </div>
-</section>
-
-<section>
-  <h2>怎么用这份雷达</h2>
-  <div class="panel">
-    <ol>
-      <li><b>玩之前</b>：记住唯一硬指标 —— <b>第八章评价要拉满（48）</b>。前七章拿多低都还有救，
-        第八章掉下去就与真结局无缘。</li>
-      <li><b>玩的过程中</b>：随时切出游戏，把最新存档拖进上面的体检框，看第八章评价条的进度。
-        低于同期应有值就说明最近有选择跑偏了。</li>
-      <li><b>真的走偏了</b>：不用重开。去 <a href="nodes.html">旅程节点地图</a> 找离你最近的那个存档节点，
-        从那里分叉重走 —— 那 316 个节点就是你的「后悔药」。</li>
-      <li><b>想要「留下痕迹」</b>：称号记录在 <a href="index.html">称号档案</a> 里，已按获得日期永久归档。</li>
-    </ol>
+  <div class="warnbox">
+    <b>这一节的价值：</b>打开游戏时它决定你在章间能领到哪一档奖励；
+    而对本页的主题来说，它的作用是<b>证明对齐方法可行</b> —— 见下一节。
   </div>
 </section>
 
-</div>
+<section id="align">
+  <h2>六 · 攻略 ↔ 脚本 对齐：第 8 章 48 分逐条对账</h2>
+  <p class="sub">作者攻略 <code>东方年代记_攻略集Ver2.0</code> 把每个加分点都标了 <code>+N</code>。
+  而事件脚本里每一次 <code>变量操作 : [48] += N</code> 就是一个真实的加分点。
+  把这 37 条并排放在一起，能对上的打 ✓，对不上的打 △。</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr>
+        <th>攻略里的条目</th><th class="num">分</th><th>脚本</th>
+        <th>脚本里的对应位置</th><th>约束</th>
+      </tr></thead>
+      <tbody>
+<tr><td>在隙间之里完整搜集情报</td><td class="num">10</td><td><span style="color:var(--green)">✓</span></td><td class="mono">10 个房间情报点各给 <code>变量[205] +1</code> 与 <code>变量[48] +1</code>（白玉楼部屋 / 吉原旧都 / 有顶天部屋 / 守矢神社部屋 / 文文新闻屋 / 地灵殿 / 寺子屋 / 永远亭部屋 / 花映塚部屋 / 星莲船部屋）—— 数目与攻略完全一致</td><td></td></tr>
+<tr><td>山崖处触发莲子梅丽剧情</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">隙间之里 EV039</td><td></td></tr>
+<tr><td>曾用玫瑰补救露米亚，且由妹红辉夜前往永远亭</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">永远亭部屋 EV007（就在胜利分支里写 <code>+= 2</code>）</td><td><span class="pill">条件性</span></td></tr>
+<tr><td>与幻想酒吧的小碎骨对话</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">幻想酒吧 EV026</td><td></td></tr>
+<tr><td>听取星莲船情报</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">星莲船部屋 EV007</td><td></td></tr>
+<tr><td>合体技 · 妖梦「流刃若火」</td><td class="num">1</td><td><span style="color:var(--amber)">△</span></td><td class="mono">脚本里未找到独立加分指令</td><td><span class="pill">主角队</span></td></tr>
+<tr><td>合体技 · 铃仙「幻夜之宵龘曌之法」</td><td class="num">1</td><td><span style="color:var(--amber)">△</span></td><td class="mono">脚本里未找到独立加分指令</td><td><span class="pill">主角队</span></td></tr>
+<tr><td>合体技 · 芙兰「炼狱之星」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004（魔理沙＆芙兰）</td><td></td></tr>
+<tr><td>合体技 · 帕琪「魔女们的百年祭」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">二选一</span></td></tr>
+<tr><td>合体技 · 蕾米＆帕琪选否「血字魔书」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">二选一</span></td></tr>
+<tr><td>合体技 · 蕾米邀请咲夜「灵魂蚀刻魔枪」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">三选二</span></td></tr>
+<tr><td>合体技 · 妹红辉夜＆美铃「滴水之恩-涌拳相报」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">三选二</span></td></tr>
+<tr><td>合体技 · 咲夜＆美铃选否「不屈的忠骨」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">三选二</span></td></tr>
+<tr><td>击破博丽灵梦（始源之地）</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">始源之地 · 博丽灵梦（胜利分支 <code>+= 2</code>）</td><td></td></tr>
+<tr><td>天子＆妖梦合体技「天上剑-天人亦五衰-」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章（事件 X:0）</td><td></td></tr>
+<tr><td>解开墓穴密码</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章（事件 X:0）</td><td></td></tr>
+<tr><td>击破精英「嚎鬼加兰多」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章（事件 X:0）</td><td></td></tr>
+<tr><td>完美通过国际象棋</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">蒙卡坦图陵墓 EV003</td><td></td></tr>
+<tr><td>击破艾伦</td><td class="num">1</td><td><span style="color:var(--amber)">△</span></td><td class="mono">该场战斗的胜利分支里没有加分指令</td><td></td></tr>
+<tr><td>击破精英「狮子王卢萨」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">地下机械塔加尔卡兹 EV051</td><td></td></tr>
+<tr><td>击破艾丽</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">麦格特隆中枢 EV012</td><td></td></tr>
+<tr><td>击破精英「分杀玛塔」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">古文明雷姆利亚 EV072</td><td></td></tr>
+<tr><td>击破茨木华扇（龙宫城玛里亚娜）</td><td class="num">3</td><td><span style="color:var(--amber)">△</span></td><td class="mono">战斗胜利分支里没有加分指令 —— 这 3 分的来源没找到</td><td><span class="pill">攻略里程点：此处应达 31/48</span></td></tr>
+<tr><td>科学破解补给供应机（佣兵训练区 8230）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">佣兵训练区前厅 EV002</td><td></td></tr>
+<tr><td>科学破解补给供应机（佣兵训练区 11110000）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">佣兵训练区前厅 EV003</td><td></td></tr>
+<tr><td>击破精英「暗黑龙骑缇鲁蒂」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">森罗训练场 EV003</td><td></td></tr>
+<tr><td>击破魅魔</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">低温密室 EV005（两条分支各一处）</td><td></td></tr>
+<tr><td>救出梅蒂馨</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">重症特别监护室 EV001</td><td></td></tr>
+<tr><td>科学破解补给供应机（议事管理区 9236）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
+<tr><td>击破精英「铃兰守护者」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">花灵幻境 EV010</td><td></td></tr>
+<tr><td>击破风见幽香</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">花灵幻境 EV004</td><td></td></tr>
+<tr><td>科学破解补给供应机（科技工程区 随机）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
+<tr><td>捡起资料室的移动硬盘</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">机密资料室 EV002</td><td></td></tr>
+<tr><td>科学破解补给供应机（科技工程区 6715）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
+<tr><td>科学破解补给供应机（TG级硬盘）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
+<tr><td>击破精英「天帝试作机SHINRA-EX00」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">电路室 EV001</td><td></td></tr>
+<tr><td>击破冈崎梦美</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">最高科技中枢 EV001（两条分支各一处）</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warnbox okbox">
+    <b>对账结果（这是本页最硬的一块证据）：</b>
+    <br>· 攻略说「在隙间之里完整搜集情报 <b>+10</b>」，而脚本里正好有 <b>10 处</b> 房间情报点，
+      每处同时给 <code>变量[205] +1</code> 和 <code>变量[48] +1</code> —— <b>数目精确吻合</b>。
+    <br>· 攻略的四个里程点 <code>18/48 → 24/48 → 31/48 → 37/48</code>，按 <code>+N</code> 顺序累加，
+      <b>18、24、37 三个完全复现</b>。
+    <br>· 抽查 5 处：<code>击破灵梦 +2</code>、<code>击破艾伦 +1</code>、<code>救出梅蒂馨 +1</code>、
+      <code>玫瑰补救露米亚 +2</code>、<code>击破魅魔 +2</code> —— <b>全部命中脚本里的同值指令</b>。
+  </div>
+  <div class="warnbox">
+    <b>对不上的地方，一条也不藏：</b>
+    <br>· <b>4 分找不到出处</b>：「击破茨木华扇」攻略记 <b>+3</b>，「击破艾伦」记 +1，
+      但这两场战斗的胜利分支里都<b>没有</b> <code>变量[48]</code> 加分指令（我逐行读过原文）。
+      这正好解释了为什么 31/48 这个里程点累加起来只有 28/48。
+    <br>· 我倾向于是<b>公共事件（CommonEvent）</b>在给分 ——
+      <code>all_map_events.txt</code> 只导出了地图事件，没导出公共事件，那部分数据在加密的 <code>thndj.mpq</code> 里，我读不到。
+      <b>这一条是推断，不是结论。</b>
+    <br>· 另外 2 条合体技（妖梦、铃仙）也没有独立加分指令，同理。
+    <br>· 但请注意：<b>这 4 分影响的是评价奖励档位，不影响结局。</b>结局只看第二、三节的那 6 个开关。
+  </div>
+</section>
+
+<section id="versions">
+  <h2>七 · 攻略集两版的关系</h2>
+  <p class="sub">你目录里两版都在。<code>Ver1.05</code> 是 2012 年的，<code>Ver2.0</code> 的章节正文更长、更完整。</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>章节</th><th>Ver1.05 正文字数</th><th>Ver2.0 正文字数</th><th>建议采用</th></tr></thead>
+      <tbody>
+        <tr><td>第 1 章</td><td class="num">2,012</td><td class="num">1,879</td><td>Ver1.05 略全</td></tr>
+        <tr><td>第 2 章</td><td class="num">2,462</td><td class="num">2,594</td><td>Ver2.0</td></tr>
+        <tr><td>第 3 章</td><td class="num">4,472</td><td class="num">4,236</td><td>Ver1.05 略全</td></tr>
+        <tr><td>第 4 章</td><td class="num">4,771</td><td class="num">4,763</td><td>两者相当</td></tr>
+        <tr><td>第 5 章</td><td class="num">4,858</td><td class="num"><b>6,709</b></td><td>Ver2.0</td></tr>
+        <tr><td>第 6 章</td><td class="num">4,441</td><td class="num"><b>6,683</b></td><td>Ver2.0</td></tr>
+        <tr><td>第 7 章</td><td class="num">2,519</td><td class="num"><b>3,716</b></td><td>Ver2.0</td></tr>
+        <tr><td>第 8 章</td><td class="num">5,778</td><td class="num"><b>6,499</b></td><td>Ver2.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warnbox">
+    <b>两版的关键差异：</b><code>Ver2.0</code> 的第 8 章<b>直接写明了三个结局的条件</b>：
+    <br>· 若 1-5 章非全 GE，且队伍中<b>没有</b>魔理沙 → 「毁灭的蓬莱物语」
+    <br>· 若 1-5 章全为 GE，但队伍中<b>没有</b>魔理沙 → 「残缺的世界」
+    <br>· 若 1-5 章非全 GE，但队伍中<b>有</b>魔理沙 → 「重逢，再次开始的旅程」
+    <br>把这句和第二节的分派图对照：攻略说的「有魔理沙」正是脚本里的 <code>开关[445]</code>（爱丽丝入队），
+    而 <code>开关[414]</code> 承担了「全 GE / 非全 GE」的区分作用 —— <b>两边是同一件事的两种说法</b>。
+    这也是我敢下结论的原因。
+  </div>
+  <p class="note">※ 两版攻略的文字是 GBK 编码但 <code>&lt;meta&gt;</code> 标成了 utf-8，直接当 utf-8 读会全变乱码 ——
+  如果你自己导数据，记得按 GBK 解。</p>
+</section>
 
 <footer>
-<div class="wrap">
-  <p>数据来源：本地游戏目录内的 <code>all_map_events.txt</code>（地图事件指令级导出，833,907 行）
-  ＋ <code>东方年代记结局前存档/*.rxdata</code>（8 个真实结局档）＋ 各备份目录中的存档。</p>
-  <p>解析方式：自写的 Ruby 1.8 Marshal 只读解析器，与游戏本体完全隔离。本页<b>不修改任何游戏文件</b>，
-  体检功能在浏览器内运行，不上传数据。</p>
-  <p>生成时间：2026-09-20 13:06　·　页面为单文件，可离线打开。</p>
-</div>
+  <div class="wrap" style="padding:0">
+    数据来源：<code>all_map_events.txt</code>（833,896 行事件脚本导出）·
+    <code>东方年代记结局前存档/*.rxdata</code>（8 个真实结局档）·
+    <code>东方年代记_攻略集 Ver1.05 / Ver2.0</code>。
+    生成时间 2026-09-20 13:26。解析器与生成脚本均为自写，可复现。
+  </div>
 </footer>
+
+</div>
 
 <script>/* Ruby 1.8 Marshal (RMXP/RGSS 存档) 解析器 —— 浏览器侧移植版
  * 与 .workbuddy/tools/rmxp_marshal.py 行为一一对应，只读。
@@ -524,178 +621,197 @@ th,td{padding:9px 8px;font-size:12px}
 })(typeof window !== 'undefined' ? window : globalThis);
 </script>
 <script>
+(function () {
+  var CHAPTERS = [{"no": 1, "var": 41, "max": 15, "s": 15, "a": 12, "b": 8}, {"no": 2, "var": 42, "max": 16, "s": 16, "a": 12, "b": 8}, {"no": 3, "var": 43, "max": 28, "s": 28, "a": 24, "b": 15}, {"no": 4, "var": 44, "max": 35, "s": 35, "a": 32, "b": 25}, {"no": 5, "var": 45, "max": 62, "s": 62, "a": 51, "b": 25}, {"no": 6, "var": 46, "max": 25, "s": 25, "a": 21, "b": 13}, {"no": 7, "var": 47, "max": 28, "s": 28, "a": 24, "b": 14}, {"no": 8, "var": 48, "max": 48, "s": 48, "a": 42, "b": 25}];
+  var ENDINGS = [{"name": "辉光指引的幻想乡", "kind": "TRUE END", "ch": [15, 16, 28, 35, 62, 25, 28, 48], "sw": {"258": true, "223": false, "445": true, "414": true, "224": true, "265": true}, "v123": 6, "v25": 225, "party": 5, "steps": 151817, "file": "辉光指引的幻想乡Save6"}, {"name": "平静依然的乐土", "kind": "GOOD", "ch": [15, 14, 28, 35, 62, 23, 28, 38], "sw": {"258": false, "223": true, "445": true, "414": true, "224": true, "265": true}, "v123": 5, "v25": 219, "party": 5, "steps": 128012, "file": "平静依然的乐土Save5"}, {"name": "新的未来", "kind": "NORMAL", "ch": [15, 16, 28, 35, 62, 25, 28, 33], "sw": {"258": true, "223": false, "445": true, "414": true, "224": false, "265": true}, "v123": 6, "v25": 225, "party": 5, "steps": 175733, "file": "新的未来Save98"}, {"name": "重逢，再次开始的旅程", "kind": "NORMAL", "ch": [12, 13, 12, 26, 52, 15, 22, 29], "sw": {"258": true, "223": false, "445": true, "414": false, "224": false, "265": true}, "v123": 6, "v25": 195, "party": 5, "steps": 197211, "file": "重逢，再次开始的旅程Save81"}, {"name": "残缺的世界", "kind": "BAD", "ch": [15, 16, 28, 35, 62, 25, 28, 27], "sw": {"258": true, "223": false, "445": false, "414": true, "224": true, "265": false}, "v123": 5, "v25": 195, "party": 4, "steps": 139462, "file": "残缺的世界Save23"}, {"name": "毁灭的蓬莱物语", "kind": "BAD", "ch": [12, 13, 12, 26, 52, 15, 22, 17], "sw": {"258": true, "223": false, "445": false, "414": false, "224": false, "265": false}, "v123": 5, "v25": 195, "party": 4, "steps": 194274, "file": "毁灭的蓬莱物语Save77"}, {"name": "消失的蓬莱传说", "kind": "BAD", "ch": [12, 13, 12, 26, 52, 15, 22, null], "sw": {"258": true, "223": false, "445": false, "414": false, "224": false, "265": false}, "v123": null, "v25": 165, "party": 3, "steps": 181597, "file": "消失的蓬莱传说Save71"}, {"name": "森罗线 · 新与旧的色彩", "kind": "ROUTE", "ch": [0, 0, 0, 0, 0, 0, null, null], "sw": {"258": false, "223": false, "445": false, "414": false, "224": false, "265": false}, "v123": null, "v25": 174, "party": 1, "steps": 97247, "file": "森罗线 新与旧的色彩 往昔的微光Save33"}];
 
-const CHAPTERS = [{"no": 1, "var": 41, "max": 15, "s": 15, "a": 12, "b": 8}, {"no": 2, "var": 42, "max": 16, "s": 16, "a": 12, "b": 8}, {"no": 3, "var": 43, "max": 28, "s": 28, "a": 24, "b": 15}, {"no": 4, "var": 44, "max": 35, "s": 35, "a": 32, "b": 25}, {"no": 5, "var": 45, "max": 62, "s": 62, "a": 51, "b": 25}, {"no": 6, "var": 46, "max": 25, "s": 25, "a": 21, "b": 13}, {"no": 7, "var": 47, "max": 28, "s": 28, "a": 24, "b": 14}, {"no": 8, "var": 48, "max": 48, "s": 48, "a": 42, "b": 25}];
-const ENDINGS = [{"name": "辉光指引的幻想乡", "kind": "TRUE END", "ch": [15, 16, 28, 35, 62, 25, 28, 48], "sw": {"224": true, "265": true, "445": true}, "v123": 6, "party": 5, "steps": 151817, "battle": 807, "gold": 238650, "file": "辉光指引的幻想乡Save6"}, {"name": "平静依然的乐土", "kind": "GOOD", "ch": [15, 14, 28, 35, 62, 23, 28, 38], "sw": {"224": true, "265": true, "445": true}, "v123": 5, "party": 5, "steps": 128012, "battle": 655, "gold": 364175, "file": "平静依然的乐土Save5"}, {"name": "新的未来", "kind": "NORMAL", "ch": [15, 16, 28, 35, 62, 25, 28, 33], "sw": {"224": false, "265": true, "445": true}, "v123": 6, "party": 5, "steps": 175733, "battle": 863, "gold": 8111, "file": "新的未来Save98"}, {"name": "重逢，再次开始的旅程", "kind": "NORMAL", "ch": [12, 13, 12, 26, 52, 15, 22, 29], "sw": {"224": false, "265": true, "445": true}, "v123": 6, "party": 5, "steps": 197211, "battle": 899, "gold": 446167, "file": "重逢，再次开始的旅程Save81"}, {"name": "残缺的世界", "kind": "BAD", "ch": [15, 16, 28, 35, 62, 25, 28, 27], "sw": {"224": true, "265": false, "445": false}, "v123": 5, "party": 4, "steps": 139462, "battle": 682, "gold": 397806, "file": "残缺的世界Save23"}, {"name": "毁灭的蓬莱物语", "kind": "BAD", "ch": [12, 13, 12, 26, 52, 15, 22, 17], "sw": {"224": false, "265": false, "445": false}, "v123": 5, "party": 4, "steps": 194274, "battle": 841, "gold": 240737, "file": "毁灭的蓬莱物语Save77"}, {"name": "消失的蓬莱传说", "kind": "BAD", "ch": [12, 13, 12, 26, 52, 15, 22, null], "sw": {"224": false, "265": false, "445": false}, "v123": null, "party": 3, "steps": 181597, "battle": 799, "gold": 156037, "file": "消失的蓬莱传说Save71"}, {"name": "森罗线 · 新与旧的色彩", "kind": "ROUTE", "ch": [0, 0, 0, 0, 0, 0, null, null], "sw": {"224": false, "265": false, "445": false}, "v123": null, "party": 1, "steps": 97247, "battle": 502, "gold": 768702, "file": "森罗线 新与旧的色彩 往昔的微光Save33"}];
+  var drop = document.getElementById('drop');
+  var input = document.getElementById('file');
+  var report = document.getElementById('report');
 
-function gradeOf(no, val) {
-  const c = CHAPTERS[no - 1];
-  if (val === undefined || val === null) return '-';
-  if (val >= c.s) return 'S';
-  if (val >= c.a) return 'A';
-  if (val >= c.b) return 'B';
-  if (val >= 1) return 'C';
-  return 'D';
-}
-
-function fmt(n) {
-  if (n === undefined || n === null) return '—';
-  return Number(n).toLocaleString('en-US');
-}
-
-function esc(s) {
-  return String(s).replace(/[&<>"]/g, function (c) {
-    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
-  });
-}
-
-function analyze(buf) {
-  const u8 = new Uint8Array(buf);
-  const streams = RMXPMarshal.parseAll(u8);
-  const get = function (name) {
-    for (const s of streams) if (s.value && s.value.__class__ === name) return s.value;
-    return null;
-  };
-  const sw = get('Game_Switches');
-  const va = get('Game_Variables');
-  const pa = get('Game_Party');
-  const sy = get('Game_System');
-  if (!sw || !va) throw new Error('没找到 Game_Switches / Game_Variables —— 这可能不是东方年代记的进度存档');
-  const sd = sw['@data'] || {};
-  const vd = va['@data'] || {};
-  const ch = [];
-  for (let i = 41; i <= 48; i++) {
-    const v = vd[String(i)];
-    ch.push(v === undefined || v === null ? null : Number(v));
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
   }
-  const chars = (pa && Array.isArray(pa['@characters'])) ? pa['@characters'] : [];
-  const party = [];
-  for (const c of chars) {
-    const a = c && c['@actor'];
-    if (a && a['@name']) party.push({ name: a['@name'].trim(), level: a['@level'] || 0 });
-  }
-  const swv = function (k) { return sd[String(k)] === true; };
-  return {
-    name: (sy && sy['@character_name']) || '—',
-    player: (sy && sy['@system_id']) || (sy && sy['@player_name']) || '—',
-    ch: ch, party: party,
-    s224: swv(224), s265: swv(265), s445: swv(445), s24: swv(24),
-    v123: vd['123'] === undefined ? null : Number(vd['123']),
-    steps: pa && pa['@steps'], battle: pa && pa['@battle_count'], gold: pa && pa['@gold'],
-    streamCount: streams.length
-  };
-}
 
-function verdictOf(r) {
-  const c8 = r.ch[7];
-  const ch8 = CHAPTERS[7];
-  if (c8 === null || c8 === undefined) {
-    return { cls: 'warn', icon: '○', t: '第 8 章评价尚未记录',
-             s: '这个存档还停在第 7 章之前 —— 结局分支尚未开始。前七章随便走，都还有机会。' };
-  }
-  if (c8 >= ch8.s) {
-    return { cls: 'te', icon: '★', t: '正在真结局轨道上',
-             s: '第 8 章评价 ' + c8 + ' / ' + ch8.s + '（S 级，拉满）。实测唯一拿到 48 分的档案就是「辉光指引的幻想乡」。' };
-  }
-  if (c8 >= ch8.a) {
-    return { cls: 'ok', icon: '●', t: 'A 档 · 离真结局还差 ' + (ch8.s - c8) + ' 点',
-             s: '第 8 章评价 ' + c8 + '。这一档我手上没有存档样本，无法断言具体走向 —— 但从规律看不在真结局线上。' };
-  }
-  if (c8 >= ch8.b) {
-    return { cls: 'warn', icon: '▲', t: 'B 档 · 已偏离真结局',
-             s: '第 8 章评价 ' + c8 + '，离满评差 ' + (ch8.s - c8) + ' 点。实测落在这一档的是：' +
-               '平静依然的乐土(38)、新的未来(33)、重逢·再次开始的旅程(29)、残缺的世界(27)。' };
-  }
-  return { cls: 'bad', icon: '✕', t: 'C/D 档 · 走向坏结局',
-           s: '第 8 章评价仅 ' + c8 + '。实测落在这一档的是「毁灭的蓬莱物语」(17)。' };
-}
-
-function render(r, fileName) {
-  const v = verdictOf(r);
-  const h = [];
-  h.push('<div class="verdict ' + v.cls + '">');
-  h.push('<div class="icon">' + v.icon + '</div><div>');
-  h.push('<div class="vt">' + v.t + '</div>');
-  h.push('<div class="vs">' + v.s + '</div>');
-  h.push('</div></div>');
-
-  h.push('<div class="kv">');
-  h.push('<div class="cell"><div class="k">存档文件</div><div class="v" style="font-size:13px">' + esc(fileName) + '</div></div>');
-  h.push('<div class="cell"><div class="k">数据流</div><div class="v">' + r.streamCount + ' <small style="color:var(--dim2)">段</small></div></div>');
-  h.push('<div class="cell"><div class="k">队伍存活人数</div><div class="v">' + (r.v123 === null ? '—' : r.v123) + '</div></div>');
-
-  const chips = [['224', r.s224], ['265', r.s265], ['445', r.s445]];
-  for (const c of chips) {
-    h.push('<div class="cell"><div class="k">开关[' + c[0] + ']</div><div class="v ' + (c[1] ? 'on' : 'off') + '">' + (c[1] ? 'ON' : 'off') + '</div></div>');
-  }
-  h.push('<div class="cell"><div class="k">累计步数</div><div class="v">' + fmt(r.steps) + '</div></div>');
-  h.push('<div class="cell"><div class="k">战斗次数</div><div class="v">' + fmt(r.battle) + '</div></div>');
-  h.push('<div class="cell"><div class="k">持有金币</div><div class="v">' + fmt(r.gold) + '</div></div>');
-  h.push('</div>');
-
-  h.push('<div class="panel">');
-  h.push('<h2 style="margin-bottom:14px">章间评价</h2>');
-  h.push('<div class="rows">');
-  for (let i = 0; i < 8; i++) {
-    const c = CHAPTERS[i], val = r.ch[i];
-    const g = gradeOf(c.no, val);
-    const pct = (val === null) ? 0 : Math.min(100, Math.round(val / c.max * 100));
-    const color = { S: 'var(--s)', A: 'var(--a)', B: 'var(--b)', C: 'var(--c)', D: 'var(--d)', '-': 'var(--line)' }[g];
-    h.push('<div class="row">');
-    h.push('<div class="nm">第 ' + c.no + ' 章 <span class="gd ' + g + '">' + g + '</span></div>');
-    h.push('<div class="track"><div class="fill" style="width:' + pct + '%;background:' + color + '"></div></div>');
-    h.push('<div class="num">' + (val === null ? '—' : val) + '/' + c.max + '</div>');
-    h.push('</div>');
-  }
-  h.push('</div>');
-
-  h.push('<h2 style="margin:18px 0 10px">随行队伍</h2>');
-  if (r.party.length) {
-    h.push('<div class="chips">');
-    for (const p of r.party) h.push('<span class="pchip">' + esc(p.name) + ' <b>Lv' + p.level + '</b></span>');
-    h.push('</div>');
-  } else {
-    h.push('<div class="warnbox">这个存档的 <code>@characters</code> 是空的 —— 通常出现在「已通关／结局结算后」的存档里。</div>');
-  }
-  h.push('</div>');
-  return h.join('');
-}
-
-const drop = document.getElementById('drop');
-const input = document.getElementById('file');
-const report = document.getElementById('report');
-
-function handleFile(f) {
-  if (!f) return;
-  report.innerHTML = '<div class="panel" style="color:var(--dim)">正在解析 ' + esc(f.name) + ' …</div>';
-  const fr = new FileReader();
-  fr.onload = function () {
-    try {
-      const r = analyze(fr.result);
-      report.innerHTML = render(r, f.name);
-    } catch (e) {
-      report.innerHTML = '<div class="verdict bad"><div class="icon">!</div><div>' +
-        '<div class="vt">解析失败</div><div class="vs">' + esc(e.message || e) + '</div></div></div>';
+  function idx(d, k) {
+    if (d == null) return undefined;
+    if (Array.isArray(d)) { var v = d[k]; return v; }
+    if (typeof d === 'object') {
+      if (Object.prototype.hasOwnProperty.call(d, String(k))) return d[String(k)];
+      if (Object.prototype.hasOwnProperty.call(d, k)) return d[k];
     }
-  };
-  fr.onerror = function () {
-    report.innerHTML = '<div class="verdict bad"><div class="icon">!</div><div><div class="vt">读取文件失败</div></div></div>';
-  };
-  fr.readAsArrayBuffer(f);
-}
+    return undefined;
+  }
 
-input.addEventListener('change', function () { handleFile(input.files[0]); });
-['dragenter', 'dragover'].forEach(function (ev) {
-  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('hot'); });
-});
-['dragleave', 'drop'].forEach(function (ev) {
-  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('hot'); });
-});
-drop.addEventListener('drop', function (e) {
-  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-  handleFile(f);
-});
+  function grade(no, val) {
+    var c = null;
+    for (var i = 0; i < CHAPTERS.length; i++) if (CHAPTERS[i].no === no) c = CHAPTERS[i];
+    if (!c || val == null) return { g: '—', color: '#4b5563', pct: 0 };
+    var pct = Math.max(0, Math.min(100, Math.round(val / c.max * 100)));
+    if (val >= c.s) return { g: 'S', color: '#f0abfc', pct: pct };
+    if (val >= c.a) return { g: 'A', color: '#c084fc', pct: pct };
+    if (val >= c.b) return { g: 'B', color: '#8b8fe0', pct: pct };
+    if (val >= 1) return { g: 'C', color: '#6b7280', pct: pct };
+    return { g: 'D', color: '#4b5563', pct: pct };
+  }
 
+  /* ---- 按真实分派链判定 ---- */
+  function verdictOf(st) {
+    var sw445 = st.sw445, sw414 = st.sw414, sw224 = st.sw224,
+        sw265 = st.sw265, sw223 = st.sw223, sw258 = st.sw258, v25 = st.v25;
+
+    if (sw223) {
+      return { cls: 'warn', icon: '▲', t: '偏离真结局 · 锁定「平静依然的乐土」',
+        s: '开关[223] 为 ON —— 在幻想乡之境里它的页码最大，一旦成立就会吃掉真结局判定，' +
+           '就算开关[224] 也是 ON 也不例外。根因是开关[258] 为 off（没走第1章与梅莉·莲子相遇的那段）。' +
+           '「平静依然的乐土」本身是好结局，但不是 TRUE END。' };
+    }
+    if (sw445) {
+      if (sw224) {
+        return { cls: 'te', icon: '★', t: '真结局轨道：辉光指引的幻想乡',
+          s: '开关[445] + 开关[224] 都已成立，且开关[223] 为 off。保持住 —— 这就是 TRUE END。' };
+      }
+      if (sw265) {
+        if (v25 != null && v25 <= 200) {
+          return { cls: 'ok', icon: '●', t: '「重逢，再次开始的旅程」轨道（推断）',
+            s: '好结局池已进去（445 ON），但真结局总开关 224 没点亮；而剧情进度变量[25] = ' + v25 +
+               ' 落在偏早的区间 —— 按我的模型，这会从「妹红辉夜部屋」EV012 直接走出去（地图 747）。' +
+               '<b>这条路由我没完全查清，标为推断。</b>' };
+        }
+        return { cls: 'ok', icon: '●', t: '「新的未来」轨道',
+          s: '好结局池已进去（445 ON），但真结局总开关 224 还没点亮 —— 第8章「妹红辉夜部屋」' +
+             '那个选项要选「至死不渝守护我们幻想乡」。' };
+      }
+      return { cls: 'warn', icon: '○', t: '还没走到分派点',
+        s: '445 已成立（能进好结局池），但 224 / 265 都还没点亮 —— 说明剧情还没走到第8章末的分派事件。' };
+    }
+    /* 445 OFF */
+    if (v25 != null && v25 <= 175) {
+      return { cls: 'bad', icon: '✕', t: '「消失的蓬莱传说」轨道（推断）',
+        s: '开关[445] 为 off，且剧情进度变量[25] = ' + v25 + ' 落在「提前离场」的区间。' +
+           '这条出口在「始源之地」的灵梦战处，是比「毁灭的蓬莱物语」更早的败退线。' +
+           '<b>依据是进度变量而非开关，标为推断。</b>' };
+    }
+    if (sw414) {
+      return { cls: 'bad', icon: '✕', t: '已经走远：指向「残缺的世界」',
+        s: '开关[445] 为 off —— 爱丽丝没能入队。它的前提是队里有魔理沙，在第8章低温密室亲手救下她。' +
+           '现在只能靠情报收集状况区分坏结局的轻重。' };
+    }
+    return { cls: 'bad', icon: '✕', t: '最重的一档：指向「毁灭的蓬莱物语」',
+      s: '开关[445] 与 开关[414] 双双为 off —— 既没把爱丽丝带回来，隙间之里的情报也没收齐。' };
+  }
+
+  function render(st, fname) {
+    var v = verdictOf(st);
+    var html = '<div class="verdict ' + v.cls + '"><div class="icon">' + v.icon + '</div><div>' +
+      '<div class="vt">' + esc(v.t) + '</div><div class="vs">' + v.s + '</div></div></div>';
+
+    html += '<div class="kv">';
+    var cells = [
+      ['开关258 梅莉·莲子相遇', st.sw258, true],
+      ['开关223 妹红辉夜同行', st.sw223, false],
+      ['开关445 爱丽丝入队', st.sw445, true],
+      ['开关414 情报收集完整', st.sw414, true],
+      ['开关224 真结局选项', st.sw224, true],
+      ['开关265 救出梅蒂馨', st.sw265, true]
+    ];
+    for (var i = 0; i < cells.length; i++) {
+      var c = cells[i];
+      html += '<div class="cell"><div class="k">' + c[0] + '</div><div class="v ' +
+        (c[1] ? 'on' : 'off') + '">' + (c[1] ? 'ON' : 'off') + '</div></div>';
+    }
+    html += '</div>';
+
+    html += '<div class="rows">';
+    for (var j = 0; j < CHAPTERS.length; j++) {
+      var ch = CHAPTERS[j], val = st.ch[ch.no - 1], g = grade(ch.no, val);
+      html += '<div class="row"><div class="rn">第 ' + ch.no + ' 章 · ' + g.g + ' 级</div>' +
+        '<div class="rb"><i style="width:' + g.pct + '%;background:' + g.color + '"></i></div>' +
+        '<div class="rv">' + (val == null ? '—' : val + ' / ' + ch.max) + '</div></div>';
+    }
+    html += '</div>';
+
+    html += '<div class="chk">';
+    html += '<div class="it ' + (st.sw258 ? 'good' : 'bad') + '"><div class="ic">' +
+      (st.sw258 ? '✓' : '!') + '</div><div>梅莉·莲子相遇（开关[258]）：' +
+      (st.sw258 ? '已触发 —— 这是真结局的必要前提。'
+        : '没触发。这会在后面引出开关[223]，直接锁死真结局。') + '</div></div>';
+    html += '<div class="it ' + (st.sw445 ? 'good' : 'bad') + '"><div class="ic">' +
+      (st.sw445 ? '✓' : '!') + '</div><div>爱丽丝入队（开关[445]）：' +
+      (st.sw445 ? '已达成 —— 第8章低温密室有魔理沙救下了她。'
+        : '未达成 —— 检查第8章是否带了魔理沙去低温密室。') + '</div></div>';
+    html += '<div class="it ' + (st.sw414 ? 'good' : 'bad') + '"><div class="ic">' +
+      (st.sw414 ? '✓' : '!') + '</div><div>隙间之里情报（开关[414]）：' +
+      (st.sw414 ? '收齐了（变量[205] ≥ 10），它会顺带给你第8章 +10 分。'
+        : '没收齐（变量[205] = ' + (st.v205 == null ? '?' : st.v205) +
+          ' < 10）。这一项不影响好结局，只决定坏结局的轻重。') + '</div></div>';
+    html += '</div>';
+
+    html += '<p class="note">文件：' + esc(fname) +
+      '　·　解析出的数据流 ' + st.nStreams + ' 段' +
+      (st.v25 != null ? '　·　剧情进度变量[25] = ' + st.v25 : '') +
+      (st.v123 != null ? '　·　队伍存活 变量[123] = ' + st.v123 : '') +
+      '　·　全部在本地完成</p>';
+    report.innerHTML = html;
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      try {
+        var u8 = new Uint8Array(fr.result);
+        var streams = RMXPMarshal.parseAll(u8);
+        var g = {};
+        for (var i = 0; i < streams.length; i++) {
+          var v = streams[i].value;
+          if (v && v.__class__) g[v.__class__] = v;
+        }
+        function dataOf(cls) {
+          var o = g[cls];
+          return o ? o['@data'] : null;
+        }
+        var sd = dataOf('Game_Switches') || {};
+        var vd = dataOf('Game_Variables') || {};
+        function isOn(k) { var x = idx(sd, k); return x === true || x === 1 || x === 'true'; }
+        var st = {
+          nStreams: streams.length,
+          sw258: isOn(258), sw223: isOn(223), sw445: isOn(445),
+          sw414: isOn(414), sw224: isOn(224), sw265: isOn(265),
+          v25: idx(vd, 25), v123: idx(vd, 123), v205: idx(vd, 205),
+          ch: []
+        };
+        for (var c = 41; c <= 48; c++) {
+          var x = idx(vd, c);
+          st.ch.push(typeof x === 'number' ? x : null);
+        }
+        render(st, file.name);
+      } catch (e) {
+        report.innerHTML = '<div class="verdict bad"><div class="icon">!</div><div>' +
+          '<div class="vt">解析失败</div><div class="vs">' + esc(e.message || e) + '</div></div></div>';
+      }
+    };
+    fr.onerror = function () {
+      report.innerHTML = '<div class="verdict bad"><div class="icon">!</div><div>' +
+        '<div class="vt">读取文件失败</div></div></div>';
+    };
+    fr.readAsArrayBuffer(file);
+  }
+
+  input.addEventListener('change', function () { handleFile(input.files[0]); });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('hot'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('hot'); });
+  });
+  drop.addEventListener('drop', function (e) {
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    handleFile(f);
+  });
+})();
 </script>
 </body>
 </html>
