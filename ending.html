@@ -40,6 +40,7 @@ section{margin-bottom:56px}
 border-radius:10px;padding:14px 18px;font-size:12.5px;color:var(--dim);margin-top:16px}
 .warnbox b{color:var(--text)}
 .okbox{border-left-color:var(--green)}
+.badbox{border-left-color:var(--red)}
 .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
 table{border-collapse:collapse;width:100%;font-size:12.5px}
 th{text-align:left;padding:11px 13px;color:var(--dim2);font-weight:500;font-size:11px;
@@ -275,115 +276,148 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
 
 <section id="align">
   <h2>六 · 攻略 ↔ 脚本 对齐：第 8 章 48 分逐条对账</h2>
-  <p class="sub">作者攻略 <code>东方年代记_攻略集Ver2.0</code> 把每个加分点都标了 <code>+N</code>。
-  而事件脚本里每一次 <code>变量操作 : [48] += N</code> 就是一个真实的加分点。
-  把这 37 条并排放在一起，能对上的打 ✓，对不上的打 △。</p>
+  <p class="sub">基准是 <code>东方年代记_攻略集Ver1.05</code> —— <b>全项目唯一权威版本</b>（理由见下一节）。
+  1.05 把每个加分点都标了 <code>+N</code>；事件脚本里每一次 <code>变量操作 : [48] += N</code>
+  就是一个真实的加分点。把 37 条并排放在一起，<b>全部 37 条都能在脚本里找到对应指令</b>。</p>
   <div class="tblwrap">
     <table>
       <thead><tr>
-        <th>攻略里的条目</th><th class="num">分</th><th>脚本</th>
+        <th>Ver1.05 攻略里的条目</th><th class="num">分</th><th>脚本</th>
         <th>脚本里的对应位置</th><th>约束</th>
       </tr></thead>
       <tbody>
-<tr><td>在隙间之里完整搜集情报</td><td class="num">10</td><td><span style="color:var(--green)">✓</span></td><td class="mono">10 个房间情报点各给 <code>变量[205] +1</code> 与 <code>变量[48] +1</code>（白玉楼部屋 / 吉原旧都 / 有顶天部屋 / 守矢神社部屋 / 文文新闻屋 / 地灵殿 / 寺子屋 / 永远亭部屋 / 花映塚部屋 / 星莲船部屋）—— 数目与攻略完全一致</td><td></td></tr>
-<tr><td>山崖处触发莲子梅丽剧情</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">隙间之里 EV039</td><td></td></tr>
-<tr><td>曾用玫瑰补救露米亚，且由妹红辉夜前往永远亭</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">永远亭部屋 EV007（就在胜利分支里写 <code>+= 2</code>）</td><td><span class="pill">条件性</span></td></tr>
-<tr><td>与幻想酒吧的小碎骨对话</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">幻想酒吧 EV026</td><td></td></tr>
-<tr><td>听取星莲船情报</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">星莲船部屋 EV007</td><td></td></tr>
-<tr><td>合体技 · 妖梦「流刃若火」</td><td class="num">1</td><td><span style="color:var(--amber)">△</span></td><td class="mono">脚本里未找到独立加分指令</td><td><span class="pill">主角队</span></td></tr>
-<tr><td>合体技 · 铃仙「幻夜之宵龘曌之法」</td><td class="num">1</td><td><span style="color:var(--amber)">△</span></td><td class="mono">脚本里未找到独立加分指令</td><td><span class="pill">主角队</span></td></tr>
-<tr><td>合体技 · 芙兰「炼狱之星」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004（魔理沙＆芙兰）</td><td></td></tr>
-<tr><td>合体技 · 帕琪「魔女们的百年祭」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">二选一</span></td></tr>
-<tr><td>合体技 · 蕾米＆帕琪选否「血字魔书」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">二选一</span></td></tr>
-<tr><td>合体技 · 蕾米邀请咲夜「灵魂蚀刻魔枪」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">三选二</span></td></tr>
-<tr><td>合体技 · 妹红辉夜＆美铃「滴水之恩-涌拳相报」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">三选二</span></td></tr>
-<tr><td>合体技 · 咲夜＆美铃选否「不屈的忠骨」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 EV004</td><td><span class="pill">三选二</span></td></tr>
-<tr><td>击破博丽灵梦（始源之地）</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">始源之地 · 博丽灵梦（胜利分支 <code>+= 2</code>）</td><td></td></tr>
-<tr><td>天子＆妖梦合体技「天上剑-天人亦五衰-」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章（事件 X:0）</td><td></td></tr>
-<tr><td>解开墓穴密码</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章（事件 X:0）</td><td></td></tr>
-<tr><td>击破精英「嚎鬼加兰多」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章（事件 X:0）</td><td></td></tr>
-<tr><td>完美通过国际象棋</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">蒙卡坦图陵墓 EV003</td><td></td></tr>
-<tr><td>击破艾伦</td><td class="num">1</td><td><span style="color:var(--amber)">△</span></td><td class="mono">该场战斗的胜利分支里没有加分指令</td><td></td></tr>
-<tr><td>击破精英「狮子王卢萨」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">地下机械塔加尔卡兹 EV051</td><td></td></tr>
-<tr><td>击破艾丽</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">麦格特隆中枢 EV012</td><td></td></tr>
-<tr><td>击破精英「分杀玛塔」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">古文明雷姆利亚 EV072</td><td></td></tr>
-<tr><td>击破茨木华扇（龙宫城玛里亚娜）</td><td class="num">3</td><td><span style="color:var(--amber)">△</span></td><td class="mono">战斗胜利分支里没有加分指令 —— 这 3 分的来源没找到</td><td><span class="pill">攻略里程点：此处应达 31/48</span></td></tr>
-<tr><td>科学破解补给供应机（佣兵训练区 8230）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">佣兵训练区前厅 EV002</td><td></td></tr>
-<tr><td>科学破解补给供应机（佣兵训练区 11110000）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">佣兵训练区前厅 EV003</td><td></td></tr>
-<tr><td>击破精英「暗黑龙骑缇鲁蒂」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">森罗训练场 EV003</td><td></td></tr>
-<tr><td>击破魅魔</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">低温密室 EV005（两条分支各一处）</td><td></td></tr>
-<tr><td>救出梅蒂馨</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">重症特别监护室 EV001</td><td></td></tr>
-<tr><td>科学破解补给供应机（议事管理区 9236）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
-<tr><td>击破精英「铃兰守护者」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">花灵幻境 EV010</td><td></td></tr>
-<tr><td>击破风见幽香</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">花灵幻境 EV004</td><td></td></tr>
-<tr><td>科学破解补给供应机（科技工程区 随机）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
-<tr><td>捡起资料室的移动硬盘</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">机密资料室 EV002</td><td></td></tr>
-<tr><td>科学破解补给供应机（科技工程区 6715）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
-<tr><td>科学破解补给供应机（TG级硬盘）</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站 EV002</td><td></td></tr>
-<tr><td>击破精英「天帝试作机SHINRA-EX00」</td><td class="num">1</td><td><span style="color:var(--green)">✓</span></td><td class="mono">电路室 EV001</td><td></td></tr>
-<tr><td>击破冈崎梦美</td><td class="num">2</td><td><span style="color:var(--green)">✓</span></td><td class="mono">最高科技中枢 EV001（两条分支各一处）</td><td></td></tr>
+<tr><td>在隙间之里完整搜集情报</td><td class="num"><b>10</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">10 个情报房间各写一次 <code>变量[205] +1</code> 与 <code>变量[48] +1</code>（白玉楼部屋 / 吉原旧都 / 有顶天部屋 / 守矢神社部屋 / 文文新闻屋 / 地灵殿 / 寺子屋 / 永远亭部屋 / 花映塚部屋 / 星莲船部屋），并各自点亮开关 404–413 —— <code>变量[205]</code> 全脚本恰好 10 个写点，与攻略「完整搜集」精确吻合</td><td></td></tr>
+<tr><td>在山崖处触发莲子梅丽剧情</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">隙间之里 ev39（行 27031）</td><td></td></tr>
+<tr><td>曾用玫瑰补救露米亚，且由妹红辉夜前往永远亭</td><td class="num"><b>2</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">永远亭部屋 ev7（行 371243，<code>+= 2</code>）</td><td><span class="pill">条件性</span></td></tr>
+<tr><td>带着妹红与幻想酒吧的米斯提亚对话</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">幻想酒吧 ev26（行 380662）</td><td></td></tr>
+<tr><td>听取星莲船情报</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">星莲船部屋 ev7（行 373717，另点亮开关[417]）</td><td></td></tr>
+<tr><td>合体技 · 妖梦「流刃若火」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">白玉楼部屋 第7页（行 46406，开关[249]）</td><td><span class="pill">妖梦二选一</span></td></tr>
+<tr><td>合体技 · 铃仙「幻夜之宵龘曌之法」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">永远亭部屋 ev6（行 370818，铃仙对话）</td><td><span class="pill">主角队</span></td></tr>
+<tr><td>合体技 · 芙兰「炼狱之星」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 ev4（魔理沙＆芙兰）</td><td></td></tr>
+<tr><td>合体技 · 帕琪「魔女们的百年祭」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 ev4</td><td><span class="pill">二选一</span></td></tr>
+<tr><td>合体技 · 蕾米＆帕琪选否「血字魔书」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 ev4</td><td><span class="pill">二选一</span></td></tr>
+<tr><td>合体技 · 蕾米邀请咲夜「灵魂蚀刻魔枪」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 ev4</td><td><span class="pill">三选二</span></td></tr>
+<tr><td>合体技 · 妹红辉夜＆美铃「滴水之恩-涌拳相报」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 ev4</td><td><span class="pill">三选二</span></td></tr>
+<tr><td>合体技 · 咲夜＆美铃选否「不屈的忠骨」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">红魔舰外层甲板 ev4</td><td><span class="pill">三选二</span></td></tr>
+<tr><td>击破博丽灵梦（始源之地）</td><td class="num"><b>2</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">始源之地 ev11（行 559104，<code>+= 2</code>）</td><td></td></tr>
+<tr><td>天子＆妖梦合体技「天上剑-天人亦五衰-」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">白玉楼部屋 第7页（行 46355 / 46525，开关[241]）</td><td><span class="pill">妖梦二选一</span></td></tr>
+<tr><td>解开墓穴密码（28 25）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章 ev1（行 567761）</td><td></td></tr>
+<tr><td>击破精英「嚎鬼加兰多」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章 ev1（行 572691）</td><td></td></tr>
+<tr><td>完美通过国际象棋</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">第八章 ev1（行 573301）</td><td></td></tr>
+<tr><td>击破艾伦</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">蒙卡坦图陵墓 ev3（行 576363）</td><td></td></tr>
+<tr><td>击破精英「狮子王卢萨」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">地下机械塔加尔卡兹 ev51（行 582192）</td><td></td></tr>
+<tr><td>击破艾丽</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">麦格特隆中枢 ev12（行 584205）</td><td></td></tr>
+<tr><td>击破精英「分杀玛塔」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">古文明雷姆利亚 ev72（行 589611）</td><td></td></tr>
+<tr><td>击破茨木华扇（龙宫城玛里亚娜）</td><td class="num"><span style="color:var(--dim2)">—</span></td><td><span style="color:var(--green)">✓</span></td><td class="mono"><b>1.05 攻略条目里此处没有 <code>+N</code></b>，脚本里该战胜利分支也确实没有加分指令 —— 「此时评价 31/48」由前面的分杀玛塔（+1）达成</td><td><span class="pill">★ 关键</span></td></tr>
+<tr><td>科学破解补给供应机（密码 2365）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">佣兵训练区前厅（行 596826 <code>变量[212] == 2365</code> → 596921 加分）</td><td></td></tr>
+<tr><td>科学破解补给供应机（密码 1687）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站（行 606104 → 606183 加分）</td><td></td></tr>
+<tr><td>击破精英「暗黑龙骑缇鲁蒂」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">森罗训练场 ev3（行 615716）</td><td></td></tr>
+<tr><td>击破魅魔</td><td class="num"><b>2</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">低温密室 ev5（行 620704 / 622154，两条分支各 <code>+= 2</code>）</td><td></td></tr>
+<tr><td>救出梅蒂馨</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">重症特别监护室 ev1（行 613123）</td><td></td></tr>
+<tr><td>科学破解补给供应机（密码 2519）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站（行 630448 → 630542 加分）</td><td></td></tr>
+<tr><td>击破精英「铃兰守护者」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">花灵幻境 ev10（行 645956）</td><td></td></tr>
+<tr><td>击破风见幽香</td><td class="num"><b>2</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">花灵幻境 ev4（行 646479，<code>+= 2</code>）</td><td></td></tr>
+<tr><td>科学破解补给供应机（密码 1020）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站（行 648810 → 648848 加分）</td><td></td></tr>
+<tr><td>捡起资料室的移动硬盘</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">机密资料室 ev2（行 640139）</td><td></td></tr>
+<tr><td>科学破解补给供应机（密码 7717）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站（行 655253 → 655476 加分）</td><td></td></tr>
+<tr><td>科学破解补给供应机（密码 1379662）</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">物资供给站（行 660910 → 660958 加分）</td><td></td></tr>
+<tr><td>击破精英「天帝试作机SHINRA-EX00」</td><td class="num"><b>1</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">电路室 ev1（行 661387）</td><td></td></tr>
+<tr><td>击破冈崎梦美</td><td class="num"><b>2</b></td><td><span style="color:var(--green)">✓</span></td><td class="mono">最高科技中枢 ev1（行 662333 / 663732，两条分支各 <code>+= 2</code>）</td><td></td></tr>
       </tbody>
     </table>
   </div>
   <div class="warnbox okbox">
-    <b>对账结果（这是本页最硬的一块证据）：</b>
-    <br>· 攻略说「在隙间之里完整搜集情报 <b>+10</b>」，而脚本里正好有 <b>10 处</b> 房间情报点，
-      每处同时给 <code>变量[205] +1</code> 和 <code>变量[48] +1</code> —— <b>数目精确吻合</b>。
-    <br>· 攻略的四个里程点 <code>18/48 → 24/48 → 31/48 → 37/48</code>，按 <code>+N</code> 顺序累加，
-      <b>18、24、37 三个完全复现</b>。
-    <br>· 抽查 5 处：<code>击破灵梦 +2</code>、<code>击破艾伦 +1</code>、<code>救出梅蒂馨 +1</code>、
-      <code>玫瑰补救露米亚 +2</code>、<code>击破魅魔 +2</code> —— <b>全部命中脚本里的同值指令</b>。
+    <b>对账结果 —— 37/37 全部命中，这是本页最硬的一块证据：</b>
+    <br>· 攻略说「在隙间之里完整搜集情报 <b>+10</b>」，脚本里 <code>变量[205]</code>
+      全文件<b>恰好 10 个写点</b>，每个房间一处，同时给 <code>变量[48] +1</code> ——
+      <b>数目精确吻合</b>。
+    <br>· 攻略的 6 台补给机写了 6 个密码（2365 / 1687 / 2519 / 1020 / 7717 / 1379662），
+      脚本里<b>恰好 6 个 <code>变量[212] == 密码</code> 判定</b>，分布在 6 张地图上，
+      <b>一个不差、一个不多</b>。
+    <br>· 攻略的 7 个里程点 <code>18 → 24 → 28 → 31 → 37 → 43 → 48</code>，
+      按 <code>+N</code> 顺序累加<b>全部精确复现</b>，终点正好落在满分 48。
   </div>
   <div class="warnbox">
-    <b>对不上的地方，一条也不藏：</b>
-    <br>· <b>4 分找不到出处</b>：「击破茨木华扇」攻略记 <b>+3</b>，「击破艾伦」记 +1，
-      但这两场战斗的胜利分支里都<b>没有</b> <code>变量[48]</code> 加分指令（我逐行读过原文）。
-      这正好解释了为什么 31/48 这个里程点累加起来只有 28/48。
-    <br>· 我倾向于是<b>公共事件（CommonEvent）</b>在给分 ——
-      <code>all_map_events.txt</code> 只导出了地图事件，没导出公共事件，那部分数据在加密的 <code>thndj.mpq</code> 里，我读不到。
-      <b>这一条是推断，不是结论。</b>
-    <br>· 另外 2 条合体技（妖梦、铃仙）也没有独立加分指令，同理。
-    <br>· 但请注意：<b>这 4 分影响的是评价奖励档位，不影响结局。</b>结局只看第二、三节的那 6 个开关。
+    <b>必须说明的一处修正（上一版我算错了）：</b>
+    <br>· 上一版我写「击破茨木华扇 <b>+3</b>，但脚本里找不到这 3 分，怀疑在公共事件里」——
+      <b>这个 +3 是我自己算出来的，攻略 1.05 在茨木华扇这一条上根本没有标 <code>+N</code>。</b>
+    <br>· 我当时的错误：看到「28/48 → 31/48」差 3 分，就默认这 3 分来自紧邻的茨木华扇，
+      <b>漏看了 28 到 31 之间还夹着「狮子王卢萨 +1」「击破艾丽 +1」「分杀玛塔 +1」三条</b>，
+      它们加起来正好 3 分。茨木华扇实际是 <b>0 分</b>。
+    <br>· 修正后，<b>根本不存在「找不到出处的 4 分」</b>——那个缺口是我自己造出来的。
+    <br>· 同理，「击破艾伦 +1」「流刃若火 +1」「幻夜之宵龘曌之法 +1」这三条上一版标了「脚本里找不到」，
+      这一版<b>全部找到了</b>（艾伦在蒙卡坦图陵墓 ev3；后两个在白玉楼部屋与永远亭部屋，
+      上一版我搜错了事件页）。
   </div>
 </section>
 
 <section id="versions">
-  <h2>七 · 攻略集两版的关系</h2>
-  <p class="sub">你目录里两版都在。<code>Ver1.05</code> 是 2012 年的，<code>Ver2.0</code> 的章节正文更长、更完整。</p>
+  <h2>七 · 为什么以 Ver1.05 为准（2.0 已排除）</h2>
+  <p class="sub">本项目的基准是 <code>东方年代记_攻略集Ver1.05</code>。<code>Ver2.0</code>
+  不作为依据 —— 因为<b>它对应的不是这个游戏版本</b>。这不是偏好问题，是可以验证的事实。</p>
+
+  <div class="warnbox badbox">
+    <b>铁证：把两版的补给机密码拿去脚本里搜。</b>
+    <br>攻略 1.05 在第 8 章写了 6 个补给机密码，脚本里<b>逐字命中</b>，而且正好是游戏的密码判定变量
+    <code>变量[212]</code>：
+    <div class="tblwrap" style="margin-top:10px">
+      <table>
+        <thead><tr><th>攻略密码</th><th>脚本里的判定</th><th>所在位置</th><th>脚本中命中次数</th></tr></thead>
+        <tbody><tr><td class="mono"><b>2365</b></td><td class="mono">变量[212] == 2365</td><td>map 625 佣兵训练区前厅</td><td class="num" style="color:var(--green)">2</td></tr>
+<tr><td class="mono"><b>1687</b></td><td class="mono">变量[212] == 1687</td><td>map 644 物资供给站</td><td class="num" style="color:var(--green)">2</td></tr>
+<tr><td class="mono"><b>2519</b></td><td class="mono">变量[212] == 2519</td><td>map 682 物资供给站</td><td class="num" style="color:var(--green)">2</td></tr>
+<tr><td class="mono"><b>1020</b></td><td class="mono">变量[212] == 1020</td><td>map 710 物资供给站</td><td class="num" style="color:var(--green)">2</td></tr>
+<tr><td class="mono"><b>7717</b></td><td class="mono">变量[212] == 7717</td><td>map 719 物资供给站</td><td class="num" style="color:var(--green)">2</td></tr>
+<tr><td class="mono"><b>1379662</b></td><td class="mono">变量[212] == 1379662</td><td>map 728 物资供给站</td><td class="num" style="color:var(--green)">2</td></tr>
+<tr><td class="mono" style="color:var(--red)">8230</td><td class="mono" style="color:var(--red)">未找到</td><td style="color:var(--red)">2.0 独有的写法</td><td class="num" style="color:var(--red)">0</td></tr>
+<tr><td class="mono" style="color:var(--red)">11110000</td><td class="mono" style="color:var(--red)">未找到</td><td style="color:var(--red)">2.0 独有的写法</td><td class="num" style="color:var(--red)">0</td></tr>
+<tr><td class="mono" style="color:var(--red)">9236</td><td class="mono" style="color:var(--red)">未找到</td><td style="color:var(--red)">2.0 独有的写法</td><td class="num" style="color:var(--red)">0</td></tr>
+<tr><td class="mono" style="color:var(--red)">6715</td><td class="mono" style="color:var(--red)">未找到</td><td style="color:var(--red)">2.0 独有的写法</td><td class="num" style="color:var(--red)">0</td></tr></tbody>
+      </table>
+    </div>
+    <br>而 2.0 写的那几个密码 —— <code>8230</code>、<code>11110000</code>、<code>9236</code>、
+    <code>6715</code> —— 在整份 833,896 行的事件脚本里 <b>出现次数全部为 0</b>。
+    <br><b>结论：1.05 的数值就是本游戏的数值，2.0 是另一套（改过数值的）版本。</b>
+  </div>
+
+  <div class="warnbox">
+    <b>其他地方也一样对不上：</b>
+    <br>· 第 3 章暗号：1.05 写 <code>[32489]</code>，脚本里出现 <b>6 次</b>；2.0 写成「随机」。
+    <br>· 第 8 章幻想酒吧：1.05 写 <b>米斯提亚</b>；2.0 改成「小碎骨」。
+    <br>· 第 7 章：1.05 要求补 <b>30</b> 个漏洞、以 <b>5 残以上</b> HP 躲幽灵船、<b>40 回合内</b>击破灵梦；
+      2.0 改成 40 个漏洞、15 残、不写回合数。
+    <br>· 第 4 章：1.05 是「完美避开所有警卫」（零容错），2.0 放宽成「允许发现一次」。
+    <br><b>规律很清楚：2.0 对应的是把数值和容错都调整过的另一个版本，所以它「更详细」也说明不了什么。</b>
+  </div>
+
+  <p class="sub" style="margin-top:18px"><b>里程点复现验证</b>（按 1.05 的 <code>+N</code> 顺序累加）：</p>
   <div class="tblwrap">
     <table>
-      <thead><tr><th>章节</th><th>Ver1.05 正文字数</th><th>Ver2.0 正文字数</th><th>建议采用</th></tr></thead>
-      <tbody>
-        <tr><td>第 1 章</td><td class="num">2,012</td><td class="num">1,879</td><td>Ver1.05 略全</td></tr>
-        <tr><td>第 2 章</td><td class="num">2,462</td><td class="num">2,594</td><td>Ver2.0</td></tr>
-        <tr><td>第 3 章</td><td class="num">4,472</td><td class="num">4,236</td><td>Ver1.05 略全</td></tr>
-        <tr><td>第 4 章</td><td class="num">4,771</td><td class="num">4,763</td><td>两者相当</td></tr>
-        <tr><td>第 5 章</td><td class="num">4,858</td><td class="num"><b>6,709</b></td><td>Ver2.0</td></tr>
-        <tr><td>第 6 章</td><td class="num">4,441</td><td class="num"><b>6,683</b></td><td>Ver2.0</td></tr>
-        <tr><td>第 7 章</td><td class="num">2,519</td><td class="num"><b>3,716</b></td><td>Ver2.0</td></tr>
-        <tr><td>第 8 章</td><td class="num">5,778</td><td class="num"><b>6,499</b></td><td>Ver2.0</td></tr>
-      </tbody>
+      <thead><tr><th>1.05 攻略写的里程点</th><th class="num">应是</th><th class="num">累加得到</th><th>结果</th></tr></thead>
+      <tbody><tr><td>1.05：「合体技『二选一／三选二』两组都不由主角队学」</td><td class="num">18/48</td><td class="num"><b>18</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr>
+<tr><td>1.05：「天子＆妖梦『天上剑』学到之后」</td><td class="num">24/48</td><td class="num"><b>24</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr>
+<tr><td>1.05：「击破艾伦之后」</td><td class="num">28/48</td><td class="num"><b>28</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr>
+<tr><td>1.05：「击破茨木华扇之后」</td><td class="num">31/48</td><td class="num"><b>31</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr>
+<tr><td>1.05：「离开佣兵训练区、前往议事管理区」</td><td class="num">37/48</td><td class="num"><b>37</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr>
+<tr><td>1.05：「科技工程区（捡完移动硬盘）」</td><td class="num">43/48</td><td class="num"><b>43</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr>
+<tr><td>1.05：「击破冈崎梦美 —— 满分」</td><td class="num">48/48</td><td class="num"><b>48</b>/48</td><td><span style="color:var(--green)">✓ 复现</span></td></tr></tbody>
     </table>
   </div>
-  <div class="warnbox">
-    <b>两版的关键差异：</b><code>Ver2.0</code> 的第 8 章<b>直接写明了三个结局的条件</b>：
-    <br>· 若 1-5 章非全 GE，且队伍中<b>没有</b>魔理沙 → 「毁灭的蓬莱物语」
-    <br>· 若 1-5 章全为 GE，但队伍中<b>没有</b>魔理沙 → 「残缺的世界」
-    <br>· 若 1-5 章非全 GE，但队伍中<b>有</b>魔理沙 → 「重逢，再次开始的旅程」
-    <br>把这句和第二节的分派图对照：攻略说的「有魔理沙」正是脚本里的 <code>开关[445]</code>（爱丽丝入队），
-    而 <code>开关[414]</code> 承担了「全 GE / 非全 GE」的区分作用 —— <b>两边是同一件事的两种说法</b>。
-    这也是我敢下结论的原因。
-  </div>
-  <p class="note">※ 两版攻略的文字是 GBK 编码但 <code>&lt;meta&gt;</code> 标成了 utf-8，直接当 utf-8 读会全变乱码 ——
-  如果你自己导数据，记得按 GBK 解。</p>
+  <p class="note">※ 1.05 的章节奖励档位是 <code>0/48 · 1/48 · 25/48 · 42/48 · 48/48</code> 五档。
+  真实存档里真结局档的 <code>变量[48]</code> 正好是 <b>48</b>，<code>变量[205]</code> 是 <b>10</b>，
+  「已破解补给机数」<code>变量[213]</code> 是 <b>6</b> —— 与上表的满分模型完全一致。</p>
+
+  <p class="note">※ 两版攻略的文字都是 <b>GBK</b> 编码，但 <code>&lt;meta&gt;</code> 却标成了 utf-8，
+  直接当 utf-8 读会全变乱码 —— 如果你自己导数据，记得按 GBK 解。</p>
 </section>
 
 <footer>
   <div class="wrap" style="padding:0">
-    数据来源：<code>all_map_events.txt</code>（833,896 行事件脚本导出）·
-    <code>东方年代记结局前存档/*.rxdata</code>（8 个真实结局档）·
-    <code>东方年代记_攻略集 Ver1.05 / Ver2.0</code>。
-    生成时间 2026-09-20 13:26。解析器与生成脚本均为自写，可复现。
+    基准攻略：<code>东方年代记_攻略集Ver1.05</code>（<b>本项目唯一权威版本</b>；<code>Ver2.0</code>
+    对应的是另一套改过数值的版本，已排除，仅用作对照）。
+    <br>数据来源：<code>all_map_events.txt</code>（833,896 行事件脚本导出）·
+    <code>东方年代记结局前存档/*.rxdata</code>（8 个真实结局档）。
+    生成时间 2026-09-20 13:41。解析器与生成脚本均为自写，可复现。
   </div>
 </footer>
 
