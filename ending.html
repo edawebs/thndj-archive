@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>东方年代记 · 结局雷达</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0c13;--panel:#131725;--panel2:#1a1f31;--line:#252c42;
+--text:#e8ebf5;--dim:#8a93ae;--dim2:#5f6780;
+--purple:#a78bfa;--purple-d:#7c5cf5;--gold:#fbbf24;
+--s:#f0abfc;--a:#c084fc;--b:#8b8fe0;--c:#6b7280;--d:#4b5563;
+--red:#f87171;--green:#4ade80;
+}
+body{background:var(--bg);color:var(--text);line-height:1.6;
+font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+a{color:var(--purple);text-decoration:none}
+a:hover{text-decoration:underline}
+header{padding:64px 0 40px;border-bottom:1px solid var(--line);
+background:radial-gradient(ellipse 700px 300px at 50% -80px,rgba(124,92,245,.20),transparent)}
+.kicker{font-size:11px;letter-spacing:.28em;color:var(--purple);
+text-transform:uppercase;font-weight:500}
+h1{font-size:38px;font-weight:500;letter-spacing:.02em;margin:14px 0 12px}
+h1 .thin{color:var(--dim2)}
+.lede{color:var(--dim);font-size:14px;max-width:720px}
+.lede b{color:var(--text);font-weight:500}
+.nav{margin-top:20px;display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:12px;margin:32px 0 40px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.stat .v{font-size:26px;font-weight:500;letter-spacing:.01em}
+.stat .v small{font-size:13px;color:var(--dim2);margin-left:3px;font-weight:400}
+.stat .k{font-size:12px;color:var(--dim);margin-top:4px}
+h2{font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--dim);
+text-transform:uppercase;margin:0 0 6px}
+.sub{font-size:12.5px;color:var(--dim2);margin-bottom:18px}
+section{margin-bottom:52px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:20px}
+
+/* 体检区 */
+.drop{border:1.5px dashed var(--line);border-radius:16px;padding:38px 24px;
+text-align:center;background:var(--panel);cursor:pointer;transition:.18s}
+.drop:hover,.drop.hot{border-color:var(--purple-d);background:var(--panel2)}
+.drop .big{font-size:15px;color:var(--text);margin-bottom:6px}
+.drop .sm{font-size:12.5px;color:var(--dim2)}
+.drop input{display:none}
+.report{margin-top:20px}
+.verdict{display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:14px;
+border:1px solid var(--line);background:var(--panel);margin-bottom:16px}
+.verdict .icon{font-size:30px;line-height:1}
+.verdict .vt{font-size:19px;font-weight:500}
+.verdict .vs{font-size:12.5px;color:var(--dim);margin-top:3px}
+.verdict.te{border-color:rgba(240,171,252,.45);background:linear-gradient(90deg,rgba(240,171,252,.10),transparent)}
+.verdict.ok{border-color:rgba(74,222,128,.35);background:linear-gradient(90deg,rgba(74,222,128,.09),transparent)}
+.verdict.warn{border-color:rgba(251,191,36,.35);background:linear-gradient(90deg,rgba(251,191,36,.09),transparent)}
+.verdict.bad{border-color:rgba(248,113,113,.35);background:linear-gradient(90deg,rgba(248,113,113,.09),transparent)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:11px;margin-bottom:16px}
+.kv .cell{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.kv .cell .k{font-size:11px;color:var(--dim2);letter-spacing:.06em}
+.kv .cell .v{font-size:16px;margin-top:3px;font-variant-numeric:tabular-nums}
+.kv .cell .v.on{color:var(--green)}
+.kv .cell .v.off{color:var(--dim2)}
+.rows{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.row{display:grid;grid-template-columns:150px 1fr 64px;gap:12px;align-items:center}
+.row .nm{font-size:12.5px;color:var(--dim);white-space:nowrap}
+.row .track{height:10px;background:#0e1119;border-radius:5px;overflow:hidden;position:relative}
+.row .fill{height:100%;border-radius:5px;transition:width .35s}
+.row .num{font-size:12px;text-align:right;color:var(--dim2);font-variant-numeric:tabular-nums}
+.gd{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;margin-left:7px}
+.gd.S{background:rgba(240,171,252,.18);color:var(--s);border:1px solid rgba(240,171,252,.4)}
+.gd.A{background:rgba(192,132,252,.16);color:var(--a);border:1px solid rgba(192,132,252,.38)}
+.gd.B{background:rgba(139,143,224,.15);color:var(--b);border:1px solid rgba(139,143,224,.36)}
+.gd.C{background:rgba(107,114,128,.16);color:#9ca3af;border:1px solid rgba(107,114,128,.4)}
+.gd.D{background:rgba(75,85,99,.16);color:#6b7280;border:1px solid rgba(75,85,99,.4)}
+.gd.-{background:transparent;color:var(--dim2);border:1px dashed var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.pchip{font-size:11.5px;background:var(--panel2);border:1px solid var(--line);
+border-radius:8px;padding:4px 10px;color:var(--dim)}
+.pchip b{color:var(--text);font-weight:500}
+.warnbox{font-size:12px;color:var(--dim2);border-left:2px solid var(--line);
+padding:8px 12px;margin-top:14px;line-height:1.7}
+.warnbox b{color:var(--gold);font-weight:500}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{font-size:11px;color:var(--dim2);letter-spacing:.08em;font-weight:500;text-transform:uppercase}
+tbody tr:hover{background:var(--panel2)}
+td.num{font-variant-numeric:tabular-nums;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:12.5px}
+td.te{color:var(--s);font-weight:500}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.chb{display:inline-block;min-width:26px;text-align:center;font-size:11.5px;
+border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}
+.chb.S{background:rgba(240,171,252,.16);color:var(--s)}
+.chb.A{background:rgba(192,132,252,.15);color:var(--a)}
+.chb.B{background:rgba(139,143,224,.14);color:var(--b)}
+.chb.C{background:rgba(107,114,128,.15);color:#9ca3af}
+.chb.D{background:rgba(75,85,99,.14);color:#6b7280}
+.chb.-{color:var(--dim2)}
+.badge{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
+.badge.TRUE{color:var(--s);border-color:rgba(240,171,252,.4)}
+.badge.GOOD{color:var(--green);border-color:rgba(74,222,128,.35)}
+.badge.BAD{color:var(--red);border-color:rgba(248,113,113,.35)}
+code{color:var(--dim);background:var(--panel2);padding:1px 6px;border-radius:4px;
+font-size:12px;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+ol,ul{margin:0 0 0 20px}
+li{margin-bottom:8px;font-size:13.5px;color:var(--text)}
+li .l{color:var(--dim2)}
+footer{border-top:1px solid var(--line);padding:28px 0 56px;color:var(--dim2);
+font-size:12px;line-height:1.9}
+footer code{color:var(--dim);background:var(--panel);padding:1px 6px;border-radius:4px;font-size:11.5px}
+@media(max-width:640px){
+h1{font-size:26px}
+.row{grid-template-columns:96px 1fr 52px;gap:8px}
+.row .nm{font-size:11.5px}
+th,td{padding:9px 8px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+  <div class="kicker">Touhou Nendaiki · Route Radar</div>
+  <h1>结局雷达 <span class="thin">/ 路线条件速查</span></h1>
+  <p class="lede">把这款游戏的<b>结局判定链</b>从脚本里挖出来，做成一份能随时查的对照表；
+  再附一个<b>存档体检器</b> —— 把 <code>.rxdata</code> 拖进来，浏览器本地解析，直接告诉你现在停在哪条路上。
+  <b>文件不会离开你的电脑。</b></p>
+  <div class="nav">
+    <a href="index.html">← 称号档案</a>
+    <a href="nodes.html">旅程节点地图 →</a>
+  </div>
+</div>
+</header>
+
+<div class="wrap">
+
+<section style="margin-top:32px">
+  <h2>存档体检</h2>
+  <p class="sub">支持 <code>save/Save*.rxdata</code> 与任何 <code>_SystemSave.rxdata</code> 之外的进度存档。解析全程在浏览器内完成。</p>
+  <label class="drop" id="drop">
+    <input type="file" id="file" accept=".rxdata">
+    <div class="big">把存档文件拖到这里，或点击选择</div>
+    <div class="sm">Save0.rxdata / Save1.rxdata / … 一般位于游戏的 save 文件夹</div>
+  </label>
+  <div class="report" id="report"></div>
+</section>
+
+<section>
+  <h2>八个结局 · 实测状态对照</h2>
+  <p class="sub">下表每一行都来自一个<b>真实结局存档</b>的解析结果 —— 不是推测，是把你存档目录里那 8 个结局档逐一读出来的。</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr>
+        <th>结局</th>
+        <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+        <th>开关224</th><th>开关265</th><th>开关445</th><th>队伍人数</th><th>随行</th><th>步数</th>
+      </tr></thead>
+      <tbody>
+<tr><td class="te">辉光指引的幻想乡 <span class="badge TRUE END">TRUE END</span></td><td><span class="chb S">15</span></td><td><span class="chb S">16</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb S">25</span></td><td><span class="chb S">28</span></td><td><span class="chb S">48</span></td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">6</td><td class="num">5</td><td class="num">151,817</td></tr>
+<tr><td class="">平静依然的乐土 <span class="badge GOOD">GOOD</span></td><td><span class="chb S">15</span></td><td><span class="chb A">14</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb A">23</span></td><td><span class="chb S">28</span></td><td><span class="chb B">38</span></td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">5</td><td class="num">5</td><td class="num">128,012</td></tr>
+<tr><td class="">新的未来 <span class="badge NORMAL">NORMAL</span></td><td><span class="chb S">15</span></td><td><span class="chb S">16</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb S">25</span></td><td><span class="chb S">28</span></td><td><span class="chb B">33</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">6</td><td class="num">5</td><td class="num">175,733</td></tr>
+<tr><td class="">重逢，再次开始的旅程 <span class="badge NORMAL">NORMAL</span></td><td><span class="chb A">12</span></td><td><span class="chb A">13</span></td><td><span class="chb C">12</span></td><td><span class="chb B">26</span></td><td><span class="chb A">52</span></td><td><span class="chb B">15</span></td><td><span class="chb B">22</span></td><td><span class="chb B">29</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--green)">ON</td><td class="num">6</td><td class="num">5</td><td class="num">197,211</td></tr>
+<tr><td class="">残缺的世界 <span class="badge BAD">BAD</span></td><td><span class="chb S">15</span></td><td><span class="chb S">16</span></td><td><span class="chb S">28</span></td><td><span class="chb S">35</span></td><td><span class="chb S">62</span></td><td><span class="chb S">25</span></td><td><span class="chb S">28</span></td><td><span class="chb B">27</span></td><td class="num" style="color:var(--green)">ON</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">5</td><td class="num">4</td><td class="num">139,462</td></tr>
+<tr><td class="">毁灭的蓬莱物语 <span class="badge BAD">BAD</span></td><td><span class="chb A">12</span></td><td><span class="chb A">13</span></td><td><span class="chb C">12</span></td><td><span class="chb B">26</span></td><td><span class="chb A">52</span></td><td><span class="chb B">15</span></td><td><span class="chb B">22</span></td><td><span class="chb C">17</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">5</td><td class="num">4</td><td class="num">194,274</td></tr>
+<tr><td class="">消失的蓬莱传说 <span class="badge BAD">BAD</span></td><td><span class="chb A">12</span></td><td><span class="chb A">13</span></td><td><span class="chb C">12</span></td><td><span class="chb B">26</span></td><td><span class="chb A">52</span></td><td><span class="chb B">15</span></td><td><span class="chb B">22</span></td><td><span class="chb -">—</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">—</td><td class="num">3</td><td class="num">181,597</td></tr>
+<tr><td class="">森罗线 · 新与旧的色彩 <span class="badge ROUTE">ROUTE</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb D">0</span></td><td><span class="chb -">—</span></td><td><span class="chb -">—</span></td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num" style="color:var(--dim2)">off</td><td class="num">—</td><td class="num">1</td><td class="num">97,247</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warnbox">
+    <b>读法：</b>八列数字是<b>各章评价点</b>（下面那张表有满分线）。<b>决定命运的是第 8 章那一列</b> ——
+    唯一拿到满评 <code>48</code> 的那一行，就是真结局「辉光指引的幻想乡」。所以真正要盯的是<b>第八章的表现</b>。
+  </div>
+</section>
+
+<section>
+  <h2>章间评价系统</h2>
+  <p class="sub">游戏里紫会根据每章的选择给出评价值。阈值直接抄自事件脚本里的 <code>◆条件分歧</code> 原文，未经改动。</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr>
+        <th>章节</th><th>存档变量</th><th>满分</th><th>S 级</th><th>A 级</th><th>B 级</th><th>C 级</th><th>D 级</th>
+      </tr></thead>
+      <tbody>
+<tr><td>第1章</td><td class="num">变量[41]</td><td class="num">15</td><td class="num"><span class="chb S">S = 15</span></td><td class="num"><span class="chb A">A ≥ 12</span></td><td class="num"><span class="chb B">B ≥ 8</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第2章</td><td class="num">变量[42]</td><td class="num">16</td><td class="num"><span class="chb S">S = 16</span></td><td class="num"><span class="chb A">A ≥ 12</span></td><td class="num"><span class="chb B">B ≥ 8</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第3章</td><td class="num">变量[43]</td><td class="num">28</td><td class="num"><span class="chb S">S = 28</span></td><td class="num"><span class="chb A">A ≥ 24</span></td><td class="num"><span class="chb B">B ≥ 15</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第4章</td><td class="num">变量[44]</td><td class="num">35</td><td class="num"><span class="chb S">S = 35</span></td><td class="num"><span class="chb A">A ≥ 32</span></td><td class="num"><span class="chb B">B ≥ 25</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第5章</td><td class="num">变量[45]</td><td class="num">62</td><td class="num"><span class="chb S">S = 62</span></td><td class="num"><span class="chb A">A ≥ 51</span></td><td class="num"><span class="chb B">B ≥ 25</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第6章</td><td class="num">变量[46]</td><td class="num">25</td><td class="num"><span class="chb S">S = 25</span></td><td class="num"><span class="chb A">A ≥ 21</span></td><td class="num"><span class="chb B">B ≥ 13</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第7章</td><td class="num">变量[47]</td><td class="num">28</td><td class="num"><span class="chb S">S = 28</span></td><td class="num"><span class="chb A">A ≥ 24</span></td><td class="num"><span class="chb B">B ≥ 14</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+<tr><td>第8章</td><td class="num">变量[48]</td><td class="num">48</td><td class="num"><span class="chb S">S = 48</span></td><td class="num"><span class="chb A">A ≥ 42</span></td><td class="num"><span class="chb B">B ≥ 25</span></td><td class="num"><span class="chb C">C ≥ 1</span></td><td class="num"><span class="chb D">D = 0</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warnbox">
+    <b>注意：</b>每章的满分不一样（第 5 章高达 62，第 6 章只有 25），所以「评价点」不能跨章比较。
+    上表里的数字就是游戏内 <code>评价等级S/A/B/C/D</code> 图标的判定线。
+  </div>
+</section>
+
+<section>
+  <h2>决定性开关与变量</h2>
+  <p class="sub">这几个是全游戏里能左右结局的「扳手」，其余 600 多个开关只是剧情进度标记。</p>
+  <div class="panel">
+    <ol>
+      <li><code>开关[224]</code> —— <b>真结局总开关</b>。全游戏只被写一次，地点是「妹红辉夜部屋」。
+        触发它的选项原文是 <b>「至死不渝守护我们幻想乡」</b>（另一个选项是「在新世界追求自己的未来」）。
+        <span class="l">= ON 时，结局分派会优先走真结局线。</span></li>
+      <li><code>开关[265]</code> —— 只在「重症特别监护室」被设为 ON。实测中它和「新的未来」这条线高度相关。</li>
+      <li><code>开关[445]</code> —— 只在「拉格纳特补充站」被设为 ON。</li>
+      <li><code>变量[123]</code> —— <b>不是剧情标记，是队伍存活人数</b>。
+        脚本原文 <code>$game_variables[123] = $game_party.actors.size + $game_party.nonsoysauce_group.size</code>。
+        「魔煌之池」的判定要求它 <code>== 6</code>。</li>
+      <li><code>变量[41]…[48]</code> —— 第 1…8 章的评价值。</li>
+      <li><code>开关[24]</code> —— 每章评价结算后置 ON，可用来判断该章评价是否已经结算过。</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>结局分派点</h2>
+  <p class="sub">游戏在这些地方真正决定了你走哪条线。列出事件脚本里的原始条件。</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>结局</th><th>分派位置</th><th>脚本条件</th></tr></thead>
+      <tbody>
+        <tr><td class="te">辉光指引的幻想乡</td><td>幻想乡之境 · EV003</td><td><code>开关[224] == ON</code></td></tr>
+        <tr><td>新的未来</td><td>幻想乡之境 · EV003</td><td><code>开关[265] == ON</code></td></tr>
+        <tr><td>平静依然的乐土</td><td>幻想乡之境 · EV003</td><td><code>35号角色 博丽灵梦 在同伴中</code></td></tr>
+        <tr><td>残缺的世界</td><td>魔煌之池 · 神绮</td><td><code>开关[445] == ON</code> 且 <code>变量[123] == 6</code></td></tr>
+        <tr><td>毁灭的蓬莱物语</td><td>魔煌之池 · 神绮</td><td>同上条件的另一分支</td></tr>
+        <tr><td>消失的蓬莱传说</td><td>始源之地 · 博丽灵梦</td><td>直接跳转（无前置条件）</td></tr>
+        <tr><td>重逢，再次开始的旅程</td><td>妹红辉夜部屋 · EV012</td><td>直接跳转（无前置条件）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warnbox">
+    <b>可信度说明：</b>「辉光指引的幻想乡 / 新的未来 / 平静依然的乐土」三条的条件是脚本原文，
+    可放心引用。「残缺的世界 / 毁灭的蓬莱物语」这两条在同一处事件里成对出现，具体哪一条对应哪个选项
+    我还没完全对平 —— 它们共享前置条件，区别应该在那之后的进一步分歧。<b>这一处我标为待确认。</b>
+  </div>
+</section>
+
+<section>
+  <h2>八个结局档停在哪里</h2>
+  <p class="sub">结局前存档的实际落点。可以看出它们是不同周目在结局前一刻的存档，而不是同一档位分叉出来的。</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>结局</th><th>存档所在地图</th><th>地图ID</th><th>累计步数</th></tr></thead>
+      <tbody>
+<tr><td>辉光指引的幻想乡</td><td>幻想乡之境</td><td class="num">912</td><td class="num">151,817</td></tr>
+<tr><td>平静依然的乐土</td><td>幻想乡之境</td><td class="num">912</td><td class="num">128,012</td></tr>
+<tr><td>新的未来</td><td>幻想乡之境</td><td class="num">912</td><td class="num">175,733</td></tr>
+<tr><td>重逢，再次开始的旅程</td><td>阿瓦隆之门</td><td class="num">742</td><td class="num">197,211</td></tr>
+<tr><td>残缺的世界</td><td>阿瓦隆之门</td><td class="num">742</td><td class="num">139,462</td></tr>
+<tr><td>毁灭的蓬莱物语</td><td>阿瓦隆之门</td><td class="num">742</td><td class="num">194,274</td></tr>
+<tr><td>消失的蓬莱传说</td><td>灵场圣塔莉特</td><td class="num">588</td><td class="num">181,597</td></tr>
+<tr><td>森罗线 · 新与旧的色彩</td><td>隙间之里</td><td class="num">582</td><td class="num">97,247</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>怎么用这份雷达</h2>
+  <div class="panel">
+    <ol>
+      <li><b>玩之前</b>：记住唯一硬指标 —— <b>第八章评价要拉满（48）</b>。前七章拿多低都还有救，
+        第八章掉下去就与真结局无缘。</li>
+      <li><b>玩的过程中</b>：随时切出游戏，把最新存档拖进上面的体检框，看第八章评价条的进度。
+        低于同期应有值就说明最近有选择跑偏了。</li>
+      <li><b>真的走偏了</b>：不用重开。去 <a href="nodes.html">旅程节点地图</a> 找离你最近的那个存档节点，
+        从那里分叉重走 —— 那 316 个节点就是你的「后悔药」。</li>
+      <li><b>想要「留下痕迹」</b>：称号记录在 <a href="index.html">称号档案</a> 里，已按获得日期永久归档。</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+
+<footer>
+<div class="wrap">
+  <p>数据来源：本地游戏目录内的 <code>all_map_events.txt</code>（地图事件指令级导出，833,907 行）
+  ＋ <code>东方年代记结局前存档/*.rxdata</code>（8 个真实结局档）＋ 各备份目录中的存档。</p>
+  <p>解析方式：自写的 Ruby 1.8 Marshal 只读解析器，与游戏本体完全隔离。本页<b>不修改任何游戏文件</b>，
+  体检功能在浏览器内运行，不上传数据。</p>
+  <p>生成时间：2026-09-20 13:06　·　页面为单文件，可离线打开。</p>
+</div>
+</footer>
+
+<script>/* Ruby 1.8 Marshal (RMXP/RGSS 存档) 解析器 —— 浏览器侧移植版
+ * 与 .workbuddy/tools/rmxp_marshal.py 行为一一对应，只读。
+ * 用法:
+ *   const streams = parseAll(uint8array);   // -> [{offset, value}, ...]
+ */
+(function (root) {
+  'use strict';
+
+  var TD = new TextDecoder('utf-8', { fatal: false });
+
+  function Reader(d, pos) {
+    this.d = d;
+    this.p = pos || 0;
+    this.symbols = [];
+    this.objects = [];
+  }
+
+  Reader.prototype.byte = function () {
+    return this.d[this.p++];
+  };
+
+  Reader.prototype.take = function (n) {
+    var b = this.d.subarray(this.p, this.p + n);
+    this.p += n;
+    return b;
+  };
+
+  /* Ruby Marshal 变长整数 (对齐 marshal.c r_long)
+   *   0x00       -> 0
+   *   0x01..0x04 -> 后随 n(=c) 字节 little-endian 正整数
+   *   0x05..0x7F -> c - 5                (0..122)
+   *   0x80..0xFB -> (c-256) + 5          (-123..0)
+   *   0xFC..0xFF -> 后随 n(=256-c) 字节 little-endian, 再减 2^(8n)
+   */
+  Reader.prototype.long = function () {
+    var c = this.byte();
+    if (c === 0) return 0;
+    if (c >= 5 && c <= 127) return c - 5;
+    if (c >= 128 && c <= 251) return (c - 256) + 5;
+    if (c >= 252) {                       // 长负数
+      var n = 256 - c;
+      return this.leInt(this.take(n)) - Math.pow(2, 8 * n);
+    }
+    return this.leInt(this.take(c));      // 0x01..0x04 长正数
+  };
+
+  Reader.prototype.leInt = function (bytes) {
+    var v = 0;
+    for (var i = bytes.length - 1; i >= 0; i--) v = v * 256 + bytes[i];
+    return v;
+  };
+
+  Reader.prototype.str = function () {
+    return this.take(this.long());
+  };
+
+  Reader.prototype.symbol = function () {
+    return TD.decode(this.str());
+  };
+
+  /* 读取 symbol：支持 ':' 新定义 与 ';' 表引用 */
+  Reader.prototype.sym = function () {
+    var t = this.byte();
+    if (t === 0x3a) {
+      var name = this.symbol();
+      this.symbols.push(name);
+      return name;
+    }
+    if (t === 0x3b) {
+      return this.symbols[this.long()];
+    }
+    throw new Error('期望符号标记 @ ' + (this.p - 1));
+  };
+
+  Reader.prototype.value = function () {
+    var t = String.fromCharCode(this.byte());
+    switch (t) {
+      case '0': return null;
+      case 'T': return true;
+      case 'F': return false;
+      case 'i': return this.long();
+      case 'l': {                                  // Bignum，占 link 位
+        var sign = this.byte();
+        var n = this.long();
+        var raw = this.take(n * 2);
+        var val = 0;
+        for (var i = 0; i < n; i++) val += raw[i * 2] * Math.pow(2, 16 * i) +
+                                          raw[i * 2 + 1] * Math.pow(2, 16 * i + 8);
+        if (sign === 0x2d) val = -val;
+        this.objects.push(val);
+        return val;
+      }
+      case 'f': {                                  // Float，占 link 位
+        var fb = this.str();
+        var txt = '';
+        for (var k = 0; k < fb.length; k++) {
+          if (fb[k] === 0) break;
+          txt += String.fromCharCode(fb[k]);
+        }
+        var fv = parseFloat(txt);
+        if (!isFinite(fv)) fv = txt;
+        this.objects.push(fv);
+        return fv;
+      }
+      case '"': {
+        var s = TD.decode(this.str());              // String 占 link 位
+        this.objects.push(s);
+        return s;
+      }
+      case ':': return ':' + this.sym();
+      case ';': {
+        var si = this.long();
+        return si < this.symbols.length ? this.symbols[si] : '<sym#' + si + '>';
+      }
+      case '@': {
+        var oi = this.long();
+        // Ruby 1.8 少数类型(Class/Module/DATA) 的 link 记账有差异，
+        // 这里不中断解析，返回占位符（不影响开关/变量/队伍字段）
+        return oi < this.objects.length ? this.objects[oi] : '<link#' + oi + '>';
+      }
+      case '[': {
+        var cnt = this.long();
+        var arr = [];
+        this.objects.push(arr);
+        for (var a = 0; a < cnt; a++) arr.push(this.value());
+        return arr;
+      }
+      case '{':
+      case '}': {
+        var hn = this.long();
+        var h = {};
+        this.objects.push(h);
+        if (t === '}') h['__default__'] = this.value();
+        for (var hi = 0; hi < hn; hi++) {
+          var hk = this.value();
+          var hv = this.value();
+          h[typeof hk === 'string' ? hk : String(hk)] = hv;
+        }
+        return h;
+      }
+      case 'o':
+      case 'S': {
+        var cls = this.sym();
+        this.objects.push(null);                    // 占位，保证 link 索引
+        var idx = this.objects.length - 1;
+        var n2 = this.long();
+        var obj = { __class__: cls };
+        for (var j = 0; j < n2; j++) {
+          var iname = this.sym();
+          obj[iname] = this.value();
+        }
+        this.objects[idx] = obj;
+        return obj;
+      }
+      case 'u': {                                    // UserDef (Table/Color/...)
+        var ucls = this.sym();
+        var un = this.long();
+        var uraw = this.take(un);
+        var uobj = { __class__: ucls, __raw__: uraw };
+        this.objects.push(uobj);
+        return uobj;
+      }
+      case 'U': {                                    // UserMarshal
+        var mcls = this.sym();
+        this.objects.push(null);
+        var midx = this.objects.length - 1;
+        var mval = this.value();
+        var mobj = { __class__: mcls, __value__: mval };
+        this.objects[midx] = mobj;
+        return mobj;
+      }
+      case 'I': {                                    // 带 ivar 的基础类型
+        var base = this.value();
+        var nn = this.long();
+        var iv = {};
+        for (var q = 0; q < nn; q++) {
+          var vname = this.sym();
+          iv[vname] = this.value();
+        }
+        if (base && typeof base === 'object' && !base.__class__) {
+          base.__ivars__ = iv;
+          return base;
+        }
+        var wrap = { __value__: base };
+        for (var wk in iv) if (Object.prototype.hasOwnProperty.call(iv, wk)) wrap[wk] = iv[wk];
+        return wrap;
+      }
+      case 'c':
+      case 'm': {                                    // Class / Module，占 link 位
+        var path = TD.decode(this.str()).replace(/\0+$/, '');
+        var cref = { __class_ref__: path };
+        this.objects.push(cref);
+        return cref;
+      }
+      case 'e':                                       // extended：不占 link 位
+        this.sym();
+        return this.value();
+      case 'C':                                       // subclass of builtin
+        this.sym();
+        return this.value();
+      default:
+        throw new Error('未知 Marshal 类型标记 ' + JSON.stringify(t) + ' @ ' + (this.p - 1));
+    }
+  };
+
+  /* RMXP 的 Scene_Save 把多个对象作为**连续的多段 Marshal 流**写进同一个文件。
+   * 返回 [{offset, value}, ...]，遇到解析失败即截断（已解出的部分仍可用）。*/
+  function parseAll(u8) {
+    var out = [];
+    var p = 0;
+    var len = u8.length;
+    while (p + 1 < len) {
+      if (u8[p] !== 0x04 || u8[p + 1] !== 0x08) break;
+      var r = new Reader(u8, p + 2);
+      var obj;
+      try {
+        obj = r.value();
+      } catch (e) {
+        out.push({ offset: p, value: null, error: String(e && e.message || e) });
+        break;
+      }
+      out.push({ offset: p, value: obj });
+      if (r.p <= p) break;
+      p = r.p;
+    }
+    return out;
+  }
+
+  root.RMXPMarshal = { parseAll: parseAll, Reader: Reader };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+
+const CHAPTERS = [{"no": 1, "var": 41, "max": 15, "s": 15, "a": 12, "b": 8}, {"no": 2, "var": 42, "max": 16, "s": 16, "a": 12, "b": 8}, {"no": 3, "var": 43, "max": 28, "s": 28, "a": 24, "b": 15}, {"no": 4, "var": 44, "max": 35, "s": 35, "a": 32, "b": 25}, {"no": 5, "var": 45, "max": 62, "s": 62, "a": 51, "b": 25}, {"no": 6, "var": 46, "max": 25, "s": 25, "a": 21, "b": 13}, {"no": 7, "var": 47, "max": 28, "s": 28, "a": 24, "b": 14}, {"no": 8, "var": 48, "max": 48, "s": 48, "a": 42, "b": 25}];
+const ENDINGS = [{"name": "辉光指引的幻想乡", "kind": "TRUE END", "ch": [15, 16, 28, 35, 62, 25, 28, 48], "sw": {"224": true, "265": true, "445": true}, "v123": 6, "party": 5, "steps": 151817, "battle": 807, "gold": 238650, "file": "辉光指引的幻想乡Save6"}, {"name": "平静依然的乐土", "kind": "GOOD", "ch": [15, 14, 28, 35, 62, 23, 28, 38], "sw": {"224": true, "265": true, "445": true}, "v123": 5, "party": 5, "steps": 128012, "battle": 655, "gold": 364175, "file": "平静依然的乐土Save5"}, {"name": "新的未来", "kind": "NORMAL", "ch": [15, 16, 28, 35, 62, 25, 28, 33], "sw": {"224": false, "265": true, "445": true}, "v123": 6, "party": 5, "steps": 175733, "battle": 863, "gold": 8111, "file": "新的未来Save98"}, {"name": "重逢，再次开始的旅程", "kind": "NORMAL", "ch": [12, 13, 12, 26, 52, 15, 22, 29], "sw": {"224": false, "265": true, "445": true}, "v123": 6, "party": 5, "steps": 197211, "battle": 899, "gold": 446167, "file": "重逢，再次开始的旅程Save81"}, {"name": "残缺的世界", "kind": "BAD", "ch": [15, 16, 28, 35, 62, 25, 28, 27], "sw": {"224": true, "265": false, "445": false}, "v123": 5, "party": 4, "steps": 139462, "battle": 682, "gold": 397806, "file": "残缺的世界Save23"}, {"name": "毁灭的蓬莱物语", "kind": "BAD", "ch": [12, 13, 12, 26, 52, 15, 22, 17], "sw": {"224": false, "265": false, "445": false}, "v123": 5, "party": 4, "steps": 194274, "battle": 841, "gold": 240737, "file": "毁灭的蓬莱物语Save77"}, {"name": "消失的蓬莱传说", "kind": "BAD", "ch": [12, 13, 12, 26, 52, 15, 22, null], "sw": {"224": false, "265": false, "445": false}, "v123": null, "party": 3, "steps": 181597, "battle": 799, "gold": 156037, "file": "消失的蓬莱传说Save71"}, {"name": "森罗线 · 新与旧的色彩", "kind": "ROUTE", "ch": [0, 0, 0, 0, 0, 0, null, null], "sw": {"224": false, "265": false, "445": false}, "v123": null, "party": 1, "steps": 97247, "battle": 502, "gold": 768702, "file": "森罗线 新与旧的色彩 往昔的微光Save33"}];
+
+function gradeOf(no, val) {
+  const c = CHAPTERS[no - 1];
+  if (val === undefined || val === null) return '-';
+  if (val >= c.s) return 'S';
+  if (val >= c.a) return 'A';
+  if (val >= c.b) return 'B';
+  if (val >= 1) return 'C';
+  return 'D';
+}
+
+function fmt(n) {
+  if (n === undefined || n === null) return '—';
+  return Number(n).toLocaleString('en-US');
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+function analyze(buf) {
+  const u8 = new Uint8Array(buf);
+  const streams = RMXPMarshal.parseAll(u8);
+  const get = function (name) {
+    for (const s of streams) if (s.value && s.value.__class__ === name) return s.value;
+    return null;
+  };
+  const sw = get('Game_Switches');
+  const va = get('Game_Variables');
+  const pa = get('Game_Party');
+  const sy = get('Game_System');
+  if (!sw || !va) throw new Error('没找到 Game_Switches / Game_Variables —— 这可能不是东方年代记的进度存档');
+  const sd = sw['@data'] || {};
+  const vd = va['@data'] || {};
+  const ch = [];
+  for (let i = 41; i <= 48; i++) {
+    const v = vd[String(i)];
+    ch.push(v === undefined || v === null ? null : Number(v));
+  }
+  const chars = (pa && Array.isArray(pa['@characters'])) ? pa['@characters'] : [];
+  const party = [];
+  for (const c of chars) {
+    const a = c && c['@actor'];
+    if (a && a['@name']) party.push({ name: a['@name'].trim(), level: a['@level'] || 0 });
+  }
+  const swv = function (k) { return sd[String(k)] === true; };
+  return {
+    name: (sy && sy['@character_name']) || '—',
+    player: (sy && sy['@system_id']) || (sy && sy['@player_name']) || '—',
+    ch: ch, party: party,
+    s224: swv(224), s265: swv(265), s445: swv(445), s24: swv(24),
+    v123: vd['123'] === undefined ? null : Number(vd['123']),
+    steps: pa && pa['@steps'], battle: pa && pa['@battle_count'], gold: pa && pa['@gold'],
+    streamCount: streams.length
+  };
+}
+
+function verdictOf(r) {
+  const c8 = r.ch[7];
+  const ch8 = CHAPTERS[7];
+  if (c8 === null || c8 === undefined) {
+    return { cls: 'warn', icon: '○', t: '第 8 章评价尚未记录',
+             s: '这个存档还停在第 7 章之前 —— 结局分支尚未开始。前七章随便走，都还有机会。' };
+  }
+  if (c8 >= ch8.s) {
+    return { cls: 'te', icon: '★', t: '正在真结局轨道上',
+             s: '第 8 章评价 ' + c8 + ' / ' + ch8.s + '（S 级，拉满）。实测唯一拿到 48 分的档案就是「辉光指引的幻想乡」。' };
+  }
+  if (c8 >= ch8.a) {
+    return { cls: 'ok', icon: '●', t: 'A 档 · 离真结局还差 ' + (ch8.s - c8) + ' 点',
+             s: '第 8 章评价 ' + c8 + '。这一档我手上没有存档样本，无法断言具体走向 —— 但从规律看不在真结局线上。' };
+  }
+  if (c8 >= ch8.b) {
+    return { cls: 'warn', icon: '▲', t: 'B 档 · 已偏离真结局',
+             s: '第 8 章评价 ' + c8 + '，离满评差 ' + (ch8.s - c8) + ' 点。实测落在这一档的是：' +
+               '平静依然的乐土(38)、新的未来(33)、重逢·再次开始的旅程(29)、残缺的世界(27)。' };
+  }
+  return { cls: 'bad', icon: '✕', t: 'C/D 档 · 走向坏结局',
+           s: '第 8 章评价仅 ' + c8 + '。实测落在这一档的是「毁灭的蓬莱物语」(17)。' };
+}
+
+function render(r, fileName) {
+  const v = verdictOf(r);
+  const h = [];
+  h.push('<div class="verdict ' + v.cls + '">');
+  h.push('<div class="icon">' + v.icon + '</div><div>');
+  h.push('<div class="vt">' + v.t + '</div>');
+  h.push('<div class="vs">' + v.s + '</div>');
+  h.push('</div></div>');
+
+  h.push('<div class="kv">');
+  h.push('<div class="cell"><div class="k">存档文件</div><div class="v" style="font-size:13px">' + esc(fileName) + '</div></div>');
+  h.push('<div class="cell"><div class="k">数据流</div><div class="v">' + r.streamCount + ' <small style="color:var(--dim2)">段</small></div></div>');
+  h.push('<div class="cell"><div class="k">队伍存活人数</div><div class="v">' + (r.v123 === null ? '—' : r.v123) + '</div></div>');
+
+  const chips = [['224', r.s224], ['265', r.s265], ['445', r.s445]];
+  for (const c of chips) {
+    h.push('<div class="cell"><div class="k">开关[' + c[0] + ']</div><div class="v ' + (c[1] ? 'on' : 'off') + '">' + (c[1] ? 'ON' : 'off') + '</div></div>');
+  }
+  h.push('<div class="cell"><div class="k">累计步数</div><div class="v">' + fmt(r.steps) + '</div></div>');
+  h.push('<div class="cell"><div class="k">战斗次数</div><div class="v">' + fmt(r.battle) + '</div></div>');
+  h.push('<div class="cell"><div class="k">持有金币</div><div class="v">' + fmt(r.gold) + '</div></div>');
+  h.push('</div>');
+
+  h.push('<div class="panel">');
+  h.push('<h2 style="margin-bottom:14px">章间评价</h2>');
+  h.push('<div class="rows">');
+  for (let i = 0; i < 8; i++) {
+    const c = CHAPTERS[i], val = r.ch[i];
+    const g = gradeOf(c.no, val);
+    const pct = (val === null) ? 0 : Math.min(100, Math.round(val / c.max * 100));
+    const color = { S: 'var(--s)', A: 'var(--a)', B: 'var(--b)', C: 'var(--c)', D: 'var(--d)', '-': 'var(--line)' }[g];
+    h.push('<div class="row">');
+    h.push('<div class="nm">第 ' + c.no + ' 章 <span class="gd ' + g + '">' + g + '</span></div>');
+    h.push('<div class="track"><div class="fill" style="width:' + pct + '%;background:' + color + '"></div></div>');
+    h.push('<div class="num">' + (val === null ? '—' : val) + '/' + c.max + '</div>');
+    h.push('</div>');
+  }
+  h.push('</div>');
+
+  h.push('<h2 style="margin:18px 0 10px">随行队伍</h2>');
+  if (r.party.length) {
+    h.push('<div class="chips">');
+    for (const p of r.party) h.push('<span class="pchip">' + esc(p.name) + ' <b>Lv' + p.level + '</b></span>');
+    h.push('</div>');
+  } else {
+    h.push('<div class="warnbox">这个存档的 <code>@characters</code> 是空的 —— 通常出现在「已通关／结局结算后」的存档里。</div>');
+  }
+  h.push('</div>');
+  return h.join('');
+}
+
+const drop = document.getElementById('drop');
+const input = document.getElementById('file');
+const report = document.getElementById('report');
+
+function handleFile(f) {
+  if (!f) return;
+  report.innerHTML = '<div class="panel" style="color:var(--dim)">正在解析 ' + esc(f.name) + ' …</div>';
+  const fr = new FileReader();
+  fr.onload = function () {
+    try {
+      const r = analyze(fr.result);
+      report.innerHTML = render(r, f.name);
+    } catch (e) {
+      report.innerHTML = '<div class="verdict bad"><div class="icon">!</div><div>' +
+        '<div class="vt">解析失败</div><div class="vs">' + esc(e.message || e) + '</div></div></div>';
+    }
+  };
+  fr.onerror = function () {
+    report.innerHTML = '<div class="verdict bad"><div class="icon">!</div><div><div class="vt">读取文件失败</div></div></div>';
+  };
+  fr.readAsArrayBuffer(f);
+}
+
+input.addEventListener('change', function () { handleFile(input.files[0]); });
+['dragenter', 'dragover'].forEach(function (ev) {
+  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('hot'); });
+});
+['dragleave', 'drop'].forEach(function (ev) {
+  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('hot'); });
+});
+drop.addEventListener('drop', function (e) {
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  handleFile(f);
+});
+
+</script>
+</body>
+</html>
