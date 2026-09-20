@@ -129,9 +129,14 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
   <div class="kicker">Touhou Nendaiki · Ending Truth</div>
   <h1>结局真相 <span class="thin">/ 攻略与脚本对齐</span></h1>
   <p class="lede">这一页做的事只有一件：把<b>攻略里写的「选项 +N」</b>、<b>游戏脚本里的加分指令</b>、
-  <b>8 个真实结局存档的开关状态</b>三者摆在一起对账。对得上的地方逐条列出，
+  <b>8 个结局存档的开关状态</b>三者摆在一起对账。对得上的地方逐条列出，
   对不上的地方也逐条标出来 —— 不缝补、不脑补。下面还附一个<b>存档体检器</b>，
   把 <code>.rxdata</code> 拖进来就能知道你此刻站在哪条路上，<b>文件不会离开你的电脑</b>。</p>
+  <p class="lede" style="margin-top:10px;color:var(--dim2);font-size:12.5px">
+  <b>2026-09-20 来源更正：</b>本页用于反证的这 8 个结局档，来自一个<b>外部存档包</b>
+  （<code>东方年代记结局前存档\</code>，2023-08-24 从压缩包一次性解出、内部时间 2012 年），
+  <b>不是本人游玩的存档</b>。此前本页写作「本人 8 个真实结局档」，措辞有误，已更正 ——
+  它们只用于验证游戏机制，与本人的旅程记录无关。</p>
   <div class="nav">
     <a href="index.html">← 称号档案</a>
     <a href="nodes.html">旅程节点地图 →</a>
@@ -146,7 +151,7 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
 
 <div class="stat">
   <div class="st"><div class="v">833,896</div><div class="k">行事件脚本（已全量索引）</div></div>
-  <div class="st"><div class="v">8<small>个</small></div><div class="k">真实结局档，用于反证</div></div>
+  <div class="st"><div class="v">8<small>个</small></div><div class="k">外部结局档，用于反证机制</div></div>
   <div class="st"><div class="v">37<small>条</small></div><div class="k">第8章加分条目，33 条已核实</div></div>
   <div class="st"><div class="v">6<small>个</small></div><div class="k">真正决定结局的开关</div></div>
 </div>
@@ -165,7 +170,7 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
 
 <section id="tree">
   <h2>二 · 结局分派链（真正的那张图）</h2>
-  <p class="sub">结论全部来自事件脚本原文，并用 8 个结局档双向验证过 —— 6 个可验证的结局，6 个全中。
+  <p class="sub">结论全部来自事件脚本原文，并用外部存档包里的 8 个结局档双向验证过 —— 6 个可验证的结局，6 个全中。
   右边括号里是脚本里的位置。</p>
   <div class="tree">第 8 章末 · <span class="p">魔煌之池</span>（打完神绮）
 │
@@ -233,7 +238,7 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
 
 <section id="verify">
   <h2>四 · 八个结局 · 实测交叉验证</h2>
-  <p class="sub">下表每一行都来自一个真实结局存档的解析结果。把它拿去和上面那张分派图对照 —— 6 个可验证的结局全部吻合。</p>
+  <p class="sub">下表每一行都来自一个<b>外部结局档</b>的解析结果（非本人存档，仅作机制反证）。把它拿去和上面那张分派图对照 —— 6 个可验证的结局全部吻合。</p>
   <div class="tblwrap">
     <table>
       <thead><tr>
@@ -423,7 +428,8 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
   </div>
   <p class="note">※ 1.05 的章节奖励档位是 <code>0/48 · 1/48 · 25/48 · 42/48 · 48/48</code> 五档。
   真实存档里真结局档的 <code>变量[48]</code> 正好是 <b>48</b>，<code>变量[205]</code> 是 <b>10</b>，
-  「已破解补给机数」<code>变量[213]</code> 是 <b>6</b> —— 与上表的满分模型完全一致。</p>
+  「已破解补给机数」<code>变量[213]</code> 是 <b>6</b> —— 与上表的满分模型完全一致。
+  （此处「真实存档」指外部存档包里的结局档，非本人游玩存档。）</p>
 
   <p class="note">※ 两版攻略的文字都是 <b>GBK</b> 编码，但 <code>&lt;meta&gt;</code> 却标成了 utf-8，
   直接当 utf-8 读会全变乱码 —— 如果你自己导数据，记得按 GBK 解。</p>
@@ -434,7 +440,7 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
     基准攻略：<code>东方年代记_攻略集Ver1.05</code>（<b>本项目唯一权威版本</b>；<code>Ver2.0</code>
     对应的是另一套改过数值的版本，已排除，仅用作对照）。
     <br>数据来源：<code>all_map_events.txt</code>（833,896 行事件脚本导出）·
-    <code>东方年代记结局前存档/*.rxdata</code>（8 个真实结局档）。
+    <code>东方年代记结局前存档/*.rxdata</code>（<b>外部存档包</b>，8 个结局档，仅用于反证机制）。
     生成时间 2026-09-20 13:41。解析器与生成脚本均为自写，可复现。
   </div>
 </footer>

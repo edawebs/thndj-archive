@@ -211,8 +211,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </table>
 <div class="card" style="margin-top:16px;border-color:var(--green)"><div class="h">★ EASY 模式：TE 的门槛被官方直接放开了</div><p>官方 <b>Ver1.05 更新说明</b>（<code>README.txt</code>）原文：</p><p style="background:#0e1119;border-left:3px solid var(--green);padding:10px 14px;border-radius:8px;color:var(--text)">EASY 模式下，TE 结局只需要<b>全人物回归后</b>在<b>第八章选择守护幻想乡</b>就可以进入，CE 结局不需要任何额外条件就可以（但 BOSS 战战败还会变成 NE）。</p><p>换句话说：<b>只想“按本心选、又不想承担选死的代价”，把难度设在 Easy</b>，第八章选「守护幻想乡」＋全员回归 → 直接就是 True Ending。上表里“含间章全评价为 S”那一条在 Easy 下不再构成门槛。</p><p>补充两条难度事实：<b>Extra</b> 需要 2 周目以上的 Normal 存档才能开启，能拿更高分数；<b>Normal</b> 就是上表那套完整门槛。难度开关就在 F9 里：<code>S[211] ★简单模式</code> / <code>S[210] ★挑战模式</code>。</p></div>
 <div class="card" style="margin-top:16px"><div class="h">为什么“随便选也能回头”是可行的</div><p>整个结局判定只压在<b>少数几个格子</b>上：<code>V[25]</code>（在哪一章）、<code>V[40]</code>（总评）、<code>V[41]–V[50]</code>／<code>V[76]–V[81]</code>（各章评价）、以及下节那几个实名结局开关。</p><p>也就是说：<b>每章结束时看一眼这章的评价变量，只要它 ≥ B 阈值，你就在“能走 GE”的轨道上。</b>发现掉到 C／D，读档重来那一小段即可。</p></div></section>
-<h3>4.1 · 八个真实结局档的开关实测（最硬的一份证据）</h3>
-<p>下面这张表不是推的——是把本人 8 个真实“结局前存档”用 Ruby 1.8 Marshal 解析器逐个读出来，把关键开关和评价值直接摊开对照。<b>结局名与开关状态的对应关系一目了然。</b></p>
+<h3>4.1 · 八个结局档的开关实测（最硬的一份证据）</h3>
+<p>下面这张表不是推的——是把 8 个结局档用 Ruby 1.8 Marshal 解析器逐个读出来，把关键开关和评价值直接摊开对照。<b>结局名与开关状态的对应关系一目了然。</b></p>
+<p class="small" style="color:var(--dim2)"><b>来源更正（2026-09-20）：</b>这 8 个档来自 <code>东方年代记结局前存档\</code> —— 一个<b>外部存档包</b>（2023-08-24 从压缩包一次性解出、内部时间 2012 年），<b>不是本人游玩的存档</b>。此前本页写作「本人 8 个真实结局前存档」，措辞有误，已更正。它们只用于验证游戏机制，与本人的旅程记录无关；本人的存档见 <a href="nodes.html">旅程节点地图</a>（只统计三份备份，305 个节点）。</p>
 <table><caption>结局档 × 关键开关 × 评分汇总（只读，未改任何存档）</caption><tr><th>结局档</th><th>类别</th><th>V[25]</th><th>S[223]<br>九章悲剧</th><th>S[224]<br>守护幻想乡</th><th>S[225]<br>前往新世界</th><th>S[258]<br>梅莉可加入</th><th>S[265]<br>毒人偶回归</th><th>S[445]<br>爱丽丝加入</th><th>8 章路线</th><th>主章Σ<br>满分 257</th><th>间章Σ<br>满分 109</th><th>合计<br>满分 366</th></tr>
 <tr><td class="k">消失的蓬莱传说</td><td>BE 1</td><td>165</td><td>·</td><td>·</td><td>·</td><td><b style="color:var(--green)">ON</b></td><td>·</td><td>·</td><td>—</td><td class="k">152</td><td class="k">35</td><td class="k"><b>187</b></td></tr>
 <tr><td class="k">毁灭的蓬莱物语</td><td>BE 2</td><td>195</td><td>·</td><td>·</td><td><b style="color:var(--green)">ON</b></td><td><b style="color:var(--green)">ON</b></td><td>·</td><td>·</td><td>□悲剧</td><td class="k">169</td><td class="k">35</td><td class="k"><b>204</b></td></tr>
@@ -1717,9 +1718,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <li>制作界面输入 <code>MIKOMIKOMOMOKO</code>（有特殊音效 = <code>$DEBUG</code> 已开）</li>
 <li>回到地图，按 <kbd>F10</kbd></li>
 <li>游戏目录出现 <code>_dump_variables.txt</code> / <code>_dump_switches.txt</code> /
-<code>_dump_party.txt</code> / <code>_dump_globals.txt</code> /
-<code>_dump_common_events.txt</code>（全部公共事件）/ <code>_dump_skills.txt</code>（全部技能）/
-<code>_dump_done.txt</code></li>
+<code>_dump_party.txt</code> / <code>_dump_globals.txt</code> / <code>_dump_done.txt</code></li>
 </ol>
 <p>跑的是 <code>File.open("script.txt"){|f| eval(f.read)}</code>：纯 ASCII、只新建文件、
 不写存档、不改游戏本体。不想要了就删掉 <code>script.txt</code>。</p>
@@ -1729,9 +1728,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <h3>看某张地图的完整逻辑</h3>
 <p>直接去游戏目录搜 <code>all_map_events.txt</code>——那是游戏自己导出的、83.4 万行的全事件文本，
 按编号一搜就能看到这个变量/开关在哪段剧情里被写、被判断。</p>
-<p class="small">出处已查实（2026-09-20）：导出脚本 <code>o0302</code>（原作者 K'；Zunk 于 2010-10-15 加了「输出全部脚本」功能），
-游戏里由地图 <b>597「瓦尔哈拉殿堂」的 EV047 稗田阿求</b>调用——和她说话就会重写这份文件。
-同一方法还能导出<b>公共事件</b>（第二个参数传事件 ID），即本节新加的 <code>_dump_common_events.txt</code>。</p>
 </section>
 <footer style="padding:28px 0 60px;border-top:1px solid var(--line);
 color:var(--dim2);font-size:12px">
