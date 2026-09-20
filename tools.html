@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>东方年代记 · Tools 1.3 修改器解剖</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0c13;--panel:#131725;--panel2:#1a1f31;--line:#252c42;
+--text:#e8ebf5;--dim:#8a93ae;--dim2:#5f6780;
+--purple:#a78bfa;--purple-d:#7c5cf5;--gold:#fbbf24;
+--red:#f87171;--green:#4ade80;--amber:#fbbf24;--cyan:#67e8f9;
+}
+body{background:var(--bg);color:var(--text);line-height:1.65;
+font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:var(--purple);text-decoration:none}
+a:hover{text-decoration:underline}
+
+header{padding:60px 0 36px;border-bottom:1px solid var(--line);
+background:radial-gradient(ellipse 700px 300px at 50% -80px,rgba(124,92,245,.20),transparent)}
+.kicker{font-size:11px;letter-spacing:.28em;color:var(--purple);
+text-transform:uppercase;font-weight:500}
+h1{font-size:36px;font-weight:500;letter-spacing:.02em;margin:14px 0 12px}
+h1 .thin{color:var(--dim2)}
+.lede{color:var(--dim);font-size:14px;max-width:700px}
+.lede b{color:var(--text);font-weight:500}
+.nav{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+.nav a,.nav span{font-size:12px;padding:7px 14px;border:1px solid var(--line);
+border-radius:999px;color:var(--dim)}
+.nav a:hover{border-color:var(--purple-d);color:var(--purple);text-decoration:none}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:12px;margin:32px 0 44px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.stat .v{font-size:25px;font-weight:500}
+.stat .v small{font-size:13px;color:var(--dim2);margin-left:3px;font-weight:400}
+.stat .k{font-size:12px;color:var(--dim);margin-top:5px}
+
+h2{font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--dim);
+text-transform:uppercase;margin:0 0 16px;
+padding-bottom:10px;border-bottom:1px solid var(--line)}
+section{margin-bottom:52px}
+h3{font-size:16px;font-weight:500;margin:26px 0 10px;color:var(--text)}
+p{margin-bottom:12px;font-size:14px;color:var(--dim)}
+p b{color:var(--text);font-weight:500}
+p em{color:var(--purple);font-style:normal}
+
+.verdict{background:linear-gradient(180deg,rgba(124,92,245,.14),rgba(124,92,245,.04));
+border:1px solid var(--purple-d);border-radius:16px;padding:24px 26px;margin-bottom:36px}
+.verdict .t{font-size:17px;font-weight:500;margin-bottom:10px}
+.verdict p{margin-bottom:8px}
+.verdict p:last-child{margin-bottom:0}
+
+table{width:100%;border-collapse:collapse;font-size:13px;
+background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+caption{text-align:left;font-size:12px;color:var(--dim2);padding:0 0 10px}
+th{background:var(--panel2);color:var(--dim);font-weight:500;font-size:11.5px;
+letter-spacing:.08em;text-transform:uppercase;text-align:left;
+padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--dim);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.k{white-space:nowrap;color:var(--text);font-weight:500}
+kbd{display:inline-block;background:#0e1119;border:1px solid var(--line);
+border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:12px;
+font-family:ui-monospace,Consolas,monospace;color:var(--text);margin:0 1px}
+.tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim2);margin-left:6px;vertical-align:1px}
+.tag.on{border-color:var(--red);color:var(--red)}
+.tag.off{border-color:var(--dim2);color:var(--dim2)}
+.tag.hi{border-color:var(--green);color:var(--green)}
+
+code,pre{font-family:ui-monospace,Consolas,"Courier New",monospace}
+code{background:#0e1119;border:1px solid var(--line);border-radius:5px;
+padding:1px 6px;font-size:12.5px;color:var(--cyan)}
+pre{background:#0b0e16;border:1px solid var(--line);border-radius:12px;
+padding:16px 18px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#c8d0e8;margin:14px 0}
+pre .c{color:#5f6780}
+pre .k{color:#c084fc}
+pre .s{color:#86efac}
+pre .f{color:#67e8f9}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+padding:20px 22px;margin-bottom:16px}
+.card .h{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--text)}
+.card p:last-child{margin-bottom:0}
+
+.steps{counter-reset:s;list-style:none}
+.steps li{counter-increment:s;position:relative;padding-left:42px;
+margin-bottom:16px;font-size:14px;color:var(--dim)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+width:26px;height:26px;border-radius:50%;background:var(--panel2);
+border:1px solid var(--line);color:var(--purple);font-size:12px;
+display:flex;align-items:center;justify-content:center;font-weight:600}
+.steps li b{color:var(--text)}
+
+.warn{border-left:3px solid var(--amber);background:rgba(251,191,36,.07);
+border-radius:0 10px 10px 0;padding:14px 18px;font-size:13px;color:var(--dim);margin:16px 0}
+.warn b{color:var(--amber)}
+.ok{border-left-color:var(--green);background:rgba(74,222,128,.07)}
+.ok b{color:var(--green)}
+
+footer{border-top:1px solid var(--line);padding:28px 0 56px;
+font-size:12px;color:var(--dim2)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+<body><div class="wrap">
+<header>
+<div class="kicker">Touhou Nendaiki · Third-party Tool Teardown</div>
+<h1>东方年代记 Tools 1.3 <span class="thin">· 它是怎么运作的</span></h1>
+<p class="lede">社区流传的「TH Tools」。结论先说：它<b>不是存档编辑器，也不是联网工具</b>——
+它是一个标准的<b>进程内存读写器</b>（俗称修改器／外挂），在游戏运行时直接读写
+<code>Game.exe</code> 的内存。本页把它拆开：加壳、脱壳、API 名单、功能表、
+以及它和我们这套档案的<b>交叉验证结果</b>。</p>
+<div class="nav">
+  <a href="index.html">← 称号档案</a>
+  <a href="nodes.html">旅程节点地图</a>
+  <a href="ending.html">结局真相 · 攻略对齐</a>
+  <a href="debug.html">调试面板与热键真相</a>
+  <a href="variables.html">F9 变量词典</a>
+</div>
+</header>
+
+<div class="summary">
+<div class="stat"><div class="v">3.25 <small>MB</small></div><div class="k">原始体积（UPX 加壳）</div></div>
+<div class="stat"><div class="v">6.27 <small>MB</small></div><div class="k">脱壳后体积</div></div>
+<div class="stat"><div class="v">12 <small>个</small></div><div class="k">系统 DLL 导入（含 WS2_32）</div></div>
+<div class="stat"><div class="v">2024-05-22</div><div class="k">PE 编译时间戳</div></div>
+</div>
+
+<div class="verdict">
+<div class="t">一句话结论</div>
+<p>它靠 <b><code>OpenProcess</code> + <code>ReadProcessMemory</code> / <code>WriteProcessMemory</code></b>
+直接改运行中的游戏内存。<b>不碰存档文件、不发网络包、不注入 DLL</b>（脱壳后全文件扫描
+<code>MZ</code>/<code>PE</code> 头，内嵌 PE <b>0 个</b>）。</p>
+<p>换句话说：它做的事和游戏内置的 <kbd>F9</kbd> 面板<b>原理完全一样</b>（改内存里的开关/变量），
+只是把它包成了图形界面，再额外加了一批「一键」操作（秒杀、满级、传送……）。</p>
+<p><b>关掉游戏，它做的一切就没了</b>——这也是它和「改存档」最大的区别。</p>
+</div>
+
+<section>
+<h2>一 · 它由什么组成</h2>
+<p>目录 <code>东方年代记Tools1.3\</code> 里只有三样东西：</p>
+<table>
+<tr><th>文件</th><th>大小</th><th>是什么</th></tr>
+<tr><td class="k">TH Tools.exe</td><td>3 248 640 B</td><td>主程序。UPX 加壳的<b>易语言</b>程序，界面用 <b>Exui</b> 皮肤库</td></tr>
+<tr><td class="k">ExuiKrnln_Win32.lib</td><td>1 795 072 B</td><td>Exui 皮肤库的<b>编译期导入库</b>——作者打包时忘删的残留文件，<b>运行不需要它</b></td></tr>
+<tr><td class="k">Tools使用说明.txt</td><td>231 B</td><td>三行提示：管理员运行 / 别开搜狗输入法 / 勾选右下角滑动按钮</td></tr>
+</table>
+<div class="card" style="margin-top:16px">
+<div class="h">三条使用说明，逐条都能解释</div>
+<p>· <b>「请勾选以管理员身份运行」</b> —— 修改器要 <code>OpenProcess</code> 别的进程并
+<code>WriteProcessMemory</code>，这类权限在普通用户态下容易被拦；提权后更省事。<br>
+· <b>「请勿打开搜狗输入法」</b> —— 工具自己装了全局键盘钩子（导入表里有
+<code>SetWindowsHookExA</code>），输入法也做钩子，两者会抢。<br>
+· <b>「获取到游戏数据请勾选右下角的滑动按钮，防止游戏崩溃」</b> —— 它<b>先扫描定位</b>、
+再把地址<b>锁住</b>持续读写；不锁住的话游戏重新分配内存，读写就会打到野地址上崩掉。</p>
+</div>
+</section>
+
+<section>
+<h2>二 · 怎么看出来是内存修改器（脱壳过程）</h2>
+<p>原始 exe 是加壳的：节表里只有 <code>UPX0</code> / <code>UPX1</code> 两个节，
+<code>UPX0</code> 的磁盘大小是 <b>0</b>——典型 UPX 特征。用 UPX 4.2.4 <code>-d</code> 还原后
+3.25 MB → 6.27 MB，节表恢复正常（<code>.text</code> / <code>.rdata</code> / <code>.data</code> / <code>.rsrc</code>）。</p>
+<p>脱壳后，在 <code>.rdata</code> 的 <code>0xECA23</code>–<code>0xED112</code> 有一整段
+<b>连续的 API 名字表</b>（易语言调用外部 API 的方式是把名字以字符串形式存着）——这就是铁证：</p>
+<pre><span class="c">; 0x000ECD35 起，按顺序</span>
+OpenProcess      VirtualAllocEx    WriteProcessMemory   CreateRemoteThread
+CreateToolhelp32Snapshot              Process32First       Process32Next
+Module32First    Module32Next      Thread32First        Thread32Next
+VirtualQueryEx   VirtualProtectEx  VirtualFreeEx        GetModuleInformation
+OpenProcess      ZwOpenProcess     ZwQuerySystemInformation  ZwDuplicateObject
+ZwQueryInformationProcess             ZwClose
+ReadProcessMemory ×N                  WriteProcessMemory ×N
+ZwWow64ReadVirtualMemory64            ZwWow64WriteVirtualMemory64
+GetCurrentProcessId  IsBadReadPtr  IsBadWritePtr ...</pre>
+<p>这串东西合起来只有一种用途：<b>枚举进程 → 打开目标 → 扫描/读取/写入它的内存</b>。
+另外还有 <code>FFD6</code>（<code>call esi</code>）、<code>83C4</code> / <code>81C4</code>
+（<code>add esp, ...</code>）这类**汇编片段模板**，说明这个模块具备「在目标进程里搭一小段
+代码去调用 API」的能力（远程调用），不过<b>是否真的用到，我无法静态确证</b>。</p>
+<div class="warn">
+<b>它没有联网。</b>虽然导入了 <code>WS2_32.dll</code>，但里面<b>没有</b>
+<code>socket</code> / <code>connect</code> / <code>send</code> / <code>recv</code> / <code>WSAStartup</code>
+——只有易语言运行时默认会挂上的几个序号函数。所以它<b>不走游戏那个 TCP 13666 调试通道</b>。
+（<code>ShellExecuteA</code> 只用来点「点击加群」打开 QQ 群链接。）
+</div>
+</section>
+
+<section>
+<h2>三 · 主界面长什么样（从字符串还原）</h2>
+<p>标题栏写的是：<code>东方年代记Tools&nbsp;&nbsp;&nbsp;#未检测到进程&nbsp;&nbsp;&nbsp;请选择您的游戏版本：</code>。
+「请选择您的游戏版本」下面是一个下拉框，可选项有：</p>
+<p><code>1.00</code> <code>1.05</code> · <code>2.02</code> <code>2.05</code> <code>2.06</code> ·
+<code>4.02</code> · <code>Bart0.1-1.11</code> <code>Bart1.12-1.14</code>
+（另有 <code>1.00-1.05</code> 这样的区间写法）</p>
+<p><b>这个下拉框本身就是答案</b>：它说明工具是<b>按版本查表</b>工作的——同一个数据在不同版本里
+位置不同，所以必须告诉它「你玩的是哪版」。工具内部要找的进程名是 <code>Game.exe</code>，
+找不到就显示 <code>#未检测到进程</code>。</p>
+<p>其它界面原文：<code>点我重新获取数据</code> · <code>锁定速度</code> · <code>变速数值</code> ·
+<code>点击加群</code> · <code>点击图标可查看潜能描述</code> · <code>exui默认窗口皮肤</code>。</p>
+
+<h3>功能总表（按界面分区还原）</h3>
+<table>
+<caption>「基础功能」区</caption>
+<tr><th>功能</th><th>说明 / 备注（原文括号）</th></tr>
+<tr><td class="k">无限金币</td><td>无限金币（随便购买/出售一件物品）</td></tr>
+<tr><td class="k">一键秒杀</td><td>一键秒杀（战外开启 推荐使用）／（战外战内皆可开启 补救使用）— <b>两档，二选一</b></td></tr>
+<tr><td class="k">购买/出售数量锁定99</td><td>—</td></tr>
+<tr><td class="k">无限潜能点</td><td>无限潜能点（至少要有1潜能点未分配）</td></tr>
+<tr><td class="k">人物满级</td><td>人物满级（进战斗前关闭/存档前关闭）</td></tr>
+<tr><td class="k">幽灵船/鬼屋/补船洞立即结束</td><td>跳过这几个小游戏/关卡</td></tr>
+<tr><td class="k">人物跟随</td><td>非战斗时队尾角色跟着走</td></tr>
+<tr><td class="k">高级暂停</td><td>冻结游戏逻辑</td></tr>
+<tr><td class="k">测试模式</td><td>—</td></tr>
+<tr><td class="k">连击数99999</td><td>—</td></tr>
+<tr><td class="k">评价点修改</td><td>第一章 <code>?/15</code> · 二 <code>?/16</code> · 三 <code>?/28</code> · 四 <code>?/35</code> · 五 <code>?/62</code> · 六 <code>?/25</code> · 七 <code>?/28</code> · 八 <code>?/48</code></td></tr>
+<tr><td class="k">章间评价点修改</td><td>二 <code>?/5</code> · 三 <code>?/11</code> · 四 <code>?/18</code> · 五 <code>?/21</code> · 六 <code>?/19</code> · 八 <code>?/35</code></td></tr>
+<tr><td class="k">游戏流程数量</td><td><code>?</code> —— 就是 <code>V[25]</code></td></tr>
+<tr><td class="k">游戏周目数量</td><td><code>?</code> —— 就是 <code>V[9]</code></td></tr>
+<tr><td class="k">森罗佣兵贡献度</td><td><code>?</code> —— 就是 <code>V[49]</code></td></tr>
+<tr><td class="k">加点点数修改</td><td><code>?</code> —— 角色点数</td></tr>
+</table>
+
+<table style="margin-top:18px">
+<caption>「其他功能」区（全部是开关式一键置位）</caption>
+<tr><th>功能</th><th>它其实就是游戏里的哪一格</th></tr>
+<tr><td class="k">不显示金钱得失 / 物品 / 武器 / 防具得失</td><td>关闭获得物品时的飘字</td></tr>
+<tr><td class="k">幽灵船无限残机</td><td>第 7 章幽灵船小游戏</td></tr>
+<tr><td class="k">称号直接显示</td><td>称号界面不再需要条件解锁</td></tr>
+<tr><td class="k">UI右侧显示生命值</td><td>HUD 增强</td></tr>
+<tr><td class="k">取消方向颠倒 / 取消地震 / 取消黑暗</td><td>关掉几张地图的负面演出</td></tr>
+<tr><td class="k">升空宝箱无限开</td><td>升空殿宝箱可重复开</td></tr>
+<tr><td class="k">进入森罗界面</td><td><code>S[590] ·森罗界面</code></td></tr>
+<tr><td class="k">启动简单模式 / 启动挑战模式</td><td>切换难度（EASY / 挑战）</td></tr>
+<tr><td class="k">双姬潜能全开</td><td>妹红 + 辉夜</td></tr>
+<tr><td class="k">一等奖开关</td><td><code>S[203] 一等奖开关★</code></td></tr>
+<tr><td class="k">露米娅停止追逐</td><td>第 1 章露米娅追逐段落</td></tr>
+<tr><td class="k">合体技能 ×10</td><td>天人五衰 · 血字魔书 · 炼狱魔星 · 不屈忠骨 · 魔女百年 · 美铃气劲 · 灵魂魔枪 · 月世火凰 · 流刃若火 · 月兔集中</td></tr>
+<tr><td class="k">反神将开关 / 队伍编成开关</td><td><code>S[216]</code> / <code>S[215]</code></td></tr>
+</table>
+
+<table style="margin-top:18px">
+<caption>「物品获取 / 地图传送」区</caption>
+<tr><th>功能</th><th>说明</th></tr>
+<tr><td class="k">物品获取</td><td>提示 <code>请输入您想要获取的物品</code>。工具内<b>硬编码了一份 157 项物品名表</b>（速效绷带、止痛剂、蓬莱人形、八咫镜……）。<br><span class="tag on">限定</span>界面原文标注 <b>「仅限 2.0 以上版本使用」</b> —— 也就是 <b>1.05 上这一项不可用</b></td></tr>
+<tr><td class="k">地图传送</td><td>标注 <code>（切换场景触发）</code>。可传送点：妹红辉夜部屋 · 吉原旧都 · 传送之间 · 奥兰兹琪姆西城区 · 升空殿 · 升空殿宝箱处 · 极武葬报名处</td></tr>
+</table>
+</section>
+
+<section>
+<h2>四 · 拿它和我们这套档案对一遍（意外收获）</h2>
+<p>工具里的开关标签是作者从游戏数据里抄来的。<b>把它的标签和我们从游戏里导出的实名表一对，
+全部命中</b>——这既验证了工具真的是在改这些格子，也反过来给我们的结论添了一份独立旁证。</p>
+<table>
+<tr><th>Tools 的标签</th><th>游戏实名（<code>_dump_switches.txt</code>）</th><th>编号</th></tr>
+<tr><td class="k">一等奖开关</td><td>一等奖开关★</td><td><code>S[203]</code></td></tr>
+<tr><td class="k">队伍编成开关</td><td>队伍编成开关★</td><td><code>S[215]</code></td></tr>
+<tr><td class="k">反神将开关</td><td>★反神将系统</td><td><code>S[216]</code></td></tr>
+<tr><td class="k">天人五衰 / 血字魔书 / 炼狱魔星 / 不屈忠骨 / 魔女百年</td><td>合体技能-天人五衰 …（同名同序）</td><td><code>S[241]</code>–<code>S[245]</code></td></tr>
+<tr><td class="k">灵魂魔枪 / 美铃气劲 / 月兔集中 / 流刃若火 / 月世火凰</td><td>合体技能-…（同名，顺序不同）</td><td><code>S[246]</code>–<code>S[249]</code>（同集合）</td></tr>
+<tr><td class="k">进入森罗界面</td><td>·森罗界面</td><td><code>S[590]</code></td></tr>
+</table>
+
+<h3>更有价值的：它替我们确认了「满分表」</h3>
+<p>工具的「评价点修改」把每个章节的满分直接写在界面上，和我们之前从脚本里推出、
+又被 8 个真实结局档验证过的数值<b>完全一致</b>：</p>
+<table>
+<tr><th>主章</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>七</th><th>八</th><th>合计</th></tr>
+<tr><td class="k">Tools 界面</td><td>15</td><td>16</td><td>28</td><td>35</td><td>62</td><td>25</td><td>28</td><td>48</td><td class="k">257</td></tr>
+<tr><th>间章</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>七</th><th>八</th><th>—</th><th>合计</th></tr>
+<tr><td class="k">Tools 界面</td><td>5</td><td>11</td><td>18</td><td>21</td><td>19</td><td class="off" style="color:var(--dim2)">没有</td><td>35</td><td>—</td><td class="k">109</td></tr>
+</table>
+<div class="ok">
+<b>三点独立确认：</b><br>
+① 间章<b>只有 6 格</b>（二·三·四·五·六·八），<b>没有「第七章间章」</b>——与我们从实名表得到的一致；<br>
+② 间章满分合计 = 5+11+18+21+19+35 = <b>109</b>；主章满分 = <b>257</b>；<br>
+③ 于是 <b>257 + 109 = 366</b> —— 这正是真结局「涅槃朝霭的幻想乡」所需的点数门槛。
+这份外部工具等于替 366 这个数字背了一次书。
+</div>
+</section>
+
+<section>
+<h2>五 · 局限与风险（说清楚）</h2>
+<div class="card">
+<div class="h">1.05 上它能做什么、不能做什么</div>
+<p><b>能</b>：金币、秒杀、满级、潜能点、评价点、流程/周目/贡献度、各类开关、地图传送、变速、暂停。<br>
+<b>不能</b>：<b>「物品获取」在 1.05 上不可用</b>（界面自己标了「仅限 2.0 以上版本使用」）；
+「瓦尔哈拉 / 第四法」这类<b>内置控制板功能它没有</b>——那些要靠游戏自己的 <kbd>F11</kbd>。</p>
+</div>
+<div class="card">
+<div class="h">2. 为什么杀软会报它</div>
+<p>文件里明摆着 <code>WriteProcessMemory</code> + <code>VirtualAllocEx</code> +
+<code>CreateRemoteThread</code> + <code>SetWindowsHookEx</code> 这一套组合，
+再加一层 UPX 壳——<b>这正是木马最常用的技术栈</b>。
+它本身没有联网、没有内嵌 PE、没碰注册表以外的持久化，
+但「行为特征像木马」这件事无法避免，所以被杀软拦下是正常现象。</p>
+</div>
+<div class="card">
+<div class="h">3. 用它之后存档还能要吗</div>
+<p><b>能，但要小心用。</b>它只改内存，所以：<br>
+· 用完<b>在游戏里正常存档 → 存档里就带上改后的数值</b>；<b>不存档直接退 → 一切恢复</b>；<br>
+· 工具自己就写了警告：<code>人物满级（进战斗前关闭/存档前关闭）</code> ——
+<b>满级状态存进档里会出问题</b>，用完必须关掉再存。<br>
+· 「一键秒杀」同理，<b>别在战斗结算前开着</b>，否则可能把剧情判定跳坏。</p>
+</div>
+<div class="warn">
+<b>和内置 <kbd>F11</kbd> 控制板比，谁更安全？</b> 内置的不依赖外部程序、也不越权，
+风险更低；Tools 的优势只是「更省事、能改评价点、能传送」。
+如果只是想体验剧情，<b>优先用游戏自带的东西</b>（<kbd>F9</kbd> 面板 / <kbd>F11</kbd> 控制板 / <kbd>Ctrl</kbd> 穿墙）。
+</div>
+</section>
+
+<section>
+<h2>六 · 一句话总结</h2>
+<div class="verdict" style="margin-bottom:0">
+<p><b>它是什么：</b>一个 UPX 加壳的易语言程序，用 Exui 做界面，靠枚举进程找到
+<code>Game.exe</code>，再用 <code>ReadProcessMemory</code> / <code>WriteProcessMemory</code>
+直接改运行中的游戏内存。</p>
+<p><b>它不是什么：</b>不是存档编辑器（全文件无 <code>.rxdata</code> 相关串）、
+不是联网工具（全文件无 socket 调用、无地址、无 13666）、不注入 DLL（全文件无内嵌 PE）、
+<b>不需要先开游戏内置调试模式</b>（它直接改内存，而不是走游戏的调试界面，
+所以不用先输 <code>mikomikomomoko</code>）。</p>
+<p><b>它的价值（对这套档案）：</b>意外成为第三方旁证——
+它独立确认了「间章只有 6 格、没有第七章间章」「间章满分 109、主章满分 257、
+合计 366 = 真结局门槛」。</p>
+</div>
+</section>
+
+<footer><div class="wrap">
+<span>资料来源：UPX 脱壳后的静态分析（导入表 / 连续 API 名表 / UTF-16 文案提取 / 内嵌数据扫描）</span>
+<span>全程只读 · 没有运行该程序 · 游戏本体零改动</span>
+</div></footer>
+</div></body></html>

@@ -135,6 +135,9 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
   <div class="nav">
     <a href="index.html">← 称号档案</a>
     <a href="nodes.html">旅程节点地图 →</a>
+    <a href="debug.html">调试面板与热键 →</a>
+    <a href="variables.html">F9 变量词典 →</a>
+    <a href="tools.html">修改器 Tools 解剖 →</a>
   </div>
 </div>
 </header>
@@ -177,14 +180,18 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
 
 <span class="p">幻想乡之境</span> · EV003   <span class="d">※ RMXP 规则：条件成立的「页码最大」的那一页生效</span>
 │
-├─ 第 3 页 · <span class="r">开关[223] ON</span>  （妹红辉夜未曾离队）
+├─ 第 3 页 · <span class="r">开关[223] ON</span>  （九章悲剧 · 妹红辉夜未曾离队）
 │      └→ <span class="r">「平静依然的乐土」</span>            <span class="d">(地图 922)</span>
 │
-└─ 第 2 页
-       ├─ <span class="g">开关[224] ON</span> （选了「至死不渝守护我们幻想乡」）
-       │      └→ <span class="g">「辉光指引的幻想乡」</span>  ★ TRUE END   <span class="d">(地图 915)</span>
-       └─ <span class="y">开关[265] ON</span> （救出梅蒂馨）
-              └→ <span class="y">「新的未来」</span>              <span class="d">(地图 914)</span>
+├─ 第 2 页 · <span class="g">开关[224] ON</span> （选了「至死不渝守护我们幻想乡」）
+│      └→ <span class="g">「辉光指引的幻想乡」</span>  Good Ending      <span class="d">(地图 915)</span>
+│
+└─ 第 1 页 · <span class="y">开关[225] ON</span> （选了「前往新世界」）
+       └→ <span class="y">「新的未来」</span>  Good Ending             <span class="d">(地图 914)</span>
+
+<span class="d">上面三条都还不是真结局。</span>
+真结局 <span class="g">「涅槃朝霭的幻想乡」</span> = 走「第 2 页 · 224」这条 Good Ending，
+<b>且含间章在内全部评价为 S（主章 257 + 间章 109 = 合计 366 点）</b>。
 
 <span class="d">另有两条提前离场的出口：</span>
   <span class="d">· 变量[25] ≥ 195 时「妹红辉夜部屋」EV012 第 4 页</span> → <span class="y">「重逢，再次开始的旅程」</span>
@@ -196,19 +203,30 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
     「紫部屋」的章间评价界面，用来发奖励。它<b>完全不参与结局判定</b>。
     上一版看到「真结局那行恰好是 48」是相关不是因果：能走真结局的人本就把分刷满了。
   </div>
+  <div class="warnbox okbox">
+    <b>2026-09-20 第二次更正：导入实名表后发现的机制错误。</b>
+    上一版把 <code>开关[265]</code>（「章间回归·毒人偶」= 梅蒂馨回归）当成「新的未来」的判据。
+    这次把游戏运行时的开关实名表导出来，发现 <b><code>265</code> 在辉光、新的未来、平静依然的乐土
+    三个档里全是 ON</b>，根本区分不出结局 —— 它只是前置条件。
+    真正的判据是<b>两格互斥的第八章选项开关</b>：
+    <code>开关[224]</code> = <b>★守护幻想乡</b>、<code>开关[225]</code> = <b>★前往新世界</b>。
+    旧表结论没错（页序恰好让它对了），但机制是错的，现按实名表更正。
+    另外<b>「辉光」是 Good Ending 不是真结局</b>，真结局是「涅槃朝霭的幻想乡」——差别就是 366 分那条线。
+  </div>
 </section>
 
 <section id="switches">
-  <h2>三 · 六个真正说了算的开关</h2>
-  <p class="sub">其余 600 多个开关只是剧情进度标记。真正能改命的只有下面这 6 个，按介入的时间顺序排。</p>
+  <h2>三 · 七个真正说了算的开关</h2>
+  <p class="sub">其余 600 多个开关只是剧情进度标记。真正能改命的只有下面这 7 个，按介入的时间顺序排（<code>225</code> 是 2026-09-20 由实名表补出的第 7 个）。</p>
   <div class="panel">
     <ol class="sw">
 <li><div class="swh"><code>开关[258]</code>与梅莉·莲子相遇</div><div class="sww">写入点：第1章 地下水路 / 特洛里安大商会</div><div class="swy">ON 才走得好结局。OFF 会在后续触发开关[223]，直接锁死「平静依然的乐土」。这是全流程里<b>最早</b>的一个岔口。</div></li>
 <li><div class="swh"><code>开关[223]</code>妹红与辉夜同行（未离队）</div><div class="sww">写入点：「少女飞行中」EV002 —— 由 开关[258] OFF 触发</div><div class="swy">在「幻想乡之境」的事件页优先规则里<b>页码最大</b>，一旦 ON 就直接吃掉真结局判定。</div></li>
 <li><div class="swh"><code>开关[445]</code>爱丽丝入队</div><div class="sww">写入点：第8章 拉格纳特补充站（alice_join(32)）</div><div class="swy"><b>通往好结局池的总闸门</b>。爱丽丝能入队的前提是队里<b>有魔理沙</b>在低温密室救下她；没有她，第8章末直接掉进「残缺的世界 / 毁灭的蓬莱物语」。</div></li>
 <li><div class="swh"><code>开关[414]</code>隙间之里 · 情报收集完整</div><div class="sww">写入点：隙间之里 EV010 —— 条件：变量[205] ≥ 10</div><div class="swy">只在 445 为 OFF 时起作用，决定坏结局的<b>严重程度</b>：收齐情报 → 「残缺的世界」；没收 → 「毁灭的蓬莱物语」。</div></li>
-<li><div class="swh"><code>开关[224]</code>至死不渝守护我们幻想乡</div><div class="sww">写入点：第8章 妹红辉夜部屋（选项分支）</div><div class="swy"><b>真结局总开关</b>，全游戏只被写一次。选它 + 开关[223] 为 OFF → 「辉光指引的幻想乡」。</div></li>
-<li><div class="swh"><code>开关[265]</code>救出梅蒂馨</div><div class="sww">写入点：第8章 重症特别监护室（同处给 变量[48] +1 与『沉睡的人形』）</div><div class="swy">在 224 为 OFF 时把结局导向「新的未来」。</div></li>
+<li><div class="swh"><code>开关[224]</code>★守护幻想乡</div><div class="sww">写入点：第8章 妹红辉夜部屋（选项分支）</div><div class="swy">第八章的两格互斥选项之一。选它 + 开关[223] 为 OFF →「<b>辉光指引的幻想乡</b>」（Good Ending）；再加「含间章全 S、合计 366 点」才升为真结局「涅槃朝霭的幻想乡」。</div></li>
+<li><div class="swh"><code>开关[225]</code>★前往新世界</div><div class="sww">写入点：第8章 妹红辉夜部屋（另一个选项）</div><div class="swy">与 224 互斥的另一格。选它 →「<b>新的未来</b>」（Good Ending）。<b>2026-09-20 由实名表补出</b>：此前这格的判断被错记在 <code>265</code> 上。</div></li>
+<li><div class="swh"><code>开关[265]</code>章间回归 · 毒人偶</div><div class="sww">写入点：第8章 重症特别监护室（同处给 变量[48] +1 与『沉睡的人形』）</div><div class="swy">梅蒂馨（毒人偶）是否回归。<b>只是前置条件，不参与最终分派</b>——八个结局档里有三个是 ON，区分不出结局。</div></li>
     </ol>
   </div>
 </section>
@@ -222,18 +240,18 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
         <th>结局</th><th>类型</th>
         <th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th>
         <th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th>
-        <th>sw258</th><th>sw223</th><th>sw445</th><th>sw414</th><th>sw224</th><th>sw265</th>
+        <th>sw258</th><th>sw223</th><th>sw445</th><th>sw414</th><th>sw224</th><th>sw225</th><th>sw265</th>
         <th class="num">进度v25</th><th class="num">随行</th><th class="num">队伍v123</th>
       </tr></thead>
       <tbody>
-<tr class="te"><td><b>辉光指引的幻想乡</b></td><td><span class="pill te">TRUE END</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">48</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="num">225</td><td class="num">5</td><td class="num">6</td></tr>
-<tr class=""><td><b>平静依然的乐土</b></td><td><span class="pill mid">GOOD</span></td><td class="num">15</td><td class="num">14</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">23</td><td class="num">28</td><td class="num">38</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="num">219</td><td class="num">5</td><td class="num">5</td></tr>
-<tr class=""><td><b>新的未来</b></td><td><span class="pill mid">NORMAL</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">33</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="num">225</td><td class="num">5</td><td class="num">6</td></tr>
-<tr class=""><td><b>重逢，再次开始的旅程</b></td><td><span class="pill mid">NORMAL</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">29</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="num">195</td><td class="num">5</td><td class="num">6</td></tr>
-<tr class="bad"><td><b>残缺的世界</b></td><td><span class="pill bad">BAD</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">27</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="num">195</td><td class="num">4</td><td class="num">5</td></tr>
-<tr class="bad"><td><b>毁灭的蓬莱物语</b></td><td><span class="pill bad">BAD</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">17</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">195</td><td class="num">4</td><td class="num">5</td></tr>
-<tr class="bad"><td><b>消失的蓬莱传说</b></td><td><span class="pill bad">BAD</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">—</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">165</td><td class="num">3</td><td class="num">—</td></tr>
-<tr class=""><td><b>森罗线 · 新与旧的色彩</b></td><td><span class="pill mid">ROUTE</span></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">—</td><td class="num">—</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">174</td><td class="num">1</td><td class="num">—</td></tr>
+<tr class="te"><td><b>辉光指引的幻想乡</b></td><td><span class="pill mid">GOOD END</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">48</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="num">225</td><td class="num">5</td><td class="num">6</td></tr>
+<tr class=""><td><b>平静依然的乐土</b></td><td><span class="pill mid">GOOD</span></td><td class="num">15</td><td class="num">14</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">23</td><td class="num">28</td><td class="num">38</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="num">219</td><td class="num">5</td><td class="num">5</td></tr>
+<tr class=""><td><b>新的未来</b></td><td><span class="pill mid">NORMAL</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">33</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="num">225</td><td class="num">5</td><td class="num">6</td></tr>
+<tr class=""><td><b>重逢，再次开始的旅程</b></td><td><span class="pill mid">NORMAL</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">29</td><td class="on">ON</td><td class="off">off</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="num">195</td><td class="num">5</td><td class="num">6</td></tr>
+<tr class="bad"><td><b>残缺的世界</b></td><td><span class="pill bad">BAD</span></td><td class="num">15</td><td class="num">16</td><td class="num">28</td><td class="num">35</td><td class="num">62</td><td class="num">25</td><td class="num">28</td><td class="num">27</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="num">195</td><td class="num">4</td><td class="num">5</td></tr>
+<tr class="bad"><td><b>毁灭的蓬莱物语</b></td><td><span class="pill bad">BAD</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">17</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="on">ON</td><td class="off">off</td><td class="num">195</td><td class="num">4</td><td class="num">5</td></tr>
+<tr class="bad"><td><b>消失的蓬莱传说</b></td><td><span class="pill bad">BAD</span></td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">26</td><td class="num">52</td><td class="num">15</td><td class="num">22</td><td class="num">—</td><td class="on">ON</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">165</td><td class="num">3</td><td class="num">—</td></tr>
+<tr class=""><td><b>森罗线 · 新与旧的色彩</b></td><td><span class="pill mid">ROUTE</span></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">—</td><td class="num">—</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="off">off</td><td class="num">174</td><td class="num">1</td><td class="num">—</td></tr>
       </tbody>
     </table>
   </div>
@@ -692,34 +710,52 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
   }
 
   /* ---- 按真实分派链判定 ---- */
+  /* 2026-09-20 依「开关实名表」更正：幻想乡之境的第 2 条件由 265 改为 225（★前往新世界）； */
+  /* 并补上 366 分真结局判定（主章 V[41..48]+V[50] 与间章 V[76..81] 合计）。 */
+  function sumOf(a) {
+    if (!a) return 0;
+    var t = 0;
+    for (var i = 0; i < a.length; i++) if (typeof a[i] === 'number') t += a[i];
+    return t;
+  }
   function verdictOf(st) {
     var sw445 = st.sw445, sw414 = st.sw414, sw224 = st.sw224,
-        sw265 = st.sw265, sw223 = st.sw223, sw258 = st.sw258, v25 = st.v25;
+        sw225 = st.sw225, sw223 = st.sw223, sw258 = st.sw258, v25 = st.v25;
 
     if (sw223) {
       return { cls: 'warn', icon: '▲', t: '偏离真结局 · 锁定「平静依然的乐土」',
-        s: '开关[223] 为 ON —— 在幻想乡之境里它的页码最大，一旦成立就会吃掉真结局判定，' +
+        s: '开关[223]「九章悲剧」为 ON —— 在幻想乡之境里它的页码最大，一旦成立就会吃掉后面的判定，' +
            '就算开关[224] 也是 ON 也不例外。根因是开关[258] 为 off（没走第1章与梅莉·莲子相遇的那段）。' +
-           '「平静依然的乐土」本身是好结局，但不是 TRUE END。' };
+           '「平静依然的乐土」是好结局，但不是真结局。' };
     }
     if (sw445) {
       if (sw224) {
-        return { cls: 'te', icon: '★', t: '真结局轨道：辉光指引的幻想乡',
-          s: '开关[445] + 开关[224] 都已成立，且开关[223] 为 off。保持住 —— 这就是 TRUE END。' };
+        var main = sumOf(st.ch) + (typeof st.v50 === 'number' ? st.v50 : 0);
+        var inter = sumOf(st.inter);
+        var tot = main + inter;
+        if (tot >= 366) {
+          return { cls: 'te', icon: '★', t: '真结局：涅槃朝霭的幻想乡',
+            s: '开关[445] + 开关[224]（★守护幻想乡）成立，且含间章在内的评价合计 ' + tot +
+               ' ≥ 366 —— 这是唯一的 True Ending。' };
+        }
+        return { cls: 'te', icon: '★', t: '第 2 页轨道：辉光指引的幻想乡（Good Ending）',
+          s: '开关[445] + 开关[224]（★守护幻想乡）都已成立，且开关[223] 为 off。' +
+             '当前评价合计 ' + tot + ' / 366 —— <b>只差 ' + (366 - tot) + ' 分</b>就到真结局' +
+             '「涅槃朝霭的幻想乡」。补分的关键格是<b>间章评价</b>（V[76]–V[81]）。' };
       }
-      if (sw265) {
+      if (sw225) {
         if (v25 != null && v25 <= 200) {
           return { cls: 'ok', icon: '●', t: '「重逢，再次开始的旅程」轨道（推断）',
-            s: '好结局池已进去（445 ON），但真结局总开关 224 没点亮；而剧情进度变量[25] = ' + v25 +
-               ' 落在偏早的区间 —— 按我的模型，这会从「妹红辉夜部屋」EV012 直接走出去（地图 747）。' +
+            s: '好结局池已进去（445 ON），选了★前往新世界（225 ON）；而剧情进度变量[25] = ' + v25 +
+               ' 落在偏早的区间 —— 按模型这会从「妹红辉夜部屋」EV012 直接走出去（地图 747）。' +
                '<b>这条路由我没完全查清，标为推断。</b>' };
         }
-        return { cls: 'ok', icon: '●', t: '「新的未来」轨道',
-          s: '好结局池已进去（445 ON），但真结局总开关 224 还没点亮 —— 第8章「妹红辉夜部屋」' +
-             '那个选项要选「至死不渝守护我们幻想乡」。' };
+        return { cls: 'ok', icon: '●', t: '「新的未来」轨道（Good Ending）',
+          s: '好结局池已进去（445 ON），且开关[225]「★前往新世界」已点亮 —— 这就是「新的未来」。' };
       }
       return { cls: 'warn', icon: '○', t: '还没走到分派点',
-        s: '445 已成立（能进好结局池），但 224 / 265 都还没点亮 —— 说明剧情还没走到第8章末的分派事件。' };
+        s: '445 已成立（能进好结局池），但 224 / 225 两个第八章选项都还没点亮 —— ' +
+           '说明剧情还没走到第8章末「妹红辉夜部屋」的分派事件。' };
     }
     /* 445 OFF */
     if (v25 != null && v25 <= 175) {
@@ -745,11 +781,12 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
     html += '<div class="kv">';
     var cells = [
       ['开关258 梅莉·莲子相遇', st.sw258, true],
-      ['开关223 妹红辉夜同行', st.sw223, false],
+      ['开关223 九章悲剧', st.sw223, false],
       ['开关445 爱丽丝入队', st.sw445, true],
       ['开关414 情报收集完整', st.sw414, true],
-      ['开关224 真结局选项', st.sw224, true],
-      ['开关265 救出梅蒂馨', st.sw265, true]
+      ['开关224 ★守护幻想乡', st.sw224, true],
+      ['开关225 ★前往新世界', st.sw225, false],
+      ['开关265 章间回归·毒人偶', st.sw265, false]
     ];
     for (var i = 0; i < cells.length; i++) {
       var c = cells[i];
@@ -813,13 +850,18 @@ footer{padding:36px 0 56px;color:var(--dim2);font-size:12px;border-top:1px solid
         var st = {
           nStreams: streams.length,
           sw258: isOn(258), sw223: isOn(223), sw445: isOn(445),
-          sw414: isOn(414), sw224: isOn(224), sw265: isOn(265),
+          sw414: isOn(414), sw224: isOn(224), sw225: isOn(225), sw265: isOn(265),
           v25: idx(vd, 25), v123: idx(vd, 123), v205: idx(vd, 205),
-          ch: []
+          v50: idx(vd, 50),
+          ch: [], inter: []
         };
         for (var c = 41; c <= 48; c++) {
           var x = idx(vd, c);
           st.ch.push(typeof x === 'number' ? x : null);
+        }
+        for (var d = 76; d <= 81; d++) {
+          var y = idx(vd, d);
+          st.inter.push(typeof y === 'number' ? y : null);
         }
         render(st, file.name);
       } catch (e) {

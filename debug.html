@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>东方年代记 · 调试面板与热键真相</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0c13;--panel:#131725;--panel2:#1a1f31;--line:#252c42;
+--text:#e8ebf5;--dim:#8a93ae;--dim2:#5f6780;
+--purple:#a78bfa;--purple-d:#7c5cf5;--gold:#fbbf24;
+--red:#f87171;--green:#4ade80;--amber:#fbbf24;--cyan:#67e8f9;
+}
+body{background:var(--bg);color:var(--text);line-height:1.65;
+font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:var(--purple);text-decoration:none}
+a:hover{text-decoration:underline}
+
+header{padding:60px 0 36px;border-bottom:1px solid var(--line);
+background:radial-gradient(ellipse 700px 300px at 50% -80px,rgba(124,92,245,.20),transparent)}
+.kicker{font-size:11px;letter-spacing:.28em;color:var(--purple);
+text-transform:uppercase;font-weight:500}
+h1{font-size:36px;font-weight:500;letter-spacing:.02em;margin:14px 0 12px}
+h1 .thin{color:var(--dim2)}
+.lede{color:var(--dim);font-size:14px;max-width:700px}
+.lede b{color:var(--text);font-weight:500}
+.nav{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+.nav a,.nav span{font-size:12px;padding:7px 14px;border:1px solid var(--line);
+border-radius:999px;color:var(--dim)}
+.nav a:hover{border-color:var(--purple-d);color:var(--purple);text-decoration:none}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:12px;margin:32px 0 44px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.stat .v{font-size:25px;font-weight:500}
+.stat .v small{font-size:13px;color:var(--dim2);margin-left:3px;font-weight:400}
+.stat .k{font-size:12px;color:var(--dim);margin-top:5px}
+
+h2{font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--dim);
+text-transform:uppercase;margin:0 0 16px;
+padding-bottom:10px;border-bottom:1px solid var(--line)}
+section{margin-bottom:52px}
+h3{font-size:16px;font-weight:500;margin:26px 0 10px;color:var(--text)}
+p{margin-bottom:12px;font-size:14px;color:var(--dim)}
+p b{color:var(--text);font-weight:500}
+p em{color:var(--purple);font-style:normal}
+
+.verdict{background:linear-gradient(180deg,rgba(124,92,245,.14),rgba(124,92,245,.04));
+border:1px solid var(--purple-d);border-radius:16px;padding:24px 26px;margin-bottom:36px}
+.verdict .t{font-size:17px;font-weight:500;margin-bottom:10px}
+.verdict p{margin-bottom:8px}
+.verdict p:last-child{margin-bottom:0}
+
+table{width:100%;border-collapse:collapse;font-size:13px;
+background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+caption{text-align:left;font-size:12px;color:var(--dim2);padding:0 0 10px}
+th{background:var(--panel2);color:var(--dim);font-weight:500;font-size:11.5px;
+letter-spacing:.08em;text-transform:uppercase;text-align:left;
+padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--dim);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.k{white-space:nowrap;color:var(--text);font-weight:500}
+kbd{display:inline-block;background:#0e1119;border:1px solid var(--line);
+border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:12px;
+font-family:ui-monospace,Consolas,monospace;color:var(--text);margin:0 1px}
+.tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim2);margin-left:6px;vertical-align:1px}
+.tag.on{border-color:var(--red);color:var(--red)}
+.tag.off{border-color:var(--dim2);color:var(--dim2)}
+.tag.hi{border-color:var(--green);color:var(--green)}
+
+code,pre{font-family:ui-monospace,Consolas,"Courier New",monospace}
+code{background:#0e1119;border:1px solid var(--line);border-radius:5px;
+padding:1px 6px;font-size:12.5px;color:var(--cyan)}
+pre{background:#0b0e16;border:1px solid var(--line);border-radius:12px;
+padding:16px 18px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#c8d0e8;margin:14px 0}
+pre .c{color:#5f6780}
+pre .k{color:#c084fc}
+pre .s{color:#86efac}
+pre .f{color:#67e8f9}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+padding:20px 22px;margin-bottom:16px}
+.card .h{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--text)}
+.card p:last-child{margin-bottom:0}
+
+.steps{counter-reset:s;list-style:none}
+.steps li{counter-increment:s;position:relative;padding-left:42px;
+margin-bottom:16px;font-size:14px;color:var(--dim)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+width:26px;height:26px;border-radius:50%;background:var(--panel2);
+border:1px solid var(--line);color:var(--purple);font-size:12px;
+display:flex;align-items:center;justify-content:center;font-weight:600}
+.steps li b{color:var(--text)}
+
+.warn{border-left:3px solid var(--amber);background:rgba(251,191,36,.07);
+border-radius:0 10px 10px 0;padding:14px 18px;font-size:13px;color:var(--dim);margin:16px 0}
+.warn b{color:var(--amber)}
+.ok{border-left-color:var(--green);background:rgba(74,222,128,.07)}
+.ok b{color:var(--green)}
+
+footer{border-top:1px solid var(--line);padding:28px 0 56px;
+font-size:12px;color:var(--dim2)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap">
+  <div class="kicker">Touhou Nendaiki &middot; Debug &amp; Hotkeys</div>
+  <h1>调试面板真相 <span class="thin">/ Shift+F3 与 F9</span></h1>
+  <p class="lede">这一页回答一个问题：<b>Shift+F3 调出来的那个「变量操控界面」到底是什么</b>。
+  答案是 —— 它真实存在，但它的键不是 Shift+F3。下面的每一条结论都来自
+  <b>从运行中的游戏进程里完整提取出的 331 段 Ruby 脚本</b>，并用官方 README 做了交叉验证。</p>
+  <div class="nav">
+    <a href="index.html">← 称号档案</a>
+    <a href="ending.html">结局真相</a>
+    <a href="nodes.html">旅程节点地图</a>
+    <a href="variables.html">F9 变量词典 →</a>
+    <a href="tools.html">修改器 Tools 解剖 →</a>
+    <span>调试与热键</span>
+  </div>
+</div>
+</header>
+
+<div class="wrap">
+
+<section>
+<div class="summary">
+  <div class="stat"><div class="v">331 <small>段</small></div><div class="k">从内存提取到的脚本块</div></div>
+  <div class="stat"><div class="v">4.2 <small>MB</small></div><div class="k">解密后的 Ruby 源码</div></div>
+  <div class="stat"><div class="v">0 <small>次写入</small></div><div class="k">只读提取，游戏本体未改动</div></div>
+  <div class="stat"><div class="v">Ver 1.05</div><div class="k">版本（与 README 对齐）</div></div>
+</div>
+
+<div class="verdict">
+  <div class="t">结论先说</div>
+  <p>1. <b>有办法研究</b>，而且已经做到了。这个游戏的脚本全部封在 <code>thndj.mpq</code>（319 MB，熵值 7.9998 ≈ 全加密，无任何可静态提取的明文）。唯一可行路径是<b>在游戏运行时从它自己的内存里把脚本捞出来</b> —— 已完成，纯只读。</p>
+  <p>2. <b>「变量操控界面」确实存在</b>：就是 RMXP 自带的调试画面 <code>Scene_Debug</code>，屏幕上左边一栏 <code>S[0001-0010]</code>／<code>V[0001-0010]</code>，右边一栏列出每个开关／变量的<b>名字和当前值</b>，可以直接改。</p>
+  <p>3. <b>它的键是 <kbd>F9</kbd>，不是 Shift+F3。</b>打开前提是先输入作弊码 <code>mikomikomomoko</code> 把 <code>$DEBUG</code> 打开。</p>
+  <p>4. 在这套版本里，<b>Shift+F3 干的是另一件事</b>：切换「剧情超级跳」（<code>$TEXTSKIP</code>）。<b>Shift+F10</b> 才是控制台 —— 可以现场敲 Ruby 代码改任意变量。</p>
+  <p>5. 下面的「三分钟实测」能让<b>你自己的眼睛</b>判定谁对，不靠我说。</p>
+</div>
+</section>
+
+<section>
+<h2>一、Shift+F3 到底是什么</h2>
+<p>整套热键的输入分发都在同一个函数里：<code>module Screen → def check_input</code>，它被每个场景的主循环调用。全游戏<b>只有两份</b>实现，后加载的那份覆盖前一份 —— 内存地址更高的那份生效（地址 <code>0x1C5CC690</code> &gt; <code>0x1C5795F8</code>）。</p>
+
+<pre><span class="c"># 生效版本 · 关键分支</span>
+<span class="k">module</span> Screen
+  <span class="k">module_function</span>
+
+  <span class="k">def</span> <span class="f">check_input</span>
+    update_panel
+    <span class="k">if</span> Input.press?(Input::SHIFT) <span class="k">and</span> ($DEBUG <span class="k">or</span> $内测阶段)
+      <span class="k">if</span> Kboard.keyboard($R_Key_F3)
+        <span class="f">switch_textskip</span>        <span class="c"># ← Shift+F3：剧情超级跳（仅音效，无界面）</span>
+      <span class="k">end</span>
+      <span class="k">if</span> Kboard.keyboard($R_Key_F10)
+        $scene = Scene_Control.new  <span class="c"># ← Shift+F10：控制台，可敲代码改变量</span>
+      <span class="k">end</span>
+    <span class="k">else</span>                            <span class="c"># 不带 Shift</span>
+      <span class="k">if</span> Kboard.keyboard($R_Key_SNAPSHOT)
+        Screen::print               <span class="c"># ← PrintScreen：截图</span>
+      <span class="k">end</span>
+      <span class="k">if</span> !$DEBUG <span class="k">and</span> $scene.is_a?(Scene_Battle)
+        <span class="k">if</span> Kboard.keyboard($R_Key_F3)  <span class="c"># ← F3：2 倍战斗速度</span>
+          $game_settings.doublespeed_battle = !$game_settings.doublespeed_battle
+        <span class="k">end</span>
+      <span class="k">else</span>
+        <span class="k">if</span> Kboard.keyboard($R_Key_F3) <span class="k">and</span> $DEBUG
+          $scene = Scene_Talents_Test.new <span class="k">if</span> $scene.is_a?(Scene_Map)  <span class="c"># ← F3：天赋测试界面</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+      <span class="k">if</span> Kboard.keyboard($R_Key_F10) <span class="k">and</span> ($内测阶段 <span class="k">or</span> $DEBUG)
+        File.open(<span class="s">"script.txt"</span>){|f| <span class="f">eval</span>(f.read) }   <span class="c"># ← F10：执行游戏目录下的 script.txt</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre>
+
+<p>为什么能确定是这一份生效？因为官方 README 「★基础操作★」里白纸黑字写着 <em>F3：2 倍战斗速度</em> —— 而<b>这段战斗加速逻辑只存在于上面这一份里</b>，另一份（<code>0x1C5795F8</code>，只有一个 F10 截图）根本没有它。既然 README 描述的 F3 有效，生效的就是这一份，那么同一份里的 <b>Shift+F3 = 剧情超级跳</b> 也就成立。</p>
+
+<div class="card">
+  <div class="h">那为什么记忆中它是「变量界面」？三个最可能的答案</div>
+  <p><b>① 记的是 <kbd>F3</kbd>（不按 Shift）</b> —— 调试模式下在地图上按 F3 会打开 <code>Scene_Talents_Test</code><b>天赋测试界面</b>，里面用数字键 <kbd>1</kbd> 加天赋点、<kbd>2</kbd> 减天赋点、<kbd>9</kbd> 重置。这确实是个「数值加减界面」，很容易被记成「变量界面」。</p>
+  <p><b>② 记的是 <kbd>Shift+F10</kbd></b> —— <code>Scene_Control</code> 控制台，标题就是「请在下方框中输入代码，按回车确认」，敲 <code>$game_variables[123]=5</code> 就改掉了变量。<b>字面意义上的「变量操控界面」</b>。</p>
+  <p><b>③ 记的是 <kbd>F9</kbd></b> —— 真正的开关／变量总表，也就是下面那张界面。</p>
+  <p>三种都通向「能改数值」，唯独 Shift+F3 不通向任何界面。</p>
+</div>
+</section>
+
+<section>
+<h2>二、变量操控界面长什么样</h2>
+<p>它就是这个版本里的 RMXP 标准调试画面 <code>Scene_Debug</code>，由两个窗口拼成：</p>
+
+<table>
+<caption>Screen layout</caption>
+<thead><tr><th>区域</th><th>类</th><th>显示内容</th></tr></thead>
+<tbody>
+<tr><td class="k">左栏 192×480</td><td><code>Window_DebugLeft</code></td><td>按 10 个一组列出区块：<code>S [0001-0010]</code>、<code>S [0011-0020]</code> … 全部开关之后接着 <code>V [0001-0010]</code>、<code>V [0011-0020]</code> … 全部变量。<b>S = 开关(switch)，V = 变量(variable)</b>。</td></tr>
+<tr><td class="k">右栏 448×352</td><td><code>Window_DebugRight</code></td><td>当前区块那 10 个的明细，每行 <code>%04d: 名字 值</code>。开关显示 <code>[ON]</code>/<code>[OFF]</code>，变量显示数字。<b>名字直接取自 <code>$data_system.switches</code> / <code>$data_system.variables</code></b> —— 所以作者给变量起过中文名的话，这里就能看到人话名字。</td></tr>
+<tr><td class="k">下栏 448×128</td><td><code>Window_Base</code></td><td>操作提示：开关模式显示 <code>C (Enter) : ON / OFF</code>；变量模式显示 <code>← : -1  → : +1  L (Pageup) : -10  R (Pagedown) : +10</code>。</td></tr>
+</tbody>
+</table>
+
+<h3>操作方式</h3>
+<table>
+<thead><tr><th>键</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td class="k"><kbd>↑</kbd><kbd>↓</kbd></td><td>在左栏切换区块（S 区块 ↔ V 区块）</td></tr>
+<tr><td class="k"><kbd>Enter</kbd>/<kbd>C</kbd></td><td>进入右栏编辑；开关模式下直接反转 ON/OFF</td></tr>
+<tr><td class="k"><kbd>←</kbd><kbd>→</kbd></td><td>变量 −1 / +1（可长按连发）</td></tr>
+<tr><td class="k"><kbd>L</kbd>/<kbd>R</kbd> <span class="tag">PageUp/PageDown</span></td><td>变量 −10 / +10</td></tr>
+<tr><td class="k"><kbd>Esc</kbd>/<kbd>X</kbd></td><td>返回地图</td></tr>
+</tbody>
+</table>
+<p style="margin-top:14px">数值上下限被钳在 <code>±99999999</code>，改不炸。<b>改动只存在于内存，不写回任何文件</b> —— 想留下来必须自己在游戏里存档。</p>
+</section>
+
+<section>
+<h2>三、完整热键表</h2>
+
+<h3>A. 正常游戏（官方 README 明载）</h3>
+<table>
+<thead><tr><th>键</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td class="k"><kbd>Enter</kbd>/<kbd>C</kbd></td><td>确定</td></tr>
+<tr><td class="k"><kbd>Esc</kbd>/<kbd>X</kbd></td><td>系统菜单 / 退出</td></tr>
+<tr><td class="k"><kbd>F3</kbd></td><td>战斗中切换 2 倍速</td></tr>
+<tr><td class="k"><kbd>F5</kbd></td><td>保存并覆盖当前存档</td></tr>
+<tr><td class="k"><kbd>F8</kbd></td><td>保存并覆盖快速存档</td></tr>
+<tr><td class="k"><kbd>F12</kbd></td><td>重置游戏</td></tr>
+<tr><td class="k"><kbd>Q</kbd>/<kbd>W</kbd> <span class="tag">PgUp/PgDn</span></td><td>翻页 / 选下一个人物</td></tr>
+<tr><td class="k"><kbd>Shift</kbd>（按住）</td><td>瞬间显示当前整段对话</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>（按住）</td><td>快进 / 高速移动</td></tr>
+</tbody>
+</table>
+
+<h3>B. 调试模式下（需 <code>$DEBUG</code>）</h3>
+<table>
+<thead><tr><th>键</th><th>作用</th><th>脚本出处</th></tr></thead>
+<tbody>
+<tr><td class="k"><kbd>F9</kbd></td><td><b>打开变量／开关总表</b>（即本文主角）</td><td><code>Scene_Map#update</code> → <code>call_debug</code> → <code>Scene_Debug</code></td></tr>
+<tr><td class="k"><kbd>F3</kbd></td><td>地图上打开<b>天赋测试界面</b></td><td><code>Screen#check_input</code> → <code>Scene_Talents_Test</code></td></tr>
+<tr><td class="k"><kbd>Shift</kbd>+<kbd>F3</kbd></td><td>切换<b>剧情超级跳</b>（<code>$TEXTSKIP</code>，之后按住 Ctrl 可秒过对话）<span class="tag off">只有音效，无界面</span></td><td><code>switch_textskip</code></td></tr>
+<tr><td class="k"><kbd>Shift</kbd>+<kbd>F10</kbd></td><td>打开<b>控制台</b>，敲 Ruby 代码即时执行（战斗中变为换人调试子界面）</td><td><code>Scene_Control</code> / <code>SubScene_Control</code></td></tr>
+<tr><td class="k"><kbd>F10</kbd></td><td>执行游戏目录下的 <code>script.txt</code><span class="tag hi">作者自留的测试通道</span></td><td><code>File.open("script.txt"){|f| eval(f.read)}</code></td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>（按住）</td><td><b>穿墙</b>：通行判定直接放行（<code>return true</code>）；同时<b>踩不到敌人</b>——遇敌计数不再下降。README 里写的「快进/高速移动」也是它</td><td><code>Game_Player#passable?</code> 与 <code>#update</code>（o0026）</td></tr>
+<tr><td class="k"><kbd>T</kbd></td><td>战斗中：弹出操作说明 —— <code>按I显示敌我详细属性，按O全体蓬莱化，按K让全场血量减半，按R微移ATB条</code></td><td>o0184（<code>$DEBUG or $BTEST</code>）</td></tr>
+<tr><td class="k"><kbd>I</kbd></td><td>战斗中：把敌我双方的 HP／SP 与详细状态打到控制台</td><td>o0184</td></tr>
+<tr><td class="k"><kbd>O</kbd></td><td>战斗中：<b>全体蓬莱化</b>（给己方全员附加 25 号状态）</td><td>o0184</td></tr>
+<tr><td class="k"><kbd>K</kbd></td><td>战斗中：敌我全体 <b>HP／SP 减半</b>（残血残魔）</td><td>o0184</td></tr>
+<tr><td class="k"><kbd>R</kbd></td><td>战斗中：微调 ATB 条 / 直接跳到某个角色的指令输入</td><td>o0184</td></tr>
+<tr><td class="k"><kbd>O</kbd> <span class="tag">需先开剧情超级跳</span></td><td>战斗中：<b>直接跳到胜利结算</b>（<code>start_phase5</code>）——先 <kbd>Shift</kbd>+<kbd>F3</kbd> 打开 <code>$TEXTSKIP</code>，再按 O</td><td>o0095 <code>Scene_Battle#judge</code></td></tr>
+<tr><td class="k"><kbd>P</kbd></td><td>战斗中打开暂停子菜单</td><td><code>SubScene_BattlePause</code></td></tr>
+<tr><td class="k"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></td><td>战斗中一键换上第 1～4 号替补（换人技能编号 724／725）</td><td><code>Scene_Battle#update_phase3_basic_command</code>（o0255）</td></tr>
+<tr><td class="k"><kbd>PrintScreen</kbd></td><td>截图，存到游戏目录（文件名 = 时间戳）<span class="tag off">不需要调试模式</span></td><td><code>Screen::print</code>（<code>$R_Key_SNAPSHOT = 0x2C</code>）</td></tr>
+<tr><td class="k"><kbd>F11</kbd></td><td><b>✔ 实测有效 —— 内置「控制板」，四个选项：</b>① 学会／忘记第四法 ② 时光控制 ③ 临时补救 ④ 瓦尔哈拉<br>
+<span class="tag">2026-09-20 更正</span>上一版写「这份脚本里没有生效的处理」，<b>那是错的</b>——我只查了 Scripts 层就下了结论。<code>$R_Key_F11</code> 在 Scripts 里确实只出现 3 次（常量定义 ×2，加上 o0310 里被 <code>=begin/=end</code> 注释掉的 <code>Development/</code> 导出），
+但<b>内存取证已把菜单钉在公共事件层</b>：在运行中的 <code>Game.exe</code> 里搜到完整的选项串 ——
+<code>◆条件分歧 :32号角色 [爱丽丝·玛格特罗伊德] 在同伴中 … 【选项】 学会/忘记第四法 时光控制 临时补救 瓦尔哈拉</code>，
+说话人框是「<b>形迹可疑一脸奸商样的奇怪少女</b>」。公共事件（<code>$data_common_events</code>）和 System.rxdata 一样封装在加密容器内 → 磁盘上永远找不到。</td><td>脚本层无实现<br><b>实现在公共事件</b>（内存实证）</td></tr>
+</tbody>
+</table>
+
+<div class="card">
+  <div class="h">F11 控制板 · 四个选项分别是什么</div>
+  <p>「实测现象」栏是 2026-09-20 在游戏内逐项确认的；「脚本层」栏是已查到源码的部分。
+  <b>菜单本体已由内存取证确认为公共事件</b>——在运行中的 <code>Game.exe</code> 里捞到原始串：
+  <code>◆条件分歧 :32号角色 [爱丽丝·玛格特罗伊德] 在同伴中 … 【选项】 学会/忘记第四法 时光控制 临时补救 瓦尔哈拉</code>，
+  说话人框写着「形迹可疑一脸奸商样的奇怪少女」。</p>
+  <table>
+    <tr><th>选项</th><th>实测现象</th><th>脚本层的对应物</th></tr>
+    <tr><td class="k">学会／忘记第四法</td><td>学会后进入战斗，全队每人都多出一个技能 <b>「第四法·无之否定」</b>：敌方全体 · 基础威力 100 · 2.0 倍 · 必然命中 · 瞬发。<b>对 BOSS 无效</b>（作者在脚本里的原注释：「灵梦装备了特定武器，秒杂兵，但对 Boss 无效果。第四法亦无效」）</td><td>技能编号 <b>298</b>。脚本 <code>o0169</code>：<code>for actor in $game_party.actors … actor.learn_skill(298)</code></td></tr>
+    <tr><td class="k">时光控制</td><td>改的就是流程变量 <code>V[25]</code>，全游戏最热的一格（被读取 6127 次），章节与分支全靠它</td><td><code>$流程变量编号 = 25</code>（作者自声明常量）</td></tr>
+    <tr><td class="k">临时补救</td><td>直接跳进后期结局分支、直面 BOSS；<b>BOSS 打死会卡死</b></td><td>推断：跳过了正常章节，结局事件依赖的开关没有置位 → 结算时找不到后续页而死等</td></tr>
+    <tr><td class="k">瓦尔哈拉</td><td>传送到一片大平地，和可操作 NPC 交互可令其入队，和 BOSS 交互进入战斗</td><td>地图 <b>597「瓦尔哈拉殿堂」</b>，50+ 个事件：EV019 十六夜咲夜（调等级＋换装＋入队）、EV003 勇者Z（LV5 战）、EV025 博丽灵梦（BOSS 战）</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="h">★ 顺带查清：<code>all_map_events.txt</code> 是游戏自己吐出来的</div>
+  <p>我们一路在用的那份 83.4 万行事件文本，<b>不是外部工具生成的</b>，是作者集成进游戏的一个事件导出脚本产出的：</p>
+  <p>· 脚本本体 <code>o0302</code>，首行注释「输出事件为文本脚本　作者 K'」，另有 <code># 增加输出全部脚本功能 2010 10 15 Zunk</code>；<br>
+     · 触发它的 NPC：地图 597「瓦尔哈拉殿堂」的 <b>EV047 稗田阿求</b>，指令只有一行 —— <code>◆脚本 : output_all_map_events</code>；<br>
+     · 所以：<b>在瓦尔哈拉里和稗田阿求说话，游戏就会重新生成一份 <code>all_map_events.txt</code>。</b>纯只读、只新建文本。</p>
+  <p><b>而且它还能导公共事件</b>：同一个 <code>write_event</code> 方法，第二个参数传公共事件 ID 即走 <code>$data_common_events[soul]</code> 分支。<code>script.txt</code> 已接上这一节（见第五节）。</p>
+</div>
+
+<div class="card">
+  <div class="h">顺带发现：$DEBUG 一开，还会启动一个「联机调试通道」</div>
+  <p>脚本里有个 <code>Debuger_Map</code> 类，靠 <code>NetGame.dll</code>（挑战模式的联机层）在
+  <b>TCP 13666 端口</b>上开 server 或连 client，另一边发过来的 <code>\str[指令]</code> 会被本机执行 ——
+  原本是用来让作者远程看玩家目录的调试工具（<code>Dir.entries(path)</code>）。</p>
+  <p>它在<b>读取存档时</b>才被创建（<code>Scene_Title</code> 的「继续游戏」分支里调 <code>initdebug</code>），
+  而且入口函数第一行就是 <code>return unless $DEBUG</code>。也就是说：<b>不玩联机、不开调试模式，它根本不会启动。</b>
+  提一句只是让你知道它存在，不用管它。</p>
+</div>
+
+<h3>C. 作弊码（在<b>合成／制作界面</b>里敲字母）</h3>
+<table>
+<thead><tr><th>输入</th><th>效果</th></tr></thead>
+<tbody>
+<tr><td class="k"><code>MIKOMIKOMOMOKO</code></td><td>翻转 <code>$DEBUG</code>。开 → 早苗CV玲.wav；关 → 玻璃碎-L.wav。<b>再输一次即关闭</b></td></tr>
+<tr><td class="k"><code>IMEROLINLY</code></td><td>翻转 <code>$CHEAT</code>。<b>必须先开着 <code>$DEBUG</code> 才有反应</b>（脚本里写着 <code>return if !$DEBUG</code>）。效果：制作不再消耗材料，且「拥有数量」直接按上限返还 —— 也就是无限制作</td></tr>
+</tbody>
+</table>
+<p style="margin-top:14px">两个码的识别逻辑就是逐键比对：<code>@ctext += "E" if Kboard.keyboard($R_Key_E)</code> 这样一个个字母攒起来，攒到完全相等就触发。所以要在同一个输入状态下连续敲完，中间别切界面。</p>
+
+<div class="warn">
+<b>反调试提醒：</b>脚本里有一段 <code>unless $DEBUG or $内测阶段 → SuspendThread(RM 最后一个线程)</code>（注释写着「调试无效」）。这意味着<b>用外部调试器附加 Game.exe 有可能被它主动挂起</b>。这也是为什么这次全程只做内存读取（<code>ReadProcessMemory</code>），不附加、不注入、不写内存。
+</div>
+</section>
+
+<section>
+<h2>四、三分钟实测：自己判定 Shift+F3 的真相</h2>
+<p>不用信我，用你自己的手。整个流程不存档、不写文件，退出游戏即恢复。</p>
+<ol class="steps">
+  <li>进游戏 → 打开<b>合成（制作）界面</b> → 用键盘依次敲 <code>mikomikomomoko</code>。听到一声特别的音效（早苗CV玲），说明 <code>$DEBUG</code> 已开。</li>
+  <li>退出到<b>地图</b>，按 <kbd>F9</kbd>。<b>预期：</b>弹出左栏 <code>S [0001-0010]</code> / <code>V [0001-0010]</code> 的调试画面 —— 这就是那个「变量操控界面」。用 <kbd>←</kbd><kbd>→</kbd> 试着改一个值。</li>
+  <li>关掉调试画面，按 <kbd>Shift</kbd>+<kbd>F3</kbd>。<b>预期：</b>只有一声音效，<b>不弹任何界面</b>；此时再按住 Ctrl 走一段对话，会发现对话被瞬间跳过 —— 这就是「剧情超级跳」。</li>
+  <li>按 <kbd>F3</kbd>（不按 Shift）。<b>预期：</b>弹出<b>天赋测试界面</b>，底部写着「这里是 XXX 的天赋测试界面，确认键为天赋加点…数字键 1 为获得一个天赋点，2 为失去一个天赋点」。<b>如果你记忆里的「变量界面」其实是这个，就是它了。</b></li>
+  <li>按 <kbd>Shift</kbd>+<kbd>F10</kbd>。<b>预期：</b>弹出<b>控制台</b>，可以输入代码 —— 亲手敲 <code>$game_variables[1]</code> 回车，看它把 1 号变量吐出来。</li>
+</ol>
+
+<div class="warn ok">
+<b>如果第 2 步真的弹出了变量总表、而第 3 步真的弹出了界面</b>，那说明你的游戏版本和这台机器上这份不一样，请告诉我，我改结论。<br>
+反之，如果实测与上面一致，那 <code>shift+f3</code> 那个文件夹的命名就是<b>当年记错了键</b> —— 内容没错，键位记串了。这很常见，F3／F9／F10 和 Shift 组合在记忆里最容易糊在一起。
+</div>
+</section>
+
+<section>
+<h2>五、变量表已经解到哪一步了</h2>
+<div class="card" style="border-color:var(--green)">
+  <div class="h">已经搞定：编号 → 用途（见 <a href="variables.html">F9 变量词典</a>）</div>
+  <p>作者的脚本里写死了 <b>57 条编号常量</b>，等于一份官方词典：<code>V[9]</code> 周目、<code>V[25]</code> 主线进度、
+  <code>V[40]</code> 总评、<code>V[400]</code> 结局编号、<code>V[41]–V[50]</code>／<code>V[76]–V[81]</code> 各章评价、
+  <code>V[300+角色id]</code> 角色点数；<code>S[260]</code> 森罗线、<code>S[455]</code> 已进结局、<code>S[635]</code> 第⑨章……
+  再叠加游戏自己导出的 <b>83.4 万行</b>事件文本做读写索引，被用到的 <b>204 个变量 / 460 个开关</b>全部能反推出用途与取值习惯。</p>
+</div>
+<div class="card" style="border-color:var(--green)">
+  <div class="h">✅ 中文名字后来也拿到了（2026-09-20 19:06 实测成功）</div>
+  <p>「名字只存在加密的 <code>System.rxdata</code> 里、内存里捞不到」这个判断<b>是对的</b>——
+  但作者在脚本里留了一条正路，走通之后一次按键就把整张实名表拍了下来：</p>
+  <p style="background:#0e1119;border-left:3px solid var(--green);padding:10px 14px;border-radius:8px">
+   <b>500 个变量（313 个有名字）· 700 个开关（603 个有名字）· 80 条作者全局常量</b></p>
+  <p>现在 <a href="variables.html">变量词典</a> 已经是「<b>编号 ＋ 右栏实名 ＋ 用途 ＋ 当时的值</b>」四列齐全的版本，
+  不用再靠脚本注释去猜。<br>
+  几个靠实名表才敢确认的例子：<code>V[49]</code> 其实是「森罗佣兵贡献度」而不是“第九章评价”；
+  <code>S[224]</code> 实名就是「★守护幻想乡」、<code>S[258]</code> 是「★梅莉可以加入」；
+  而 <code>S[214]</code> 是「★停止刷新开关」、<code>S[221]</code> 是「★一方通行」——
+  这两个此前被误记成“菜单”和“商人”，实名表一到就直接纠正了。</p>
+</div>
+<div class="card">
+  <div class="h">F10 到底做了什么（顺便解释一个容易误会的事）</div>
+  <p>脚本里的作者自留通道是：<b>在游戏目录放一个 <code>script.txt</code>，调试模式下按 <kbd>F10</kbd> 就会执行它</b>——
+  <code>File.open("script.txt"){|f| eval(f.read)}</code>。</p>
+  <p>按一次 <kbd>F10</kbd>，游戏目录会多出七个文件：
+  <code>_dump_variables.txt</code>（编号/中文名/当前值）·
+  <code>_dump_switches.txt</code>（编号/中文名/ON·OFF）·
+  <code>_dump_party.txt</code>（队伍、等级、经验、金钱）·
+  <code>_dump_globals.txt</code>（<code>$DEBUG</code> 等运行时状态）·
+  <code>_dump_common_events.txt</code>（<b>全部公共事件</b>——用游戏自带的导出器写出，这是 F11 控制板所在的那一层，磁盘上任何文件都不含它）·
+  <code>_dump_skills.txt</code>（全部技能：编号/名字/说明）·
+  <code>_dump_done.txt</code>（时间戳，证明跑过）。</p>
+  <p>⚠️ <b>只管读、只管新建文本</b>：不写存档、不碰脚本、不碰 <code>thndj.mpq</code>。想收手，把 <code>script.txt</code> 删掉即可。</p>
+  <p><b>关键</b>：<kbd>F10</kbd> 只“<b>读取并执行</b>” <code>script.txt</code>，
+  它<b>永远不会去写或修改 script.txt 本身</b>。所以如果 <code>script.txt</code> 的
+  <b>修改时间</b>变了，那只可能是有人（或某个工具）编辑过它，绝不可能是游戏写的。
+  —— 出现这种疑问时，先看 <code>_dump_done.txt</code> 里记的时间，那才是“游戏真正跑了导出”的时刻。</p>
+</div>
+<div class="card">
+  <div class="h">试错留档：这四条路都走不通，别再重复</div>
+  <p>· 容器采样熵 <b>7.9993～7.9994</b>，按 zlib 解压 <b>0 处成功</b> → 不是压缩，是真加密，没有明文可捞；<br>
+     · 内存里搜 <code>RPG::System</code> 的 Marshal 原文 <b>0 命中</b>（读到的是 RGSS 自带的类定义脚本，里面写的是 <code>@switches = [nil, '']</code>，即<b>只有空默认值</b>）；<br>
+     · 日文默认名 <code>スイッチ</code>（Shift-JIS／UTF-8）在全内存只有个位数命中 → 名表数组根本<b>不在常驻内存里</b>；<br>
+     · 全内存按 <b>GBK</b> 解码 → 3700 万条噪声串（方向错了）。本作运行期文本编码其实是 <b>UTF-8</b>，
+     改成“定向 <code>bytes.find</code> 多编码签名比对”后才得到干净结果（13 秒扫完 532 MB）。</p>
+  <p>结论：<b>真名只在那个加密文件里，任何“从磁盘/内存直接读出名字”的思路都不会成功；
+  唯一干净的路就是让游戏自己导出。</b></p>
+</div>
+</section>
+
+<section>
+<h2>六、方法本身（可复用的部分）</h2>
+<p>这次的路径对所有同类游戏都通用，记下来：</p>
+<ol class="steps">
+  <li><b>先证伪静态提取。</b>对 <code>thndj.mpq</code> 逐 MB 采样算熵（全部 7.9998～8.0000），再全量搜 PNG／OGG／RIFF／ZIP／Marshal／<code>Scripts</code>／<code>ruby</code> 等magic —— 0 命中。结论：容器全加密，没有明文可捞，别再浪费时间。</li>
+  <li><b>确认脚本真的在内存里。</b>RGSS（Ruby 1.8）执行脚本时把每段代码作为 <b>zlib 压缩块</b> 留在自己进程的私有内存中，一直驻留到退出。这是唯一的入口。</li>
+  <li><b>只读捞取。</b>用 <code>OpenProcess</code>(<code>PROCESS_VM_READ</code>) + <code>ReadProcessMemory</code> 扫私有内存，按 <code>(?=[\x78][\x01\x5e\x9c\xda])</code> 找 zlib 头，<code>zlib.decompressobj()</code> 流式解压，再用可打印性过滤。得到 <b>331 段、4.2 MB</b> 源码。</li>
+  <li><b>按内存地址排序 = 加载顺序。</b>这一步是关键 —— RMXP 允许同一函数被重复定义、<b>后加载的覆盖前面的</b>。不知道顺序就不知道哪份生效，容易得出完全相反的结论（这次正好踩到：两份 <code>check_input</code> 的行为互相冲突）。</li>
+  <li><b>用官方文档交叉验证。</b>README 的「F3：2 倍战斗速度」只有其中一份实现了 → 反推生效版本 → 再读同一份里的 Shift 分支。文档和内存互证，结论才敢下。</li>
+  <li><b>仓库化。</b>脚本、导出工具、分析结果都留在 <code>.workbuddy/data/</code> 与 <code>.workbuddy/tools/</code>，下次换版本可以重跑对比。</li>
+</ol>
+</section>
+
+</div>
+
+<footer>
+<div class="wrap">
+  <span>结论来源：运行时内存提取的 331 段脚本 + 官方 README（Ver 1.05）交叉验证</span>
+  <span>游戏本体零改动 · 全程只读</span>
+</div>
+</footer>
+
+</body>
+</html>
